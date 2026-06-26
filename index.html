@@ -58,16 +58,16 @@
    RESET
 ════════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { font-size: 16px; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; overflow-x: hidden; width: 100%; }
+html { font-size: 16px; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
   font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
   background: var(--fog);
   color: var(--ink);
   line-height: 1.7;
   padding-top: var(--nav-h);
-  overflow-x: hidden;
   width: 100%;
-  max-width: 100vw;
+  /* clip without breaking child scroll */
+  overflow-x: clip;
 }
 img, iframe, video, embed, object { max-width: 100%; height: auto; display: block; }
 [id] { scroll-margin-top: calc(var(--nav-h) + .5rem); }
@@ -704,11 +704,16 @@ a.src:hover { color: var(--elec); border-color: var(--elec); }
 
 
 /* ── OVERFLOW FIX (mobile) ── */
+/* max-width only - NO overflow-x:hidden on containers (breaks table scroll) */
 .page, .sec, .omp-sec, .wdelta, .ca, .exec, .toc-wrap, .cover,
-.ticker, .footer, .standort-grid, .kpi-row, .foerder-box,
+.ticker, .footer, .standort-grid, .kpi-row,
 .spotlight, .rec-box, .summary-box, .measure-grid, .partner-grid {
   max-width: 100%;
-  overflow-x: hidden;
+}
+/* foerder-box: allow inner scroll */
+.foerder-box {
+  max-width: 100%;
+  overflow-x: visible;
 }
 /* Tables ALWAYS scroll horizontally, never overflow */
 .tbl, .foerder-box .tbl {
@@ -756,13 +761,15 @@ table {
 
 /* ── MOBILE TABLE SCROLL ── */
 .tbl {
-  overflow-x: auto;
+  overflow-x: auto !important;
   -webkit-overflow-scrolling: touch;
   width: 100%;
-  max-width: 100%;
   display: block;
   border-radius: var(--r-md);
   margin: var(--sp-4) 0;
+  /* Ensure scroll works even inside overflow:hidden parents */
+  position: relative;
+  z-index: 1;
 }
 table {
   width: 100%;
@@ -770,8 +777,8 @@ table {
   font-size: var(--t-sm);
 }
 @media (max-width: 639px) {
-  table { min-width: 440px; }
-  .foerder-table { min-width: 380px; }
+  table { min-width: 360px; }
+  .foerder-table { min-width: 320px; }
   th { font-size: .5625rem; padding: .375rem .5rem; white-space: nowrap; }
   td { font-size: .6875rem; padding: .4375rem .5rem; }
   /* KPI 2-col */
