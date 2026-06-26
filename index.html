@@ -2,907 +2,416 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
 <meta name="theme-color" content="#0d1b2a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="CP Briefing">
-<meta name="description" content="CutPower DACH E-Mobility Briefing KW 25">
 <link rel="manifest" href="manifest.json">
 <title>CutPower · Briefing · KW 25</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <style>
-/* ════════════════════════════════════════
-   TOKENS
-════════════════════════════════════════ */
-:root {
-  --ink:   #0d1b2a;
-  --steel: #1c3144;
-  --elec:  #00c2ff;
-  --amb:   #ffb703;
-  --grn:   #06d6a0;
-  --red:   #ef476f;
-  --fog:   #f0f4f8;
-  --cloud: #e2e8f0;
-  --muted: #64748b;
+:root{
+  --ink:#0d1b2a;--steel:#1c3144;--e:#00c2ff;--a:#ffb703;--g:#06d6a0;--r:#ef476f;
+  --fog:#f0f4f8;--cloud:#e2e8f0;--mu:#64748b;--wh:#fff;
+  --nh:3rem;
+  --p3:.75rem;--p4:1rem;--p5:1.25rem;--p6:1.5rem;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  font-family:'DM Sans',system-ui,sans-serif;
+  background:var(--fog);color:var(--ink);line-height:1.7;
+  padding-top:var(--nh);
+  /* Prevent horizontal overflow at body level only */
+  overflow-x:hidden;
+}
+/* Allow scroll inside any child */
+body *{max-width:100%}
+/* But tables can be wider than parent – handled by .tbl scroll container */
+table{max-width:none}
+img{display:block;height:auto}
+[id]{scroll-margin-top:calc(var(--nh) + .5rem)}
+a{color:var(--e)}
 
-  /* Type scale (rem) */
-  --t-xs:  .6875rem;   /* 11px */
-  --t-sm:  .8125rem;   /* 13px */
-  --t-md:  .9375rem;   /* 15px */
-  --t-lg:  1.0625rem;  /* 17px */
-  --t-xl:  1.375rem;   /* 22px */
-  --t-2xl: 1.75rem;    /* 28px */
-  --t-3xl: 2.25rem;    /* 36px */
+/* ── NAV ── */
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  height:var(--nh);
+  background:rgba(13,27,42,.97);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  display:flex;flex-direction:column;
+}
+#nav-inner{
+  display:flex;align-items:center;
+  height:100%;padding:0 .875rem;gap:.5rem;
+  overflow:hidden;
+}
+#nav-logo{
+  display:flex;align-items:center;gap:.375rem;
+  color:#fff;text-decoration:none;flex-shrink:0;
+  font-size:.8125rem;font-weight:700;
+}
+.kwp{
+  background:var(--e);color:var(--ink);
+  font-size:.5625rem;font-weight:800;
+  padding:.125rem .4375rem;border-radius:1rem;
+  letter-spacing:.05em;text-transform:uppercase;
+}
+#nav-links{
+  display:flex;align-items:center;gap:1px;
+  overflow-x:auto;flex:1;
+  scrollbar-width:none;-ms-overflow-style:none;
+  -webkit-overflow-scrolling:touch;
+}
+#nav-links::-webkit-scrollbar{display:none}
+#nav-links a{
+  color:rgba(255,255,255,.5);text-decoration:none;
+  font-size:.6875rem;font-weight:600;white-space:nowrap;
+  padding:.3125rem .5rem;border-radius:.375rem;
+  transition:color .12s,background .12s;flex-shrink:0;
+}
+#nav-links a.active,#nav-links a:hover{
+  color:var(--e);background:rgba(0,194,255,.15);
+}
+#np{font-size:.6875rem;font-weight:800;color:var(--e);flex-shrink:0;min-width:2rem;text-align:right}
+#nb{height:2px;background:linear-gradient(90deg,var(--e),var(--g));width:0%;transition:width .1s linear}
 
-  /* Spacing */
-  --sp-1: .25rem;
-  --sp-2: .5rem;
-  --sp-3: .75rem;
-  --sp-4: 1rem;
-  --sp-5: 1.25rem;
-  --sp-6: 1.5rem;
-  --sp-8: 2rem;
-  --sp-10: 2.5rem;
+/* ── PAGE ── */
+.pg{width:100%}
 
-  --r-sm: .375rem;
-  --r-md: .625rem;
-  --r-lg: .875rem;
+/* ── COVER ── */
+.cover{
+  background:linear-gradient(150deg,var(--ink) 0%,#0a2540 70%,#0f3460 100%);
+  color:#fff;padding:2rem 1rem 1.75rem;
+}
+.cv-kw{display:flex;align-items:center;gap:.5rem;margin-bottom:1rem}
+.cv-date{font-size:.6875rem;color:rgba(255,255,255,.5)}
+.cv-eye{font-size:.6875rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--e);margin-bottom:.5rem}
+.cover h1{font-family:'DM Serif Display',serif;font-size:clamp(1.5rem,6vw,3rem);line-height:1.15;margin-bottom:.75rem}
+.cover h1 span{color:var(--e)}
+.cv-sub{font-size:.8125rem;color:rgba(255,255,255,.6);margin-bottom:1.25rem;line-height:1.5}
+.badges{display:flex;flex-wrap:wrap;gap:.375rem}
+.bdg{font-size:.625rem;padding:.25rem .625rem;border-radius:1rem;border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.65);background:rgba(255,255,255,.06)}
+.bdg.hi{border-color:var(--e);color:var(--e);background:rgba(0,194,255,.1)}
 
-  --nav-h: 3rem;
-}
+/* ── TICKER ── */
+.ticker{background:var(--steel);height:2.125rem;overflow:hidden;display:flex;align-items:center}
+.ti{display:flex;align-items:center;gap:1.75rem;white-space:nowrap;animation:tick 45s linear infinite;padding-left:100%}
+.ti:hover{animation-play-state:paused}
+.ti-i{display:flex;align-items:center;gap:.5rem;flex-shrink:0;font-size:.6875rem}
+.ti-i b{font-weight:800}
+.ti-i span{color:rgba(255,255,255,.55)}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-/* ════════════════════════════════════════
-   RESET
-════════════════════════════════════════ */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { font-size: 16px; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-body {
-  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
-  background: var(--fog);
-  color: var(--ink);
-  line-height: 1.7;
-  padding-top: var(--nav-h);
-  width: 100%;
-  /* clip without breaking child scroll */
-  overflow-x: clip;
+/* ── TOC ── */
+.toc{background:#fff;margin:.75rem;border-radius:.875rem;border:1px solid var(--cloud);overflow:hidden}
+.toc-bar{display:flex;align-items:center;padding:.75rem 1rem;gap:.75rem;cursor:pointer;border-bottom:1px solid var(--cloud)}
+.toc-bar-l{display:flex;align-items:center;gap:.5rem;flex:1;min-width:0}
+.toc-bar-l strong{font-size:.9375rem;color:var(--ink)}
+.toc-pw{flex:1;height:.25rem;background:var(--cloud);border-radius:.25rem;overflow:hidden;max-width:6rem}
+#tf{height:100%;background:linear-gradient(90deg,var(--e),var(--g));width:0%;transition:width .2s}
+#tp{font-size:.6875rem;font-weight:800;color:var(--e);flex-shrink:0}
+#tt{background:none;border:none;color:var(--mu);cursor:pointer;font:inherit;padding:.25rem;flex-shrink:0}
+.toc-body{padding:.75rem 1rem 1rem}
+.toc-body.closed{display:none}
+.toc-gl{font-size:.6875rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--mu);margin:.75rem 0 .375rem}
+.toc-grid{display:flex;flex-direction:column;gap:.125rem}
+.toc-a{
+  display:flex;align-items:center;gap:.5rem;
+  color:var(--steel);text-decoration:none;
+  font-size:.9375rem;font-weight:500;
+  padding:.4375rem .625rem;border-radius:.375rem;
+  border:1px solid transparent;transition:all .12s;
 }
-img, iframe, video, embed, object { max-width: 100%; height: auto; display: block; }
-[id] { scroll-margin-top: calc(var(--nav-h) + .5rem); }
+.toc-a:hover{background:var(--fog);border-color:var(--cloud)}
+.toc-a.active{background:rgba(0,194,255,.07);border-color:var(--e);color:var(--e)}
+.toc-n{background:var(--steel);color:#fff;min-width:1.375rem;height:1.375rem;border-radius:.3125rem;display:flex;align-items:center;justify-content:center;font-size:.625rem;font-weight:700;flex-shrink:0}
+.toc-n.sp{background:var(--e);color:var(--ink)}
 
-/* ════════════════════════════════════════
-   NAV (mobile-first)
-════════════════════════════════════════ */
-#nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  height: var(--nav-h);
-  background: rgba(13,27,42,.97);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  display: flex; flex-direction: column;
-}
-#nav-bar {
-  display: flex; align-items: center;
-  height: 100%; padding: 0 var(--sp-4); gap: var(--sp-3);
-  overflow: hidden;
-}
-#nav-logo {
-  display: flex; align-items: center; gap: var(--sp-2);
-  color: #fff; text-decoration: none; flex-shrink: 0;
-  font-size: var(--t-sm); font-weight: 700;
-}
-.kw-pill {
-  background: var(--elec); color: var(--ink);
-  font-size: .625rem; font-weight: 800;
-  padding: .125rem .5rem; border-radius: 1rem;
-  letter-spacing: .05em; text-transform: uppercase;
-}
-#nav-scroll {
-  display: flex; align-items: center; gap: .125rem;
-  overflow-x: auto; flex: 1;
-  scrollbar-width: none; -ms-overflow-style: none;
-  -webkit-overflow-scrolling: touch;
-}
-#nav-scroll::-webkit-scrollbar { display: none; }
-#nav-scroll a {
-  color: rgba(255,255,255,.55);
-  text-decoration: none;
-  font-size: .6875rem; font-weight: 600;
-  white-space: nowrap;
-  padding: .3125rem .5625rem;
-  border-radius: var(--r-sm);
-  transition: color .12s, background .12s;
-  flex-shrink: 0;
-}
-#nav-scroll a:hover,
-#nav-scroll a.active {
-  color: var(--elec);
-  background: rgba(0,194,255,.15);
-}
-#nav-pct {
-  font-size: .6875rem; font-weight: 800;
-  color: var(--elec); white-space: nowrap;
-  flex-shrink: 0; min-width: 2.25rem;
-  text-align: right;
-}
-#nav-prog {
-  height: 2px;
-  background: linear-gradient(90deg, var(--elec), var(--grn));
-  width: 0%; transition: width .1s linear;
-}
+/* ── WDELTA ── */
+.wd{background:var(--fog);margin:.75rem;border-radius:.875rem;border:1px solid var(--cloud);padding:1.25rem 1rem}
+.wd-h{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem;margin-bottom:1.25rem}
+.wd-h h2{font-family:'DM Serif Display',serif;font-size:1.25rem;color:var(--ink)}
+.wd-sub{font-size:.6875rem;color:var(--mu)}
+.kwb{font-size:.6875rem;font-weight:800;text-transform:uppercase;background:var(--ink);color:var(--e);padding:.1875rem .625rem;border-radius:1rem}
+/* WDC GRID */
+.wg{display:grid;grid-template-columns:1fr;gap:.75rem}
+.wdc{background:#fff;border-radius:.625rem;border:1px solid var(--cloud);border-left:4px solid var(--cloud);padding:.875rem}
+.wdc.pos{border-left-color:var(--g)}.wdc.warn{border-left-color:var(--a)}.wdc.neg{border-left-color:var(--r)}.wdc.neutral{border-left-color:var(--cloud)}
+.wdc-lbl{font-size:.5625rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--mu);margin-bottom:.5rem}
+.wdc-cmp{display:grid;grid-template-columns:1fr 1.25rem 1fr;align-items:center;gap:.25rem}
+.wdc-col{display:flex;flex-direction:column;gap:.125rem}
+.wdc-col.r{text-align:right;align-items:flex-end}
+.wdc-cl{font-size:.5rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--mu)}
+.wdc-pv{font-family:'DM Serif Display',serif;font-size:.9375rem;color:var(--mu)}
+.wdc-nw{font-family:'DM Serif Display',serif;font-size:1.125rem}
+.wdc.pos .wdc-nw{color:#047857}.wdc.warn .wdc-nw{color:#b45309}.wdc.neg .wdc-nw{color:#be123c}
+.wdc-src{font-size:.5rem;color:var(--mu);opacity:.7;line-height:1.3}
+.wdc-arr{font-size:1rem;font-weight:800;text-align:center}
+.wdc-bdg{display:inline-block;margin-top:.375rem;font-size:.625rem;font-weight:800;padding:.1875rem .5rem;border-radius:1rem}
+.wdc.pos .wdc-bdg{background:rgba(6,214,160,.12);color:#047857}.wdc.warn .wdc-bdg{background:rgba(255,183,3,.12);color:#b45309}.wdc.neg .wdc-bdg{background:rgba(239,71,111,.12);color:#be123c}.wdc.neutral .wdc-bdg{background:var(--fog);color:var(--mu)}
+.wd-h2{font-family:'DM Serif Display',serif;font-size:1.25rem;color:var(--ink)}
+.wd-note{font-size:.6875rem;color:var(--mu);font-style:italic;margin-top:.75rem}
 
-/* ════════════════════════════════════════
-   PAGE WRAPPER
-════════════════════════════════════════ */
-.page { width: 100%; }
+/* ── SECTION CARD ── */
+.s{background:#fff;margin:.75rem;border-radius:.875rem;border:1px solid var(--cloud);padding:1.25rem 1rem;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.s-hd{display:flex;align-items:flex-start;gap:.75rem;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:2px solid var(--cloud)}
+.s-ic{width:2.25rem;height:2.25rem;border-radius:.625rem;background:var(--steel);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.s-mt{display:flex;flex-direction:column;gap:.125rem;flex:1;min-width:0}
+.s-ey{font-size:.625rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--e)}
+.s-ti{font-family:'DM Serif Display',serif;font-size:1.25rem;line-height:1.25;color:var(--ink)}
+.s-sh{background:none;border:1px solid var(--cloud);border-radius:1rem;padding:.1875rem .5rem;font-size:.625rem;color:var(--mu);cursor:pointer;font:inherit;flex-shrink:0;white-space:nowrap;transition:all .12s}
+.s-sh:hover{color:var(--e);border-color:var(--e)}.s-sh.ok{color:#047857;border-color:var(--g)}
+.s h3{font-size:.8125rem;font-weight:700;color:var(--steel);text-transform:uppercase;letter-spacing:.05em;border-left:3px solid var(--e);padding-left:.625rem;margin:1.25rem 0 .625rem;line-height:1.4}
+.s h3:first-of-type{margin-top:0}
+.s p{font-size:.9375rem;line-height:1.75;margin-bottom:.75rem;color:var(--ink)}
+.s p:last-child{margin-bottom:0}
+/* OMP variant */
+.os{background:#fff;margin:.75rem;border-radius:.875rem;border:1px solid var(--cloud);padding:1.25rem 1rem}
+.os.alt{background:var(--fog)}
+.os h3{font-size:.8125rem;font-weight:700;color:var(--steel);text-transform:uppercase;letter-spacing:.05em;border-left:3px solid var(--e);padding-left:.625rem;margin:1.25rem 0 .625rem;line-height:1.4}
+.os h3:first-of-type{margin-top:0}
+.os p{font-size:.9375rem;line-height:1.75;margin-bottom:.75rem;color:var(--ink)}
 
-/* ════════════════════════════════════════
-   COVER (mobile-first)
-════════════════════════════════════════ */
-.cover {
-  background: linear-gradient(150deg, var(--ink) 0%, #0a2540 70%, #0f3460 100%);
-  color: #fff;
-  padding: var(--sp-8) var(--sp-4) var(--sp-6);
-}
-.cover-kw {
-  display: flex; align-items: center; gap: var(--sp-2);
-  margin-bottom: var(--sp-4);
-}
-.cover-date { font-size: var(--t-xs); color: rgba(255,255,255,.55); }
-.cover-eye {
-  font-size: var(--t-xs); font-weight: 700;
-  text-transform: uppercase; letter-spacing: .12em;
-  color: var(--elec); margin-bottom: var(--sp-2);
-}
-.cover h1 {
-  font-family: 'DM Serif Display', serif;
-  font-size: clamp(1.625rem, 6vw, 3rem);
-  line-height: 1.15; margin-bottom: var(--sp-3);
-}
-.cover h1 span { color: var(--elec); }
-.cover-sub {
-  font-size: var(--t-sm); color: rgba(255,255,255,.65);
-  margin-bottom: var(--sp-5); line-height: 1.5;
-}
-.cover-badges { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
-.badge {
-  font-size: var(--t-xs); padding: .3125rem .75rem;
-  border-radius: 1.25rem; border: 1px solid rgba(255,255,255,.18);
-  color: rgba(255,255,255,.7); background: rgba(255,255,255,.06);
-}
-.badge.hi { border-color: var(--elec); color: var(--elec); background: rgba(0,194,255,.1); }
+/* ── KPI ROW ── */
+.kr{display:grid;grid-template-columns:1fr 1fr;gap:.625rem;margin-bottom:1.25rem}
+.kpi{background:var(--fog);border-radius:.625rem;border-left:4px solid var(--steel);padding:.625rem .75rem}
+.kpi.up{border-left-color:var(--g)}.kpi.warn{border-left-color:var(--a)}.kpi.neg{border-left-color:var(--r)}
+.kpi .val{font-family:'DM Serif Display',serif;font-size:1.25rem;line-height:1.1}
+.kpi .delta{font-size:.625rem;font-weight:700;margin:.125rem 0}
+.kpi.up .delta{color:#047857}.kpi.warn .delta{color:#b45309}
+.kpi .lbl{font-size:.625rem;color:var(--mu);line-height:1.4;margin-top:.25rem}
 
-/* ════════════════════════════════════════
-   TICKER
-════════════════════════════════════════ */
-.ticker {
-  background: var(--steel); height: 2.25rem;
-  overflow: hidden; display: flex; align-items: center;
+/* ── TABLES – always scrollable ── */
+.tbl{
+  /* scroll container – MUST NOT have overflow:hidden ancestors */
+  display:block;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  width:100%;
+  border-radius:.625rem;
+  box-shadow:0 1px 4px rgba(0,0,0,.08);
+  margin:.875rem 0;
+  /* Negative margin trick to escape padding of parent */
+  margin-left:0;
+  margin-right:0;
 }
-.ticker-inner {
-  display: flex; align-items: center; gap: var(--sp-8);
-  white-space: nowrap;
-  animation: tick 50s linear infinite;
-  padding-left: 100%;
+table{
+  border-collapse:collapse;
+  /* Fixed minimum – allows scroll on narrow screens */
+  width:100%;
+  min-width:480px;
+  font-size:.8125rem;
 }
-.ticker-inner:hover { animation-play-state: paused; }
-.tick-item { display: flex; align-items: center; gap: var(--sp-2); flex-shrink: 0; }
-.tick-item strong { font-size: .75rem; font-weight: 800; }
-.tick-item span   { font-size: .6875rem; color: rgba(255,255,255,.6); }
-@keyframes tick {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
+th{background:var(--ink);color:#fff;padding:.5rem .75rem;text-align:left;font-size:.5625rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+td{padding:.5rem .75rem;border-bottom:1px solid var(--cloud);vertical-align:top;line-height:1.5;font-size:.8125rem}
+tr:nth-child(even) td{background:var(--fog)}
+tr:last-child td{border-bottom:none}
 
-/* ════════════════════════════════════════
-   TOC
-════════════════════════════════════════ */
-.toc-wrap {
-  background: #fff; border-bottom: 1px solid var(--cloud);
-  margin: var(--sp-3) var(--sp-3) 0;
-  border-radius: var(--r-lg);
-  border: 1px solid var(--cloud);
-  overflow: hidden;
-}
-.toc-bar {
-  display: flex; align-items: center;
-  padding: var(--sp-3) var(--sp-4); gap: var(--sp-3);
-  border-bottom: 1px solid var(--cloud);
-  cursor: pointer; background: #fff;
-}
-.toc-bar-left { display: flex; align-items: center; gap: var(--sp-2); flex: 1; min-width: 0; }
-.toc-bar-left strong { font-size: var(--t-md); color: var(--ink); }
-.toc-prog-wrap {
-  flex: 1; height: .25rem; background: var(--cloud);
-  border-radius: .25rem; overflow: hidden; max-width: 7rem;
-}
-#toc-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--elec), var(--grn));
-  width: 0%; transition: width .2s;
-}
-#toc-pct-lbl { font-size: var(--t-xs); font-weight: 800; color: var(--elec); flex-shrink: 0; }
-#toc-toggle { font-size: var(--t-xs); color: var(--muted); background: none; border: none; cursor: pointer; flex-shrink: 0; padding: var(--sp-1); font-family: inherit; }
-.toc-body { padding: var(--sp-3) var(--sp-4) var(--sp-4); }
-.toc-body.closed { display: none; }
-.toc-group { margin-bottom: var(--sp-4); }
-.toc-group-label {
-  font-size: var(--t-xs); font-weight: 700; text-transform: uppercase;
-  letter-spacing: .1em; color: var(--muted); margin-bottom: var(--sp-2);
-}
-.toc-grid { display: flex; flex-direction: column; gap: .125rem; }
-.toc-link {
-  display: flex; align-items: center; gap: var(--sp-2);
-  color: var(--steel); text-decoration: none;
-  font-size: var(--t-md); font-weight: 500;
-  padding: var(--sp-2) var(--sp-3);
-  border-radius: var(--r-sm); border: 1px solid transparent;
-  transition: all .12s;
-}
-.toc-link:hover { background: var(--fog); border-color: var(--cloud); }
-.toc-link.active { background: rgba(0,194,255,.07); border-color: var(--elec); color: var(--elec); }
-.toc-num {
-  background: var(--steel); color: #fff;
-  min-width: 1.5rem; height: 1.5rem; border-radius: var(--r-sm);
-  display: flex; align-items: center; justify-content: center;
-  font-size: .6875rem; font-weight: 700; flex-shrink: 0;
-}
-.toc-num.sp { background: var(--elec); color: var(--ink); }
+/* ── ALERTS ── */
+.alert{border-radius:.625rem;padding:.75rem 1rem;margin:.875rem 0;font-size:.8125rem;border-left:4px solid;line-height:1.6}
+.alert.green{background:rgba(6,214,160,.08);border-color:var(--g);color:#065f46}
+.alert.amber,.alert:not([class*=green]):not([class*=red]):not([class*=blue]){background:rgba(255,183,3,.08);border-color:var(--a);color:#78350f}
+.alert.red{background:rgba(239,71,111,.08);border-color:var(--r);color:#9f1239}
+.alert.blue{background:rgba(0,194,255,.07);border-color:var(--e);color:var(--steel)}
 
-/* ════════════════════════════════════════
-   WDELTA DASHBOARD
-════════════════════════════════════════ */
-.wdelta {
-  background: var(--fog); margin: var(--sp-3);
-  border-radius: var(--r-lg); border: 1px solid var(--cloud);
-  padding: var(--sp-5) var(--sp-4);
-}
-.wdelta-head {
-  display: flex; flex-wrap: wrap; align-items: center;
-  gap: var(--sp-3); margin-bottom: var(--sp-5);
-}
-.wdelta-head h2 {
-  font-family: 'DM Serif Display', serif;
-  font-size: var(--t-xl); color: var(--ink);
-}
-.wdelta-sub { font-size: var(--t-xs); color: var(--muted); }
-.kw-badge {
-  font-size: var(--t-xs); font-weight: 800; text-transform: uppercase;
-  letter-spacing: .05em; background: var(--ink); color: var(--elec);
-  padding: .25rem .75rem; border-radius: 1rem;
-}
-.wdc-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--sp-3);
-}
-.wdc {
-  background: #fff; border-radius: var(--r-md);
-  border: 1px solid var(--cloud); border-left: 4px solid var(--cloud);
-  padding: var(--sp-4);
-}
-.wdc.pos  { border-left-color: var(--grn); }
-.wdc.warn { border-left-color: var(--amb); }
-.wdc.neg  { border-left-color: var(--red); }
-.wdc-label {
-  font-size: var(--t-xs); font-weight: 700;
-  text-transform: uppercase; letter-spacing: .05em;
-  color: var(--muted); margin-bottom: var(--sp-3);
-}
-.wdc-cmp {
-  display: grid; grid-template-columns: 1fr 1.5rem 1fr;
-  align-items: center; gap: var(--sp-2); margin-bottom: var(--sp-2);
-}
-.wdc-col { display: flex; flex-direction: column; gap: .125rem; }
-.wdc-col.r { text-align: right; align-items: flex-end; }
-.wdc-col-lbl {
-  font-size: .5625rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: .05em; color: var(--muted);
-}
-.wdc-prev { font-family: 'DM Serif Display', serif; font-size: 1rem; color: var(--muted); }
-.wdc-now  { font-family: 'DM Serif Display', serif; font-size: 1.25rem; }
-.wdc.pos  .wdc-now { color: #047857; }
-.wdc.warn .wdc-now { color: #b45309; }
-.wdc.neg  .wdc-now { color: #be123c; }
-.wdc-src  { font-size: .5625rem; color: var(--muted); opacity: .7; line-height: 1.3; }
-.wdc-arr  { font-size: 1.125rem; font-weight: 800; text-align: center; }
-.wdc-badge {
-  display: inline-block; margin-top: var(--sp-2);
-  font-size: var(--t-xs); font-weight: 800;
-  padding: .1875rem .625rem; border-radius: 1rem;
-}
-.wdc.pos  .wdc-badge { background: rgba(6,214,160,.12); color: #047857; }
-.wdc.warn .wdc-badge { background: rgba(255,183,3,.12);  color: #b45309; }
-.wdc.neg  .wdc-badge { background: rgba(239,71,111,.12); color: #be123c; }
-.wdc.neutral .wdc-badge { background: var(--fog); color: var(--muted); }
-.wdelta-head-h2 {
-  font-family: 'DM Serif Display', serif;
-  font-size: var(--t-xl); color: var(--ink);
-}
-.wdelta-note { font-size: var(--t-xs); color: var(--muted); font-style: italic; margin-top: var(--sp-4); }
+/* ── SOURCES ── */
+.sources{display:flex;flex-wrap:wrap;gap:.375rem;margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--cloud)}
+.src,a.src{font-size:.625rem;background:var(--fog);border:1px solid var(--cloud);border-radius:1rem;padding:.1875rem .5rem;color:var(--mu);text-decoration:none}
+a.src:hover{color:var(--e);border-color:var(--e)}
 
-/* ════════════════════════════════════════
-   SECTION CARD
-════════════════════════════════════════ */
-.sec {
-  background: #fff; margin: var(--sp-3);
-  border-radius: var(--r-lg); border: 1px solid var(--cloud);
-  padding: var(--sp-5) var(--sp-4);
-  box-shadow: 0 1px 4px rgba(0,0,0,.06);
-}
-.sec-head {
-  display: flex; align-items: flex-start;
-  gap: var(--sp-3); margin-bottom: var(--sp-5);
-  padding-bottom: var(--sp-4);
-  border-bottom: 2px solid var(--cloud);
-}
-.sec-icon {
-  width: 2.5rem; height: 2.5rem; border-radius: var(--r-md);
-  background: var(--steel); display: flex; align-items: center;
-  justify-content: center; font-size: 1.125rem; flex-shrink: 0;
-}
-.sec-meta { display: flex; flex-direction: column; gap: .125rem; flex: 1; min-width: 0; }
-.sec-eye {
-  font-size: var(--t-xs); font-weight: 700;
-  text-transform: uppercase; letter-spacing: .1em; color: var(--elec);
-}
-.sec-title {
-  font-family: 'DM Serif Display', serif;
-  font-size: var(--t-xl); line-height: 1.2; color: var(--ink);
-}
-.sec-share {
-  font-size: var(--t-xs); color: var(--muted);
-  background: none; border: 1px solid var(--cloud);
-  border-radius: 1rem; padding: .25rem .625rem;
-  cursor: pointer; font-family: inherit; transition: all .12s;
-  flex-shrink: 0; white-space: nowrap; margin-top: .125rem;
-}
-.sec-share:hover { color: var(--elec); border-color: var(--elec); }
-.sec-share.ok    { color: #047857; border-color: var(--grn); }
+/* ── FOERDER BOX ── */
+.fb{background:linear-gradient(135deg,rgba(13,27,42,.98),rgba(28,49,68,.98));border-radius:.875rem;padding:1.25rem 1rem;margin:.875rem 0;color:#fff}
+.fb-t{font-size:.9375rem;font-weight:700;color:var(--a);margin-bottom:.75rem}
+.fb .tbl{box-shadow:none}
+.fb table{min-width:380px}
+.fb th{background:rgba(255,255,255,.08);color:rgba(255,255,255,.7)}
+.fb td{color:rgba(255,255,255,.85);border-bottom-color:rgba(255,255,255,.08)}
+.fb tr:nth-child(even) td{background:rgba(255,255,255,.03)}
+.fb-c{margin-top:.75rem;font-size:.6875rem;color:rgba(255,255,255,.5)}
+.fb-c a{color:var(--e)}
+.f-ok{color:#4ade80;font-weight:700}.f-w{color:var(--a);font-weight:700}.f-s{color:var(--r);font-weight:700}
 
-/* ════════════════════════════════════════
-   TYPOGRAPHY INSIDE SECTIONS
-════════════════════════════════════════ */
-.sec h3 {
-  font-size: var(--t-sm); font-weight: 700; color: var(--steel);
-  text-transform: uppercase; letter-spacing: .05em;
-  border-left: 3px solid var(--elec); padding-left: .75rem;
-  margin: var(--sp-5) 0 var(--sp-3);
-  line-height: 1.4;
-}
-.sec h3:first-of-type { margin-top: 0; }
-.sec p {
-  font-size: var(--t-md); line-height: 1.75;
-  margin-bottom: var(--sp-3); color: var(--ink);
-}
-.sec p:last-child { margin-bottom: 0; }
-.sec strong { font-weight: 700; }
+/* ── PILLS ── */
+.pill-row{display:flex;flex-wrap:wrap;gap:.375rem;margin:.875rem 0}
+.pill{font-size:.625rem;font-weight:700;padding:.25rem .625rem;border-radius:1rem;border:1px solid}
+.pill.up{background:rgba(6,214,160,.1);border-color:rgba(6,214,160,.3);color:#065f46}
+.pill.down{background:rgba(239,71,111,.08);border-color:rgba(239,71,111,.25);color:#9f1239}
+.pill.neutral{background:rgba(100,116,139,.08);border-color:var(--cloud);color:var(--mu)}
+.pill.warn{background:rgba(255,183,3,.08);border-color:rgba(255,183,3,.3);color:#78350f}
 
-/* ════════════════════════════════════════
-   KPI ROW
-════════════════════════════════════════ */
-.kpi-row {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--sp-3); margin-bottom: var(--sp-5);
-}
-.kpi {
-  background: var(--fog); border-radius: var(--r-md);
-  border-left: 4px solid var(--steel);
-  padding: var(--sp-3) var(--sp-4);
-}
-.kpi.up  { border-left-color: var(--grn); }
-.kpi.warn{ border-left-color: var(--amb); }
-.kpi.neg { border-left-color: var(--red); }
-.kpi .val { font-family: 'DM Serif Display', serif; font-size: 1.375rem; line-height: 1.1; }
-.kpi .delta { font-size: var(--t-xs); font-weight: 700; margin: .125rem 0; }
-.kpi.up .delta { color: #047857; }
-.kpi.warn .delta { color: #b45309; }
-.kpi .lbl { font-size: var(--t-xs); color: var(--muted); line-height: 1.4; margin-top: .25rem; }
+/* ── SPOTLIGHT ── */
+.spotlight{background:linear-gradient(135deg,var(--ink),var(--steel));border-radius:.875rem;padding:1.25rem 1rem;margin:.875rem 0;color:#fff}
+.spotlight h3{color:var(--e)!important;border-left-color:var(--e)!important;margin-top:0}
+.spotlight p{color:rgba(255,255,255,.85)}
+.spotlight th{background:rgba(255,255,255,.1)}
+.spotlight td{color:rgba(255,255,255,.85)!important;border-bottom-color:rgba(255,255,255,.1);background:transparent!important}
+.spotlight tr:nth-child(even) td{background:rgba(255,255,255,.04)!important}
+.dark-matrix th{background:rgba(255,255,255,.1);color:rgba(255,255,255,.8)}
+.dark-matrix td{color:rgba(255,255,255,.85)!important;background:transparent!important}
+.dark-matrix tr:nth-child(even) td{background:rgba(255,255,255,.04)!important}
 
-/* TABLES – see .tbl below */
-.tbl { overflow-x: auto; margin: var(--sp-4) 0; -webkit-overflow-scrolling: touch; border-radius: var(--r-md); box-shadow: 0 1px 4px rgba(0,0,0,.08); }
-table { width: 100%; border-collapse: collapse; font-size: var(--t-sm); min-width: 520px; }
-th { background: var(--ink); color: #fff; padding: .625rem .875rem; text-align: left; font-size: .625rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; white-space: nowrap; }
-td { padding: .5625rem .875rem; border-bottom: 1px solid var(--cloud); vertical-align: top; line-height: 1.5; }
-tr:nth-child(even) td { background: var(--fog); }
-tr:last-child td { border-bottom: none; }
+/* ── STANDORT ── */
+.sg{display:grid;grid-template-columns:1fr;gap:.875rem;margin:.875rem 0}
+.sc{background:#fff;border-radius:.875rem;border:1px solid var(--cloud);border-left:5px solid var(--e);padding:1rem}
+.sc.giga{border-left-color:var(--a)}.sc.new{border-left-color:var(--g)}.sc.warn{border-left-color:var(--r)}.sc.plan{border-left-color:var(--mu);opacity:.85}
+.s-type{font-size:.5625rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--e);margin-bottom:.375rem}
+.sc.giga .s-type{color:#b45309}.sc.warn .s-type{color:var(--r)}
+.s-name{font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.375rem}
+.s-hw{font-size:.5625rem;background:var(--fog);color:var(--steel);padding:.125rem .4375rem;border-radius:.25rem;display:inline-block;font-weight:600;margin-bottom:.375rem}
+.s-meta{font-size:.75rem;color:var(--mu);line-height:1.6}
+.s-trend{font-size:.625rem;margin-top:.375rem}
+.t-up{color:#047857;font-weight:700}.t-down{color:#be123c;font-weight:700}.t-warn{color:#b45309;font-weight:700}
+.s-event{background:rgba(0,194,255,.06);border:1px solid rgba(0,194,255,.2);border-radius:.375rem;padding:.5rem .625rem;font-size:.6875rem;line-height:1.5;margin-top:.375rem}
+.s-event strong{color:var(--e)}
+.s-badge{display:inline-block;background:var(--fog);border-radius:.25rem;padding:.1875rem .5rem;font-size:.625rem;font-weight:600;margin-top:.375rem}
 
-/* ════════════════════════════════════════
-   ALERTS
-════════════════════════════════════════ */
-.alert {
-  border-radius: var(--r-md); padding: var(--sp-3) var(--sp-4);
-  margin: var(--sp-4) 0; font-size: var(--t-sm);
-  border-left: 4px solid; line-height: 1.6;
-}
-.alert.green  { background: rgba(6,214,160,.08);  border-color: var(--grn); color: #065f46; }
-.alert.amber  { background: rgba(255,183,3,.08);  border-color: var(--amb); color: #78350f; }
-.alert.red    { background: rgba(239,71,111,.08); border-color: var(--red); color: #9f1239; }
-.alert.blue   { background: rgba(0,194,255,.07);  border-color: var(--elec); color: var(--steel); }
-.sec .alert:not([class*=green]):not([class*=amber]):not([class*=red]):not([class*=blue]) {
-  background: rgba(255,183,3,.08); border-color: var(--amb); color: #78350f;
+/* ── MEASURE / PARTNER ── */
+.mg,.pg2{display:grid;grid-template-columns:1fr;gap:.75rem;margin:.875rem 0}
+.mc,.pc{background:var(--fog);border:1px solid var(--cloud);border-radius:.625rem;padding:.875rem}
+.mc-hd,.pc-hd{display:flex;align-items:flex-start;gap:.625rem;margin-bottom:.5rem}
+.mc-ic{font-size:1.125rem;flex-shrink:0}
+.mc-ti,.pc-ti{font-size:.9375rem;font-weight:700;color:var(--ink);line-height:1.35}
+.mc-sub,.pc-sub{font-size:.625rem;color:var(--mu);margin-top:.125rem}
+.mc-body,.pc-body{font-size:.8125rem;color:var(--mu);line-height:1.6}
+.omp-intro{font-size:.8125rem;color:var(--mu);background:var(--fog);border-radius:.375rem;padding:.625rem .75rem;margin-bottom:.875rem}
+.omp-goal{font-size:.625rem;font-weight:700;color:var(--e);margin-top:.125rem}
+
+/* ── REC BOX ── */
+.rb{background:var(--ink);border-radius:.875rem;padding:1.25rem 1rem;margin:.875rem 0}
+.rb h3{color:var(--a)!important;border-left-color:var(--a)!important;margin-top:0}
+.rb ul{list-style:none}
+.rb li{display:flex;align-items:flex-start;gap:.625rem;padding:.625rem 0;border-bottom:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.85);font-size:.8125rem;line-height:1.6}
+.rb li:last-child{border:none}
+.rn{background:var(--a);color:var(--ink);min-width:1.625rem;height:1.625rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;flex-shrink:0}
+.rn.red{background:var(--r);color:#fff}
+
+/* ── SUMMARY BOX ── */
+.summary-box{background:var(--fog);border:2px solid var(--cloud);border-radius:.875rem;padding:1rem;margin:.875rem 0}
+.summary-box p{font-size:.9375rem;margin-bottom:.75rem}
+
+/* ── CONTACT CARD ── */
+.contact-card{background:rgba(0,194,255,.04);border:1px solid rgba(0,194,255,.2);border-radius:.625rem;padding:.625rem .875rem;margin:.375rem 0;font-size:.8125rem}
+.contact-card a{color:var(--e);text-decoration:none}
+
+/* ── ANALYSIS ── */
+.ca{background:linear-gradient(135deg,#0d1b2a,#1c3144);margin:.75rem;border-radius:.875rem;padding:1.5rem 1rem;color:#fff}
+.ca-hd{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.25rem}
+.ca-av{width:2.75rem;height:2.75rem;border-radius:50%;background:rgba(0,194,255,.15);display:flex;align-items:center;justify-content:center;font-size:1.375rem;flex-shrink:0}
+.ca-sub{font-size:.5625rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--e);margin-bottom:.25rem}
+.ca-ti{font-family:'DM Serif Display',serif;font-size:1.5rem;color:#fff;margin-bottom:.25rem}
+.ca-de{font-size:.6875rem;color:rgba(255,255,255,.5)}
+.ca-disc{background:rgba(255,183,3,.08);border:1px solid rgba(255,183,3,.2);border-radius:.375rem;padding:.625rem .75rem;font-size:.8125rem;color:rgba(255,255,255,.7);margin-bottom:1.25rem}
+.ca-cols{display:grid;grid-template-columns:1fr;gap:.875rem;margin-bottom:.875rem}
+.ca-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:.625rem;padding:.875rem}
+.ca-ctl{font-size:.5625rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding-bottom:.625rem;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:.875rem}
+.ca-ctl.electric{color:var(--e)}.ca-ctl.amber{color:var(--a)}.ca-ctl.green{color:var(--g)}
+.ca-item{display:flex;gap:.625rem;margin-bottom:.875rem;font-size:.8125rem;line-height:1.65;color:rgba(255,255,255,.8)}
+.ca-item:last-child{margin-bottom:0}
+.ca-dot{width:1.375rem;height:1.375rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;flex-shrink:0}
+.ca-dot.e{background:rgba(0,194,255,.2);color:var(--e)}.ca-dot.a{background:rgba(255,183,3,.2);color:var(--a)}
+.ca-prio-list{list-style:none}
+.ca-prio-item{display:flex;align-items:flex-start;gap:.625rem;padding:.625rem 0;border-bottom:1px solid rgba(255,255,255,.08);font-size:.8125rem;color:rgba(255,255,255,.8);line-height:1.6}
+.ca-prio-item:last-child{border:none}
+.ca-prio-num{width:1.75rem;height:1.75rem;border-radius:.375rem;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;flex-shrink:0}
+.p1{background:var(--r);color:#fff}.p2{background:var(--a);color:var(--ink)}.p3{background:var(--steel);color:#fff}.p4{background:rgba(255,255,255,.15);color:rgba(255,255,255,.7)}
+.ca-wo{background:rgba(239,71,111,.08);border:1px solid rgba(239,71,111,.2);border-radius:.625rem;padding:.875rem;margin-top:.875rem}
+.ca-wo-t{font-size:.5625rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--r);margin-bottom:.625rem}
+.ca-wo p{font-size:.8125rem;color:rgba(255,255,255,.75);margin-bottom:.5rem;line-height:1.6}
+
+/* ── EXEC SUMMARY ── */
+.ex{background:var(--ink);margin:.75rem;border-radius:.875rem;padding:1.5rem 1rem;color:#fff}
+.ex-hd{text-align:center;margin-bottom:1.5rem}
+.ex-ey{font-size:.5625rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--e);margin-bottom:.5rem}
+.ex-ti{font-family:'DM Serif Display',serif;font-size:1.5rem;color:#fff;line-height:1.25;margin-bottom:.375rem}
+.ex-su{font-size:.625rem;color:rgba(255,255,255,.35)}
+.ex-grid{display:grid;grid-template-columns:1fr;gap:.875rem}
+.ec{border-radius:.875rem;padding:1rem}
+.ec.inv{background:rgba(0,194,255,.08);border:1px solid rgba(0,194,255,.22)}
+.ec.dev{background:rgba(6,214,160,.07);border:1px solid rgba(6,214,160,.22)}
+.ec.ops{background:rgba(255,183,3,.07);border:1px solid rgba(255,183,3,.22)}
+.ec.prt{background:rgba(239,71,111,.07);border:1px solid rgba(239,71,111,.22)}
+.ec.mkt{background:rgba(100,116,139,.08);border:1px solid rgba(100,116,139,.22)}
+.ec.tec{background:rgba(0,194,255,.04);border:1px solid rgba(255,255,255,.1)}
+.ec-l{font-size:.5625rem;font-weight:800;text-transform:uppercase;letter-spacing:.12em;margin-bottom:.625rem;padding-bottom:.375rem;border-bottom:1px solid rgba(255,255,255,.1)}
+.ec.inv .ec-l{color:var(--e)}.ec.dev .ec-l{color:var(--g)}.ec.ops .ec-l{color:var(--a)}.ec.prt .ec-l{color:#ff6b8a}.ec.mkt .ec-l{color:rgba(255,255,255,.55)}.ec.tec .ec-l{color:rgba(0,194,255,.7)}
+.ec p{font-size:.8125rem;color:rgba(255,255,255,.85);line-height:1.75}
+.ex-nx{margin-top:1.25rem;padding:.875rem;background:rgba(255,255,255,.04);border-radius:.625rem;border:1px solid rgba(255,255,255,.08)}
+.ex-nx-l{font-size:.5625rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--a);margin-bottom:.5rem}
+.ex-nx p{font-size:.6875rem;color:rgba(255,255,255,.6);line-height:1.7}
+
+/* ── FOOTER ── */
+.ft{background:var(--ink);color:rgba(255,255,255,.4);padding:1.5rem 1rem;margin:.75rem;border-radius:.875rem;font-size:.6875rem;text-align:center;line-height:1.7}
+.ft strong{color:rgba(255,255,255,.75)}
+
+/* ── PWA BANNER ── */
+#pb{display:none;position:fixed;bottom:1rem;left:.75rem;right:.75rem;background:var(--ink);color:#fff;border:1px solid rgba(0,194,255,.3);border-radius:.875rem;padding:.875rem 1rem;box-shadow:0 8px 24px rgba(0,0,0,.35);z-index:200;max-width:22rem;margin:0 auto;align-items:center;gap:.875rem}
+#pb.show{display:flex}
+#pb p{font-size:.8125rem;line-height:1.4;flex:1}
+#pb p strong{color:var(--e)}
+#pi{background:var(--e);color:var(--ink);border:none;border-radius:.375rem;padding:.375rem .875rem;font-size:.8125rem;font-weight:700;cursor:pointer;white-space:nowrap;font-family:inherit}
+#pd{background:none;border:none;color:rgba(255,255,255,.35);font-size:1.125rem;cursor:pointer;flex-shrink:0}
+
+/* ── TABLET 640px+ ── */
+@media(min-width:640px){
+  .wg{grid-template-columns:repeat(2,1fr)}
+  .kr{grid-template-columns:repeat(2,1fr)}
+  .sg{grid-template-columns:repeat(2,1fr)}
+  .mg,.pg2{grid-template-columns:repeat(2,1fr)}
+  .toc-grid{display:grid;grid-template-columns:repeat(2,1fr)}
+  .ca-cols{grid-template-columns:repeat(2,1fr)}
+  .ex-grid{grid-template-columns:repeat(2,1fr)}
+  .s,.os,.wd,.ca,.ex,.toc,.ft{margin-left:1rem;margin-right:1rem}
 }
 
-/* ════════════════════════════════════════
-   SOURCES
-════════════════════════════════════════ */
-.sources {
-  display: flex; flex-wrap: wrap; gap: var(--sp-2);
-  margin-top: var(--sp-5); padding-top: var(--sp-4);
-  border-top: 1px solid var(--cloud);
-}
-.src, a.src {
-  font-size: var(--t-xs); background: var(--fog);
-  border: 1px solid var(--cloud); border-radius: 1rem;
-  padding: .1875rem .625rem; color: var(--muted); text-decoration: none;
-}
-a.src:hover { color: var(--elec); border-color: var(--elec); }
-
-/* ════════════════════════════════════════
-   STANDORT GRID
-════════════════════════════════════════ */
-.standort-grid {
-  display: grid; grid-template-columns: 1fr;
-  gap: var(--sp-4); margin: var(--sp-4) 0;
-}
-.standort-card {
-  background: #fff; border-radius: var(--r-lg);
-  border: 1px solid var(--cloud); border-left: 5px solid var(--elec);
-  padding: var(--sp-4) var(--sp-4);
-}
-.standort-card.giga { border-left-color: var(--amb); }
-.standort-card.new  { border-left-color: var(--grn); }
-.standort-card.warn { border-left-color: var(--red); }
-.standort-card.plan { border-left-color: var(--muted); opacity: .85; }
-.s-type { font-size: var(--t-xs); font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--elec); margin-bottom: var(--sp-2); }
-.standort-card.giga .s-type { color: #b45309; }
-.standort-card.warn .s-type { color: var(--red); }
-.s-name  { font-size: var(--t-lg); font-weight: 700; color: var(--ink); margin-bottom: var(--sp-2); }
-.s-hw    { font-size: var(--t-xs); background: var(--fog); color: var(--steel); padding: .1875rem .5rem; border-radius: var(--r-sm); display: inline-block; font-weight: 600; margin-bottom: var(--sp-2); }
-.s-meta  { font-size: var(--t-sm); color: var(--muted); line-height: 1.6; }
-.s-trend { font-size: var(--t-xs); margin-top: var(--sp-2); }
-.t-up    { color: #047857; font-weight: 700; }
-.t-down  { color: #be123c; font-weight: 700; }
-.t-warn  { color: #b45309; font-weight: 700; }
-.s-event {
-  background: rgba(0,194,255,.06); border: 1px solid rgba(0,194,255,.2);
-  border-radius: var(--r-sm); padding: var(--sp-2) var(--sp-3);
-  font-size: var(--t-xs); line-height: 1.5; color: var(--ink);
-  margin-top: var(--sp-2);
-}
-.s-event strong { color: var(--elec); }
-.s-badge {
-  display: inline-block; background: var(--fog);
-  border-radius: var(--r-sm); padding: .25rem .625rem;
-  font-size: var(--t-xs); font-weight: 600; margin-top: var(--sp-2);
+/* ── DESKTOP 1024px+ ── */
+@media(min-width:1024px){
+  .pg{max-width:1280px;margin:0 auto}
+  .wg{grid-template-columns:repeat(3,1fr)}
+  .kr{grid-template-columns:repeat(4,1fr)}
+  .toc-grid{grid-template-columns:repeat(3,1fr)}
+  .ex-grid{grid-template-columns:repeat(2,1fr)}
+  .s,.os,.wd,.ca,.ex,.toc,.ft{margin-left:1.25rem;margin-right:1.25rem;padding-left:2.5rem;padding-right:2.5rem}
+  .s,.os{padding-top:2rem;padding-bottom:2rem}
+  .cover{padding:3rem 2.5rem 2.5rem}
 }
 
-/* ════════════════════════════════════════
-   PILLS
-════════════════════════════════════════ */
-.pill-row { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin: var(--sp-4) 0; }
-.pill {
-  font-size: var(--t-xs); font-weight: 700;
-  padding: .3125rem .75rem; border-radius: 1rem; border: 1px solid;
+/* ── REDUCED MOTION ── */
+@media(prefers-reduced-motion:reduce){
+  .ti{animation:none}
+  *{transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
-.pill.up      { background: rgba(6,214,160,.1);   border-color: rgba(6,214,160,.3);   color: #065f46; }
-.pill.down    { background: rgba(239,71,111,.08);  border-color: rgba(239,71,111,.25); color: #9f1239; }
-.pill.neutral { background: rgba(100,116,139,.08); border-color: var(--cloud);          color: var(--muted); }
-.pill.warn    { background: rgba(255,183,3,.08);   border-color: rgba(255,183,3,.3);   color: #78350f; }
-
-/* ════════════════════════════════════════
-   SPOTLIGHT / DARK BOXES
-════════════════════════════════════════ */
-.spotlight {
-  background: linear-gradient(135deg, var(--ink), var(--steel));
-  border-radius: var(--r-lg); padding: var(--sp-5) var(--sp-4);
-  margin: var(--sp-4) 0; color: #fff;
-}
-.spotlight h3 { color: var(--elec) !important; border-left-color: var(--elec) !important; }
-.spotlight p  { color: rgba(255,255,255,.85); }
-.spotlight table  { color: rgba(255,255,255,.85); }
-.spotlight th     { background: rgba(255,255,255,.1); }
-.spotlight td     { border-bottom-color: rgba(255,255,255,.1); }
-.spotlight tr:nth-child(even) td { background: rgba(255,255,255,.04); }
-.dark-matrix table { min-width: 0; }
-.dark-matrix td { color: rgba(255,255,255,.85) !important; background: transparent !important; }
-.dark-matrix tr:nth-child(even) td { background: rgba(255,255,255,.04) !important; }
-
-/* ════════════════════════════════════════
-   FÖRDER BOX
-════════════════════════════════════════ */
-.foerder-box {
-  background: linear-gradient(135deg, rgba(13,27,42,.98), rgba(28,49,68,.98));
-  border-radius: var(--r-lg); padding: var(--sp-5) var(--sp-4);
-  margin: var(--sp-4) 0; color: #fff;
-}
-.foerder-box-title { font-size: var(--t-md); font-weight: 700; color: var(--amb); margin-bottom: var(--sp-3); }
-.foerder-table { width: 100%; border-collapse: collapse; font-size: var(--t-xs); min-width: 400px; }
-.foerder-table th { background: rgba(255,255,255,.08); color: rgba(255,255,255,.7); padding: .5rem .75rem; text-align: left; font-size: .5625rem; font-weight: 700; text-transform: uppercase; }
-.foerder-table td { padding: .5rem .75rem; border-bottom: 1px solid rgba(255,255,255,.07); color: rgba(255,255,255,.85); }
-.foerder-table tr:nth-child(even) td { background: rgba(255,255,255,.03); }
-.foerder-contact { margin-top: var(--sp-3); font-size: var(--t-xs); color: rgba(255,255,255,.55); }
-.foerder-contact a { color: var(--elec); }
-.f-aktiv { color: #4ade80; font-weight: 700; }
-.f-warn  { color: var(--amb); font-weight: 700; }
-.f-stop  { color: var(--red); font-weight: 700; }
-.f-frist { color: rgba(255,255,255,.7); }
-
-/* ════════════════════════════════════════
-   OMP SECTIONS
-════════════════════════════════════════ */
-.omp-sec {
-  background: #fff; margin: var(--sp-3);
-  border-radius: var(--r-lg); border: 1px solid var(--cloud);
-  padding: var(--sp-5) var(--sp-4);
-}
-.omp-sec.alt { background: var(--fog); }
-.omp-head {
-  display: flex; align-items: flex-start; gap: var(--sp-3);
-  margin-bottom: var(--sp-5); padding-bottom: var(--sp-4);
-  border-bottom: 2px solid var(--cloud);
-}
-.omp-icon {
-  width: 2.5rem; height: 2.5rem; border-radius: var(--r-md);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.125rem; flex-shrink: 0;
-}
-.omp-icon.ops { background: rgba(0,194,255,.12); }
-.omp-icon.mkt { background: rgba(255,183,3,.12); }
-.omp-icon.prt { background: rgba(6,214,160,.12); }
-.omp-title { font-family: 'DM Serif Display', serif; font-size: var(--t-xl); color: var(--ink); }
-.omp-goal  { font-size: var(--t-xs); font-weight: 700; color: var(--elec); margin-top: .125rem; }
-.omp-intro {
-  font-size: var(--t-sm); color: var(--muted);
-  background: var(--fog); border-radius: var(--r-sm);
-  padding: var(--sp-3) var(--sp-3); margin-bottom: var(--sp-4);
-}
-.omp-sec h3 {
-  font-size: var(--t-sm); font-weight: 700; color: var(--steel);
-  text-transform: uppercase; letter-spacing: .05em;
-  border-left: 3px solid var(--elec); padding-left: .75rem;
-  margin: var(--sp-5) 0 var(--sp-3); line-height: 1.4;
-}
-.omp-sec h3:first-of-type { margin-top: 0; }
-.omp-sec p { font-size: var(--t-md); line-height: 1.75; margin-bottom: var(--sp-3); }
-
-/* Measure / partner grids */
-.measure-grid, .partner-grid {
-  display: grid; grid-template-columns: 1fr;
-  gap: var(--sp-3); margin: var(--sp-4) 0;
-}
-.measure-card, .partner-card {
-  background: var(--fog); border: 1px solid var(--cloud);
-  border-radius: var(--r-md); padding: var(--sp-4);
-}
-.mc-head, .pc-head { display: flex; align-items: flex-start; gap: var(--sp-3); margin-bottom: var(--sp-2); }
-.mc-icon { font-size: 1.25rem; flex-shrink: 0; }
-.mc-title,.pc-title { font-size: var(--t-md); font-weight: 700; color: var(--ink); line-height: 1.4; }
-.mc-sub,.pc-sub { font-size: var(--t-xs); color: var(--muted); margin-top: .125rem; }
-.mc-body,.pc-body { font-size: var(--t-sm); color: var(--muted); line-height: 1.6; }
-.rec-box { background: var(--ink); border-radius: var(--r-lg); padding: var(--sp-5) var(--sp-4); margin: var(--sp-4) 0; }
-.rec-box h3 { color: var(--amb) !important; border-left-color: var(--amb) !important; margin-top: 0; }
-.rec-list { list-style: none; }
-.rec-list li { display: flex; align-items: flex-start; gap: var(--sp-3); padding: var(--sp-3) 0; border-bottom: 1px solid rgba(255,255,255,.08); color: rgba(255,255,255,.85); font-size: var(--t-sm); line-height: 1.6; }
-.rec-list li:last-child { border: none; }
-.rec-num { background: var(--amb); color: var(--ink); min-width: 1.75rem; height: 1.75rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .75rem; font-weight: 800; flex-shrink: 0; }
-.rec-num.red { background: var(--red); color: #fff; }
-.summary-box { background: var(--fog); border: 2px solid var(--cloud); border-radius: var(--r-lg); padding: var(--sp-4); margin: var(--sp-4) 0; }
-.summary-box p { font-size: var(--t-md); margin-bottom: var(--sp-3); }
-.contact-card { background: rgba(0,194,255,.04); border: 1px solid rgba(0,194,255,.2); border-radius: var(--r-md); padding: var(--sp-3) var(--sp-4); margin: var(--sp-2) 0; font-size: var(--t-sm); }
-.contact-card a { color: var(--elec); text-decoration: none; }
-
-/* ════════════════════════════════════════
-   CLAUDE ANALYSIS
-════════════════════════════════════════ */
-.ca {
-  background: linear-gradient(135deg, #0d1b2a, #1c3144);
-  margin: var(--sp-3); border-radius: var(--r-lg);
-  padding: var(--sp-6) var(--sp-4); color: #fff;
-}
-.ca-head { display: flex; align-items: flex-start; gap: var(--sp-4); margin-bottom: var(--sp-5); }
-.ca-avatar { width: 3rem; height: 3rem; border-radius: 50%; background: rgba(0,194,255,.15); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
-.ca-sub { font-size: var(--t-xs); font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--elec); margin-bottom: .25rem; }
-.ca-title { font-family: 'DM Serif Display', serif; font-size: var(--t-2xl); color: #fff; margin-bottom: .25rem; }
-.ca-desc { font-size: var(--t-xs); color: rgba(255,255,255,.5); }
-.ca-disclaimer { background: rgba(255,183,3,.08); border: 1px solid rgba(255,183,3,.2); border-radius: var(--r-sm); padding: var(--sp-3); font-size: var(--t-sm); color: rgba(255,255,255,.7); margin-bottom: var(--sp-5); }
-.ca-cols { display: grid; grid-template-columns: 1fr; gap: var(--sp-4); margin-bottom: var(--sp-4); }
-.ca-card { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); border-radius: var(--r-md); padding: var(--sp-4); }
-.ca-card-title { font-size: var(--t-xs); font-weight: 800; text-transform: uppercase; letter-spacing: .1em; padding-bottom: var(--sp-3); border-bottom: 1px solid rgba(255,255,255,.1); margin-bottom: var(--sp-4); }
-.ca-card-title.electric { color: var(--elec); }
-.ca-card-title.amber    { color: var(--amb); }
-.ca-card-title.green    { color: var(--grn); }
-.ca-item { display: flex; gap: var(--sp-3); margin-bottom: var(--sp-4); font-size: var(--t-sm); line-height: 1.65; color: rgba(255,255,255,.8); }
-.ca-item:last-child { margin-bottom: 0; }
-.ca-dot { width: 1.5rem; height: 1.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .75rem; font-weight: 800; flex-shrink: 0; }
-.ca-dot.e { background: rgba(0,194,255,.2); color: var(--elec); }
-.ca-dot.a { background: rgba(255,183,3,.2); color: var(--amb); }
-.ca-prio-list { list-style: none; }
-.ca-prio-item { display: flex; align-items: flex-start; gap: var(--sp-3); padding: var(--sp-3) 0; border-bottom: 1px solid rgba(255,255,255,.08); font-size: var(--t-sm); color: rgba(255,255,255,.8); line-height: 1.6; }
-.ca-prio-item:last-child { border: none; }
-.ca-prio-num { width: 2rem; height: 2rem; border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; font-size: .75rem; font-weight: 800; flex-shrink: 0; }
-.ca-prio-num.p1 { background: var(--red); color: #fff; }
-.ca-prio-num.p2 { background: var(--amb); color: var(--ink); }
-.ca-prio-num.p3 { background: var(--steel); color: #fff; }
-.ca-prio-num.p4 { background: rgba(255,255,255,.15); color: rgba(255,255,255,.7); }
-.ca-watchout { background: rgba(239,71,111,.08); border: 1px solid rgba(239,71,111,.2); border-radius: var(--r-md); padding: var(--sp-4); margin-top: var(--sp-4); }
-.ca-watchout-title { font-size: var(--t-xs); font-weight: 800; text-transform: uppercase; letter-spacing: .1em; color: var(--red); margin-bottom: var(--sp-3); }
-.ca-watchout p { font-size: var(--t-sm); color: rgba(255,255,255,.75); margin-bottom: var(--sp-2); line-height: 1.6; }
-
-/* ════════════════════════════════════════
-   EXEC SUMMARY
-════════════════════════════════════════ */
-.exec {
-  background: var(--ink); margin: var(--sp-3);
-  border-radius: var(--r-lg); padding: var(--sp-6) var(--sp-4); color: #fff;
-}
-.exec-head { text-align: center; margin-bottom: var(--sp-6); }
-.exec-eye { font-size: var(--t-xs); font-weight: 800; letter-spacing: .15em; text-transform: uppercase; color: var(--elec); margin-bottom: var(--sp-2); }
-.exec-title { font-family: 'DM Serif Display', serif; font-size: var(--t-2xl); color: #fff; line-height: 1.25; margin-bottom: var(--sp-2); }
-.exec-sub { font-size: var(--t-xs); color: rgba(255,255,255,.4); }
-.exec-grid { display: grid; grid-template-columns: 1fr; gap: var(--sp-4); }
-.exec-card {
-  border-radius: var(--r-lg); padding: var(--sp-5) var(--sp-4);
-}
-.exec-card.inv  { background: rgba(0,194,255,.08);  border: 1px solid rgba(0,194,255,.22); }
-.exec-card.dev  { background: rgba(6,214,160,.07);  border: 1px solid rgba(6,214,160,.22); }
-.exec-card.ops  { background: rgba(255,183,3,.07);  border: 1px solid rgba(255,183,3,.22); }
-.exec-card.prt  { background: rgba(239,71,111,.07); border: 1px solid rgba(239,71,111,.22); }
-.exec-card.mkt  { background: rgba(100,116,139,.08);border: 1px solid rgba(100,116,139,.22); }
-.exec-card.tech { background: rgba(0,194,255,.04);  border: 1px solid rgba(255,255,255,.1); }
-.exec-card-label {
-  font-size: var(--t-xs); font-weight: 800; text-transform: uppercase;
-  letter-spacing: .12em; margin-bottom: var(--sp-3);
-  padding-bottom: var(--sp-2); border-bottom: 1px solid rgba(255,255,255,.1);
-}
-.exec-card.inv  .exec-card-label { color: var(--elec); }
-.exec-card.dev  .exec-card-label { color: var(--grn); }
-.exec-card.ops  .exec-card-label { color: var(--amb); }
-.exec-card.prt  .exec-card-label { color: #ff6b8a; }
-.exec-card.mkt  .exec-card-label { color: rgba(255,255,255,.55); }
-.exec-card.tech .exec-card-label { color: rgba(0,194,255,.7); }
-.exec-card p { font-size: var(--t-sm); color: rgba(255,255,255,.85); line-height: 1.75; }
-.exec-next {
-  margin-top: var(--sp-5); padding: var(--sp-4);
-  background: rgba(255,255,255,.04); border-radius: var(--r-md);
-  border: 1px solid rgba(255,255,255,.08);
-}
-.exec-next-label { font-size: var(--t-xs); font-weight: 800; text-transform: uppercase; letter-spacing: .1em; color: var(--amb); margin-bottom: var(--sp-2); }
-.exec-next p { font-size: var(--t-xs); color: rgba(255,255,255,.6); line-height: 1.7; }
-
-/* ════════════════════════════════════════
-   FOOTER
-════════════════════════════════════════ */
-.footer {
-  background: var(--ink); color: rgba(255,255,255,.45);
-  padding: var(--sp-6) var(--sp-4); margin: var(--sp-3);
-  border-radius: var(--r-lg); font-size: var(--t-xs);
-  text-align: center; line-height: 1.7;
-}
-.footer strong { color: rgba(255,255,255,.75); }
-
-/* ════════════════════════════════════════
-   PWA INSTALL BANNER
-════════════════════════════════════════ */
-#pwa-banner {
-  display: none; position: fixed; bottom: 1.25rem; left: 1rem; right: 1rem;
-  background: var(--ink); color: #fff;
-  border: 1px solid rgba(0,194,255,.3);
-  border-radius: var(--r-lg); padding: var(--sp-4) var(--sp-4);
-  box-shadow: 0 8px 24px rgba(0,0,0,.35);
-  z-index: 200; max-width: 22rem; margin: 0 auto;
-  align-items: center; gap: var(--sp-4);
-}
-#pwa-banner.show { display: flex; }
-#pwa-banner p { font-size: var(--t-sm); line-height: 1.4; flex: 1; }
-#pwa-banner p strong { color: var(--elec); }
-#pwa-install { background: var(--elec); color: var(--ink); border: none; border-radius: var(--r-sm); padding: var(--sp-2) var(--sp-4); font-size: var(--t-sm); font-weight: 700; cursor: pointer; white-space: nowrap; font-family: inherit; }
-#pwa-dismiss { background: none; border: none; color: rgba(255,255,255,.4); font-size: 1.125rem; cursor: pointer; flex-shrink: 0; padding: 0; }
-
-
-/* ── OVERFLOW FIX (mobile) ── */
-/* max-width only - NO overflow-x:hidden on containers (breaks table scroll) */
-.page, .sec, .omp-sec, .wdelta, .ca, .exec, .toc-wrap, .cover,
-.ticker, .footer, .standort-grid, .kpi-row,
-.spotlight, .rec-box, .summary-box, .measure-grid, .partner-grid {
-  max-width: 100%;
-}
-/* foerder-box: allow inner scroll */
-.foerder-box {
-  max-width: 100%;
-  overflow-x: visible;
-}
-/* Tables ALWAYS scroll horizontally, never overflow */
-.tbl, .foerder-box .tbl {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  width: 100%;
-  display: block;
-}
-table {
-  min-width: 0;
-  width: 100%;
-}
-/* On mobile, foerder-table wraps instead of overflows */
-@media (max-width: 639px) {
-  .foerder-table, table {
-    min-width: 0;
-    display: table;
-    width: 100%;
-  }
-  .foerder-table th,
-  .foerder-table td,
-  table th,
-  table td {
-    white-space: normal;
-    word-break: break-word;
-    hyphens: auto;
-    font-size: .6rem;
-    padding: .375rem .5rem;
-  }
-  table th { font-size: .5625rem; }
-  /* KPI row: 2 col on small */
-  .kpi-row { grid-template-columns: repeat(2, 1fr); }
-  /* Foerder-box inner tables */
-  .foerder-box { padding: var(--sp-4) var(--sp-3); }
-  /* WDC compare: stack on very small */
-  .wdc-cmp {
-    grid-template-columns: 1fr 1rem 1fr;
-    gap: .25rem;
-  }
-  .wdc-prev { font-size: .875rem; }
-  .wdc-now  { font-size: 1rem; }
-  .wdc-arr  { font-size: .875rem; }
-}
-
-
-/* ── MOBILE TABLE SCROLL ── */
-.tbl {
-  overflow-x: auto !important;
-  -webkit-overflow-scrolling: touch;
-  width: 100%;
-  display: block;
-  border-radius: var(--r-md);
-  margin: var(--sp-4) 0;
-  /* Ensure scroll works even inside overflow:hidden parents */
-  position: relative;
-  z-index: 1;
-}
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: var(--t-sm);
-}
-@media (max-width: 639px) {
-  table { min-width: 360px; }
-  .foerder-table { min-width: 320px; }
-  th { font-size: .5625rem; padding: .375rem .5rem; white-space: nowrap; }
-  td { font-size: .6875rem; padding: .4375rem .5rem; }
-  /* KPI 2-col */
-  .kpi-row { grid-template-columns: 1fr 1fr; }
-  /* WDC cards 1-col */
-  .wdc-grid { grid-template-columns: 1fr; }
-  /* standort 1-col */
-  .standort-grid { grid-template-columns: 1fr; }
-  /* section padding tighter */
-  .sec, .omp-sec { padding: var(--sp-4) var(--sp-3); }
-  .sec-title { font-size: var(--t-lg); }
-  /* foerder-box tighter */
-  .foerder-box { padding: var(--sp-4) var(--sp-3); }
-  .foerder-box .tbl { overflow-x: auto; }
-  /* Cover */
-  .cover { padding: var(--sp-6) var(--sp-3) var(--sp-5); }
-  /* Wdelta */
-  .wdelta { padding: var(--sp-4) var(--sp-3); margin: var(--sp-2); }
-  /* TOC */
-  .toc-wrap { margin: var(--sp-2); }
-  /* ca */
-  .ca { padding: var(--sp-5) var(--sp-3); margin: var(--sp-2); }
-  .exec { padding: var(--sp-5) var(--sp-3); margin: var(--sp-2); }
-  /* Pill row wraps */
-  .pill-row { gap: var(--sp-1); }
-  .pill { font-size: .5625rem; padding: .25rem .5rem; }
-}
-/* ════════════════════════════════════════
-   TABLET  640px+
-════════════════════════════════════════ */
-@media (min-width: 640px) {
-  .wdc-grid        { grid-template-columns: repeat(2, 1fr); }
-  .kpi-row         { grid-template-columns: repeat(2, 1fr); }
-  .standort-grid   { grid-template-columns: repeat(2, 1fr); }
-  .measure-grid,
-  .partner-grid    { grid-template-columns: repeat(2, 1fr); }
-  .toc-grid        { display: grid; grid-template-columns: repeat(2, 1fr); }
-  .ca-cols         { grid-template-columns: repeat(2, 1fr); }
-  .exec-grid       { grid-template-columns: repeat(2, 1fr); }
-  .sec, .omp-sec, .wdelta, .ca, .exec, .toc-wrap, .footer {
-    margin-left: var(--sp-4); margin-right: var(--sp-4);
-  }
-}
-
-/* ════════════════════════════════════════
-   DESKTOP  1024px+
-════════════════════════════════════════ */
-@media (min-width: 1024px) {
-  :root { --nav-h: 3.25rem; }
-  body  { font-size: 17px; }
-  .page { max-width: 1280px; margin: 0 auto; }
-
-  .wdc-grid { grid-template-columns: repeat(3, 1fr); }
-  .kpi-row  { grid-template-columns: repeat(4, 1fr); }
-  .standort-grid { grid-template-columns: repeat(2, 1fr); }
-  .measure-grid,
-  .partner-grid  { grid-template-columns: repeat(2, 1fr); }
-  .toc-grid { grid-template-columns: repeat(3, 1fr); }
-  .exec-grid { grid-template-columns: repeat(2, 1fr); }
-
-  .sec, .omp-sec, .wdelta, .ca, .exec, .toc-wrap, .footer {
-    margin-left: var(--sp-5); margin-right: var(--sp-5);
-    padding-left: var(--sp-10); padding-right: var(--sp-10);
-  }
-  .sec { padding-top: var(--sp-8); padding-bottom: var(--sp-8); }
-  .omp-sec { padding-top: var(--sp-8); padding-bottom: var(--sp-8); }
-  .cover { padding: var(--sp-10) var(--sp-10) var(--sp-8); }
-
-  /* Two-col prose on desktop */
-  .prose-2col {
-    columns: 2; column-gap: 3rem;
-    column-rule: 1px solid var(--cloud);
-  }
-  .prose-2col h3   { break-after: avoid; break-before: column; }
-  .prose-2col h3:first-of-type { break-before: avoid; }
-  .prose-2col p, .prose-2col .alert { break-inside: avoid; }
-  .prose-2col .full-w { column-span: all; }
-}
-
-/* ════════════════════════════════════════
-   ACCESSIBILITY + REDUCED MOTION
-════════════════════════════════════════ */
-@media (prefers-reduced-motion: reduce) {
-  .ticker-inner { animation: none; }
-  * { transition-duration: .01ms !important; scroll-behavior: auto !important; }
-}
-:focus-visible { outline: 2px solid var(--elec); outline-offset: 2px; }
+:focus-visible{outline:2px solid var(--e);outline-offset:2px}
 </style>
 </head>
 <body>
-<div id="pwa-banner" role="dialog" aria-label="App installieren">
-  <p><strong>Als App speichern</strong><br>Offline verfügbar machen</p>
-  <button id="pwa-install">Installieren</button>
-  <button id="pwa-dismiss" aria-label="Schließen">✕</button>
+
+<div id="pb" role="dialog">
+  <p><strong>Als App speichern</strong><br>Offline verfügbar</p>
+  <button id="pi">Installieren</button>
+  <button id="pd" aria-label="Schließen">✕</button>
 </div>
 
-<nav id="nav" role="navigation" aria-label="Briefing-Navigation">
-  <div id="nav-bar">
-    <a href="#" id="nav-logo" aria-label="Seitenanfang">
-      <span>⚡</span><span>CutPower</span>
-      <span class="kw-pill">KW 25</span>
-    </a>
-    <div id="nav-scroll" role="list">
-      <a href="#wdelta">Δ KW</a>
-      <a href="#s1">Real Estate</a>
-      <a href="#s2">CPO/eMSP</a>
-      <a href="#s3">Backend</a>
-      <a href="#s4">Energie</a>
-      <a href="#s5">Kapital</a>
-      <a href="#s6">OEM</a>
-      <a href="#s8">eLKW</a>
-      <a href="#s9">Trends</a>
-      <a href="#omp-ops">Operation</a>
-      <a href="#omp-mkt">Marketing</a>
-      <a href="#omp-prt">Partner</a>
-      <a href="#ca">Analyse</a>
-      <a href="#exec-summary">Summary</a>
+<nav id="nav">
+  <div id="nav-inner">
+    <a href="#" id="nav-logo"><span>⚡</span><span>CutPower</span><span class="kwp">KW 25</span></a>
+    <div id="nav-links">
+      <a href="#wdelta">Δ KW</a><a href="#s1">Real Estate</a><a href="#s2">CPO/eMSP</a>
+      <a href="#s3">Backend</a><a href="#s4">Energie</a><a href="#s5">Kapital</a>
+      <a href="#s6">OEM</a><a href="#s8">eLKW</a><a href="#s9">Trends</a>
+      <a href="#omp-ops">Operation</a><a href="#omp-mkt">Marketing</a>
+      <a href="#omp-prt">Partner</a><a href="#ca">Analyse</a><a href="#exec-summary">Summary</a>
     </div>
-    <div id="nav-pct" aria-live="polite">0 %</div>
+    <div id="np">0 %</div>
   </div>
-  <div id="nav-prog" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+  <div id="nb"></div>
 </nav>
 
-<div class="page">
+<div class="pg">
+
 <!-- COVER -->
 <div class="cover">
   <div class="cover-kw">
@@ -922,34 +431,32 @@ table {
     <span class="badge">🔒 Vertraulich – Management</span>
   </div>
 </div>
-<div class="ticker" aria-label="KW-Highlights Ticker">
-  <div class="ticker-inner" aria-hidden="true">
-    <span class="tick-item"><strong style="color:#06d6a0">+40,9 %</strong><span>BEV Jan–Mai · 283.949 kumuliert</span></span>
-    <span class="tick-item"><strong style="color:#06d6a0">+70 % YoY</strong><span>BESS Jan–Mai · 3,4 GWh</span></span>
-    <span class="tick-item"><strong style="color:#ffb703">30+ MWh</strong><span>CATL Natrium-Ionen ees Europe</span></span>
-    <span class="tick-item"><strong style="color:#00c2ff">Power2Drive</strong><span>München 23.–25. Juni</span></span>
-    <span class="tick-item"><strong style="color:#ffb703">07.07.</strong><span>NF-Förderung B/C Deadline</span></span>
-    <span class="tick-item"><strong style="color:#06d6a0">Enercity</strong><span>Smart Charging · 8.000+ LP</span></span>
-    <span class="tick-item"><strong style="color:#ef476f">⚠ Netzentgelt</strong><span>150+ Unternehmen DE</span></span>
-    <span class="tick-item"><strong style="color:#06d6a0">+40,9 %</strong><span>BEV Jan–Mai · 283.949 kumuliert</span></span>
-    <span class="tick-item"><strong style="color:#06d6a0">+70 % YoY</strong><span>BESS Jan–Mai · 3,4 GWh</span></span>
-    <span class="tick-item"><strong style="color:#ffb703">30+ MWh</strong><span>CATL Natrium-Ionen ees Europe</span></span>
-    <span class="tick-item"><strong style="color:#00c2ff">Power2Drive</strong><span>München 23.–25. Juni</span></span>
-    <span class="tick-item"><strong style="color:#ffb703">07.07.</strong><span>NF-Förderung B/C Deadline</span></span>
-    <span class="tick-item"><strong style="color:#06d6a0">Enercity</strong><span>Smart Charging · 8.000+ LP</span></span>
-    <span class="tick-item"><strong style="color:#ef476f">⚠ Netzentgelt</strong><span>150+ Unternehmen DE</span></span>
+
+<div class="ticker">
+  <div class="ti">
+    <span class="ti-i"><b style="color:#06d6a0">+40,9 %</b><span>BEV Jan–Mai 2026 · 283.949</span></span>
+    <span class="ti-i"><b style="color:#06d6a0">+70 % YoY</b><span>BESS Jan–Mai · 3,4 GWh</span></span>
+    <span class="ti-i"><b style="color:#ffb703">30+ MWh</b><span>CATL Natrium-Ionen ees Europe</span></span>
+    <span class="ti-i"><b style="color:#00c2ff">Power2Drive</b><span>München 23.–25. Juni</span></span>
+    <span class="ti-i"><b style="color:#ffb703">07.07.</b><span>NF-Förderung B/C Deadline</span></span>
+    <span class="ti-i"><b style="color:#06d6a0">Enercity</b><span>Smart Charging · 8.000+ LP</span></span>
+    <span class="ti-i"><b style="color:#ef476f">⚠</b><span>BESS Netzentgelt-Debatte DE</span></span>
+    <span class="ti-i"><b style="color:#06d6a0">+40,9 %</b><span>BEV Jan–Mai 2026 · 283.949</span></span>
+    <span class="ti-i"><b style="color:#06d6a0">+70 % YoY</b><span>BESS Jan–Mai · 3,4 GWh</span></span>
+    <span class="ti-i"><b style="color:#ffb703">30+ MWh</b><span>CATL Natrium-Ionen ees Europe</span></span>
+    <span class="ti-i"><b style="color:#00c2ff">Power2Drive</b><span>München 23.–25. Juni</span></span>
+    <span class="ti-i"><b style="color:#ffb703">07.07.</b><span>NF-Förderung B/C Deadline</span></span>
+    <span class="ti-i"><b style="color:#06d6a0">Enercity</b><span>Smart Charging · 8.000+ LP</span></span>
+    <span class="ti-i"><b style="color:#ef476f">⚠</b><span>BESS Netzentgelt-Debatte DE</span></span>
   </div>
 </div>
-<div class="wdelta" id="wdelta">
-  <div class="wdelta-head">
-    <span class="kw-badge">📊 KW 25 vs. KW 24</span>
-    <div>
-      <h2 class="wdelta-head-h2">Wochenvergleich</h2>
-      <p class="wdelta-sub">25. Juni vs. 17. Juni 2026</p>
-    </div>
+
+<div class="wd" id="wdelta">
+  <div class="wd-h">
+    <span class="kwb">📊 KW 25 vs. KW 24</span>
+    <div><h2 class="wd-h2">Wochenvergleich</h2><p class="wd-sub">25. Juni vs. 17. Juni 2026</p></div>
   </div>
-  <div class="wdc-grid">
-<div class="wdelta-title">
+  <div class="wg"><div class="wdelta-title">
     <span class="badge-kw">📊 KW 25 vs. KW 24</span>
     <div>
       <h2>Wochenvergleich – Was sich geändert hat</h2>
@@ -965,7 +472,7 @@ table {
           <div class="wdc-prev-val">59.969 (Mai-Einzelmonat)</div>
           <div>KBA 15.06.2026 · 23,9 % Anteil · +40,9 % YoY</div>
         </div>
-        <div class="wdc-arrow-center" style="color:#047857;">▲</div>
+        <div class="wdc-arrow-center">▲</div>
         <div class="wdc-col">
           <span class="wdc-col-label">KW 25</span>
           <div class="wdc-now">283.949</div>
@@ -981,7 +488,7 @@ table {
           <div class="wdc-prev-val">28 GWh Gesamtbestand Q1</div>
           <div>BSW-Solar zur ees Europe · +70 % YoY · 225.000 neue Anlagen</div>
         </div>
-        <div class="wdc-arrow-center" style="color:#047857;">▲</div>
+        <div class="wdc-arrow-center">▲</div>
         <div class="wdc-col">
           <span class="wdc-col-label">KW 25</span>
           <div class="wdc-now">3,4 GWh</div>
@@ -997,7 +504,7 @@ table {
           <div class="wdc-prev-val">120 GWp Gesamtbestand</div>
           <div>BSW-Solar · PV 2025: 19 % DE Nettostromerzeugung – mehr als Braunkohle</div>
         </div>
-        <div class="wdc-arrow-center" style="color:#047857;">▲</div>
+        <div class="wdc-arrow-center">▲</div>
         <div class="wdc-col">
           <span class="wdc-col-label">KW 25</span>
           <div class="wdc-now">6+ GWp</div>
@@ -1013,7 +520,7 @@ table {
           <div class="wdc-prev-val">keine Neuigkeit</div>
           <div>ees Europe München · Weltpremiere · Non-Lithium-Ära beginnt</div>
         </div>
-        <div class="wdc-arrow-center" style="color:#047857;">▲</div>
+        <div class="wdc-arrow-center">▲</div>
         <div class="wdc-col">
           <span class="wdc-col-label">KW 25</span>
           <div class="wdc-now">30+ MWh Block</div>
@@ -1029,7 +536,7 @@ table {
           <div class="wdc-prev-val">keine Neuigkeit</div>
           <div>Power2Drive München · Megawatt-Ladesystem für schwere NF · DACH-Focus</div>
         </div>
-        <div class="wdc-arrow-center" style="color:#047857;">▲</div>
+        <div class="wdc-arrow-center">▲</div>
         <div class="wdc-col">
           <span class="wdc-col-label">KW 25</span>
           <div class="wdc-now">Weltpremiere</div>
@@ -1045,7 +552,7 @@ table {
           <div class="wdc-prev-val">Speicherstrategie-Streit erwähnt</div>
           <div>150+ Unternehmen · Eco Stor-CEO warnt vor "Investitionsvakuum DE"</div>
         </div>
-        <div class="wdc-arrow-center" style="color:#b45309;">⚠</div>
+        <div class="wdc-arrow-center">⚠</div>
         <div class="wdc-col">
           <span class="wdc-col-label">KW 25</span>
           <div class="wdc-now">Eskaliert</div>
@@ -1061,7 +568,7 @@ table {
           <div class="wdc-prev-val">20 Tage verbleibend</div>
           <div>Frist 07.07.2026 – letzter Moment für vollständige Anträge</div>
         </div>
-        <div class="wdc-arrow-center" style="color:#b45309;">⚠</div>
+        <div class="wdc-arrow-center">⚠</div>
         <div class="wdc-col">
           <span class="wdc-col-label">KW 25</span>
           <div class="wdc-now">12 Tage</div>
@@ -1077,7 +584,7 @@ table {
           <div class="wdc-prev-val">~31 % HPC-Marktanteil</div>
           <div>Roemheld: Weniger LP-Zahl, mehr Ladeleistung je Standort</div>
         </div>
-        <div class="wdc-arrow-center" style="color:#047857;">▲</div>
+        <div class="wdc-arrow-center">▲</div>
         <div class="wdc-col">
           <span class="wdc-col-label">KW 25</span>
           <div class="wdc-now">Kapazitätsbasiert</div>
@@ -1093,7 +600,7 @@ table {
           <div class="wdc-prev-val">n/a</div>
           <div>electrive LIVE: dynamische Ladesteuerung als Kernkompetenz</div>
         </div>
-        <div class="wdc-arrow-center" style="color:#047857;">▲</div>
+        <div class="wdc-arrow-center">▲</div>
         <div class="wdc-col">
           <span class="wdc-col-label">KW 25</span>
           <div class="wdc-now">8.000+ LP DE</div>
@@ -1109,7 +616,7 @@ table {
           <div class="wdc-prev-val">n/a</div>
           <div>Neuer Rahmenvertrag ab 1.6.2026 · öffentl. Liegenschaften als CPO-Partnermodell</div>
         </div>
-        <div class="wdc-arrow-center" style="color:#047857;">▲</div>
+        <div class="wdc-arrow-center">▲</div>
         <div class="wdc-col">
           <span class="wdc-col-label">KW 25</span>
           <div class="wdc-now">SachsenEnergie</div>
@@ -1125,7 +632,7 @@ table {
           <div class="wdc-prev-val">bis 10 IPOs DE 2026 erwartet</div>
           <div>Unverändert · Green Bonds weiterhin attraktiv</div>
         </div>
-        <div class="wdc-arrow-center" style="color:#94a3b8;">→</div>
+        <div class="wdc-arrow-center">→</div>
         <div class="wdc-col">
           <span class="wdc-col-label">KW 25</span>
           <div class="wdc-now">Vorsichtig optimistisch</div>
@@ -1141,7 +648,7 @@ table {
           <div class="wdc-prev-val">P1-Priorität gesetzt</div>
           <div>Mercedes-Transporter-Deal – Zeitfenster für Partnerschaft läuft</div>
         </div>
-        <div class="wdc-arrow-center" style="color:#94a3b8;">→</div>
+        <div class="wdc-arrow-center">→</div>
         <div class="wdc-col">
           <span class="wdc-col-label">KW 25</span>
           <div class="wdc-now">Kontakt aufnehmen</div>
@@ -1150,17 +657,17 @@ table {
       <span class="wdc-badge">→ Nachverfolgen!</span>
     </div>
   </div>
-  <p><strong style="color:var(--steel);font-style:normal;">Lesehilfe:</strong> Grün = positiver Trend · Rot = Warnsignal · Orange = Handlungsbedarf/Risiko · Grau = stabil. Vergleich KW 24 = Stand 17. Juni 2026.</p>
-  </div>
-  <p class="wdelta-note">🟢 positiv · 🔴 Warnsignal · 🟡 Handlungsbedarf · ⚫ stabil</p>
+  <p><strong>Lesehilfe:</strong> Grün = positiver Trend · Rot = Warnsignal · Orange = Handlungsbedarf/Risiko · Grau = stabil. Vergleich KW 24 = Stand 17. Juni 2026.</p></div>
+  <p class="wd-note">🟢 positiv · 🔴 Warnsignal · 🟡 Handlungsbedarf · ⚫ stabil</p>
 </div>
+
 <!-- TOC -->
-<div class="toc-wrap">
+<div class="toc" id="toc-wrap">
   <div class="toc-bar" onclick="toggleToc()">
-    <div class="toc-bar-left">
+    <div class="toc-bar-l">
       <span>📋</span>
       <strong>Inhaltsverzeichnis</strong>
-      <span class="kw-badge">KW 25 · 25. Juni 2026</span>
+      <span class="kwb">KW 25 · 25. Juni 2026</span>
     </div>
     <button class="toc-toggle" id="toc-toggle" onclick="toggleToc()">
       <span id="toc-toggle-icon">▲ Einklappen</span>
@@ -1168,55 +675,58 @@ table {
   </div>
   <div id="toc-body" class="toc-body" id="toc-body">
 
-    <div class="toc-group-label">🔥 Highlights KW 25</div>
+    <div class="toc-gl">🔥 Highlights KW 25</div>
     <div class="toc-grid">
-      <a href="#wdelta" class="toc-link" data-section="wdelta"><span class="toc-num special">Δ</span>Wochenvergleich KW 24 → 25</a>
-      <a href="#s8"    class="toc-link" data-section="s8"><span class="toc-num special">🚛</span>Power2Drive Messe-Nachlese
-      <a href="#omp-ops" class="toc-link" data-section="omp-ops"><span class="toc-num special">⚙</span>Operation – Fahrstromumsatz</a>
-      <a href="#foerder" class="toc-link" data-section="foerder"><span class="toc-num special">💶</span>NF-Förderung B/C: 12 Tage bis 07.07.!</a>
-      <a href="#dooh"  class="toc-link" data-section="dooh"><span class="toc-num special">📺</span>DOOH – Werbeerlöse Göttingen &amp; Hannover</a>
-      <a href="#omp-mkt" class="toc-link" data-section="omp-mkt"><span class="toc-num special">📣</span>Marketing &amp; Kampagnen</a>
+      <a href="#wdelta" class="toc-a" data-section="wdelta"><span class="toc-n sp">Δ</span>Wochenvergleich KW 24 → 25</a>
+      <a href="#s8"    class="toc-a" data-section="s8"><span class="toc-n sp">🚛</span>Power2Drive Messe-Nachlese
+      <a href="#omp-ops" class="toc-a" data-section="omp-ops"><span class="toc-n sp">⚙</span>Operation – Fahrstromumsatz</a>
+      <a href="#foerder" class="toc-a" data-section="foerder"><span class="toc-n sp">💶</span>NF-Förderung B/C: 12 Tage bis 07.07.!</a>
+      <a href="#dooh"  class="toc-a" data-section="dooh"><span class="toc-n sp">📺</span>DOOH – Werbeerlöse Göttingen &amp; Hannover</a>
+      <a href="#omp-mkt" class="toc-a" data-section="omp-mkt"><span class="toc-n sp">📣</span>Marketing &amp; Kampagnen</a>
     </div>
 
-    <div class="toc-group-label">📊 Marktbericht</div>
+    <div class="toc-gl">📊 Marktbericht</div>
     <div class="toc-grid">
-      <a href="#s1" class="toc-link" data-section="s1"><span class="toc-num">1</span>Real Estate &amp; Ladeinfrastruktur</a>
-      <a href="#s2" class="toc-link" data-section="s2"><span class="toc-num">2</span>eMSP &amp; CPO – Wettbewerb</a>
-      <a href="#s3" class="toc-link" data-section="s3"><span class="toc-num">3</span>Backend &amp; Technologie</a>
-      <a href="#s4" class="toc-link" data-section="s4"><span class="toc-num">4</span>Energiewirtschaft · PV · BESS</a>
-      <a href="#s5" class="toc-link" data-section="s5"><span class="toc-num">5</span>Kapitalmarkt &amp; Green Bonds</a>
-      <a href="#s6" class="toc-link" data-section="s6"><span class="toc-num">6</span>OEM &amp; Handelsgruppen</a>
-      <a href="#s9" class="toc-link" data-section="s9"><span class="toc-num">9</span>Übergreifende Trends</a>
-      <a href="#s10" class="toc-link" data-section="s10"><span class="toc-num">10</span>Executive Summary &amp; Top-10</a>
+      <a href="#s1" class="toc-a" data-section="s1"><span class="toc-n">1</span>Real Estate &amp; Ladeinfrastruktur</a>
+      <a href="#s2" class="toc-a" data-section="s2"><span class="toc-n">2</span>eMSP &amp; CPO – Wettbewerb</a>
+      <a href="#s3" class="toc-a" data-section="s3"><span class="toc-n">3</span>Backend &amp; Technologie</a>
+      <a href="#s4" class="toc-a" data-section="s4"><span class="toc-n">4</span>Energiewirtschaft · PV · BESS</a>
+      <a href="#s5" class="toc-a" data-section="s5"><span class="toc-n">5</span>Kapitalmarkt &amp; Green Bonds</a>
+      <a href="#s6" class="toc-a" data-section="s6"><span class="toc-n">6</span>OEM &amp; Handelsgruppen</a>
+      <a href="#s9" class="toc-a" data-section="s9"><span class="toc-n">9</span>Übergreifende Trends</a>
+      <a href="#s10" class="toc-a" data-section="s10"><span class="toc-n">10</span>Executive Summary &amp; Top-10</a>
     </div>
 
-    <div class="toc-group-label">⚙ OMP-Rubriken &amp; Analyse</div>
+    <div class="toc-gl">⚙ OMP-Rubriken &amp; Analyse</div>
     <div class="toc-grid">
-      <a href="#omp-ops" class="toc-link" data-section="omp-ops"><span class="toc-num special">⚙</span>Operation – Standorte &amp; Maßnahmen</a>
-      <a href="#omp-mkt" class="toc-link" data-section="omp-mkt"><span class="toc-num special">📣</span>Marketing – Awareness &amp; Retention</a>
-      <a href="#dooh"    class="toc-link" data-section="dooh"><span class="toc-num special">📺</span>DOOH – Werbeerlöse an Ladesäulen</a>
-      <a href="#omp-prt" class="toc-link" data-section="omp-prt"><span class="toc-num special">🤝</span>Partnermanagement OEM &amp; Flotten</a>
-      <a href="#ca"      class="toc-link" data-section="ca"><span class="toc-num dark">↓</span>Unabhängige Analyse</a>
+      <a href="#omp-ops" class="toc-a" data-section="omp-ops"><span class="toc-n sp">⚙</span>Operation – Standorte &amp; Maßnahmen</a>
+      <a href="#omp-mkt" class="toc-a" data-section="omp-mkt"><span class="toc-n sp">📣</span>Marketing – Awareness &amp; Retention</a>
+      <a href="#dooh"    class="toc-a" data-section="dooh"><span class="toc-n sp">📺</span>DOOH – Werbeerlöse an Ladesäulen</a>
+      <a href="#omp-prt" class="toc-a" data-section="omp-prt"><span class="toc-n sp">🤝</span>Partnermanagement OEM &amp; Flotten</a>
+      <a href="#ca"      class="toc-a" data-section="ca"><span class="toc-num dark">↓</span>Unabhängige Analyse</a>
     </div>
 
-    <div class="toc-prog-wrap">
+    <div class="toc-pw">
       <span class="toc-progress-label">Lesefortschritt</span>
       <div class="toc-progress-bar">
-        <div id="toc-fill" id="toc-progress-fill"></div>
+        <div class="toc-progress-fill" id="tf"></div>
       </div>
-      <span id="toc-pct-lbl" id="toc-progress-pct">0 %</span>
+      <span id="tp" id="toc-progress-pct">0 %</span>
     </div>
 
   </div>
 </div>
-<div class="sec" id="s1">
-  <div class="sec-head">
-    <div class="sec-icon">🏢</div>
-    <div class="sec-meta">
-      <span class="sec-eye">Sektion 1 · KW 25</span>
-      <h2 class="sec-title">E-Mobilität &amp; Real Estate</h2>
+
+
+
+<div class="s" id="s1">
+  <div class="s-hd">
+    <div class="s-ic">🏢</div>
+    <div class="s-mt">
+      <span class="s-ey">Sektion 1 · KW 25</span>
+      <h2 class="s-ti">E-Mobilität &amp; Real Estate</h2>
     </div>
-    <button class="sec-share" onclick="shareSection('s1',this)" aria-label="Sektion teilen">🔗</button>
+    <button class="s-sh" onclick="share('s1',this)">🔗</button>
   </div>
 <div class="kpi-row">
     <div class="kpi"><div class="val">283.949</div><div class="lbl">BEV Neuzulassungen Jan–Mai 2026 (KBA, 15.06.) · 23,9 % Anteil · +40,9 % YoY</div></div>
@@ -1225,7 +735,7 @@ table {
     <div class="kpi up-kpi"><div class="val">2,03 Mio.</div><div class="lbl">BEV-Bestand DE (KBA, 1. Jan. 2026) · +23 % YoY</div></div>
   </div>
 
-  <div class="sub-cols">
+  
     
   <h3>📊 BEV-Markt Jan–Mai 2026: Solider Jahrestrend trotz Monatsschwankungen</h3>
   <p>Zum 15. Juni veröffentlichte das KBA die Halbjahreszwischenbilanz: In den ersten fünf Monaten 2026 wurden 283.949 Elektro-Pkw neu zugelassen – ein Anteil von 23,9 % am Gesamtzulassungsvolumen und ein Wachstum von 40,9 % gegenüber dem Vorjahreszeitraum. Das Gesamtvolumen alternativer Antriebe (BEV, PHEV, FCEV, Gas) erreichte 64,3 % – rund zwei Drittel aller Neuzulassungen. Die Monatsschwankungen (April 25,8 %, Mai 25,0 %) sind normal, der Jahrestrend bleibt klar aufwärtsgerichtet. Spitzenmodell Jan–Mai: Škoda Elroq (16.823), vor VW ID.3 (14.726) und Tesla Model Y (13.678).</p>
@@ -1237,20 +747,20 @@ table {
   <div class="alert amber"><strong>⚠ KW 25 Handlungsbedarf:</strong> Aufruf B/C läuft in 12 Tagen ab. Wer einen Antrag stellen will, muss JETZT den Kostenvoranschlag fertigstellen und den Netzanschluss beim Netzbetreiber angemeldet haben (Pflichtvoraussetzung). Noch kein Antrag? Sofort IO-Dynamics, emobicon oder chargemaker.de kontaktieren für professionelle Antragsvorbereitung.</div>
 
     
-    <div class="full-width-block">
+    
   <h3>KW 25 – Wichtige Präzisierung: Aufruf A ist WEITERHIN OFFEN</h3>
-  <div class="tbl"><table>
+  <table>
     <thead><tr><th>Aufruf</th><th>Zielgruppe</th><th>Verfahren</th><th>Frist</th><th>Status KW 25</th></tr></thead>
     <tbody>
       <tr><td><strong>Aufruf A (KMU)</strong></td><td>KMU · nicht-öffentlich</td><td>Windhundprinzip · 50 Mio. €</td><td>05.06.–30.09.2026</td><td><span class="f-aktiv">✅ WEITERHIN OFFEN · Mittel aufgestockt nach 5.6.</span></td></tr>
       <tr><td><strong>Aufruf B (alle)</strong></td><td>Alle Unternehmen · nicht-öffentlich</td><td>Wettbewerb: €/kW · 150 Mio. €</td><td>26.05.–07.07.2026</td><td><span class="f-warn">⚠ ENDET IN 12 TAGEN</span></td></tr>
       <tr><td><strong>Aufruf C (öffentlich)</strong></td><td>Privatrecht · AFIR-Standorte · ≥100 kW/LP · ≥1.500 kW/Standort</td><td>Wettbewerb: €/kW · Teil 150 Mio. €</td><td>26.05.–07.07.2026</td><td><span class="f-warn">⚠ ENDET IN 12 TAGEN</span></td></tr>
     </tbody>
-  </table></div>
+  </table>
 
   <div class="foerder-box" id="foerder">
     <div class="foerder-box-title">💶 Förderübersicht Real Estate &amp; Ladeinfrastruktur – KW 25</div>
-    <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%;"><div class="tbl"><table class="foerder-table">
+    <table class="foerder-table">
       <thead><tr><th>Programm</th><th>Förderung</th><th>Zielgruppe</th><th>Status KW 25</th><th>Portal</th></tr></thead>
       <tbody>
         <tr><td><strong>BMV NF KMU (Aufruf A)</strong></td><td>500 €/kW · max. 1 Mio. €</td><td>KMU · nicht-öffentliche Depot-Infra</td><td><span class="f-aktiv">✅ OFFEN bis 30.09.2026</span></td><td>easy-online.de</td></tr>
@@ -1260,7 +770,7 @@ table {
         <tr><td><strong>Superabschreibung §7g EStG</strong></td><td>30 % degressive AfA</td><td>Gewerbliche Investoren</td><td><span class="f-aktiv">✅ bis 31.12.2027</span></td><td>Steuerberater</td></tr>
         <tr><td><strong>GEIG (EPBD)</strong></td><td>Gesetzespflicht</td><td>Alle Neubauten</td><td><span class="f-aktiv">✅ wirksam seit 29.05.2026</span></td><td>Bauantrag</td></tr>
       </tbody>
-    </table></div>
+    </table>
     <div class="foerder-contact">📞 Aufruf B/C (JETZT!): <a href="https://easy-online.de" target="_blank">easy-online.de</a> &nbsp;·&nbsp; Aufruf A: <a href="https://ptj.de" target="_blank">ptj.de</a> &nbsp;·&nbsp; WEG: <a href="https://laden-im-mehrparteienhaus.de" target="_blank">laden-im-mehrparteienhaus.de</a></div>
   </div>
   <div class="sources">
@@ -1269,7 +779,7 @@ table {
     <a href="https://chargemaker.de" class="src" target="_blank" rel="noopener">chargemaker.de – Förderfristen NF-Ladeinfra (Juni 2026)</a>
     <span class="src">Business Insider DE – Beliebteste E-Autos 2026 (Juni 2026)</span>
   </div>
-</div>
+
 
 <div class="section" id="s2">
     <div class="kpi-row">
@@ -1281,7 +791,7 @@ table {
 
     </div>
     
-  <div class="sub-cols">
+  
     
   <h3>🌍 KW 25: Roaming-Ökosystem wächst – Hubject × Flipturn</h3>
   <p>Hubject hat die nordamerikanische Plattform Flipturn angebunden, die EV-Flottenmanagement für Fortune-500-Unternehmen bereitstellt. Ziel ist die Einbindung privater Depots als Ladeoption – Flipturn wird dabei selbst als CPO an das Hubject-Netzwerk angeschlossen. Für CutPower strategisch interessant: Das bestätigt den Trend, dass private/halböffentliche Depot-Infrastruktur zunehmend Teil des regulären Roaming-Ökosystems wird – exakt das Modell, das auch für ein CutPower-Depot-CPO-Angebot mit Roaming-Anbindung sinnvoll ist.</p>
@@ -1294,12 +804,12 @@ table {
   <p>Ford hat sich für sein Ladeinfrastruktur-Management (LIM) für die Backend-Plattform Chargecloud entschieden. Das ist ein weiteres Signal, dass OEMs zunehmend auf spezialisierte CPMS-Anbieter statt auf Eigenentwicklung setzen – relevant für die Backend-Diskussion in Sektion 3 und die KMU-CPO-Empfehlung dort.</p>
 
     
-    <div class="full-width-block">
-    </div>
-    <div class="full-width-block">
+    
+    
+    
   <h3>CPO-Marktranking HPC DE – nach Marktanteil · mit Relevanz für CutPower (Elvah H2/2025)</h3>
   <p>Alle Zeilen durchnummeriert (1–14) · Spalte „Was das für CutPower bedeutet" zeigt konkrete Handlungsoptionen, keine abstrakten Kategorien</p>
-  <div class="tbl"><table>
+  <table>
     <thead>
       <tr>
         <th>Nr.</th>
@@ -1425,12 +935,14 @@ table {
         <td><strong>⚠ Doppelrolle – jetzt entscheiden:</strong> TruckCharge ist Konkurrent UND potenzieller Roaming-Partner. Konkurrent: besetzt Depot-Standorte bei Speditionen, die CutPower anvisiert. Roaming-Partner: 3.000 LP geben CutPower-Kunden mehr Reichweite. Empfehlung: Roaming-Partnerschaftsanfrage stellen UND gleichzeitig Depot-Akquise beschleunigen – bevor TruckCharge die besten Standorte hat.</td>
       </tr>
     </tbody>
-  </table></div>
-    <div class="full-width-block">
-    </div>
-    <div class="full-width-block">
+  </table>
+
+    
+    
+    
+    
   <h3>Roaming-Pflichtliste – Vollständig nummeriert (Stand KW 25)</h3>
-  <div class="tbl"><table>
+  <table>
     <thead>
       <tr>
         <th>Nr.</th>
@@ -1484,17 +996,17 @@ table {
         <td>OCPI-Echtzeit-Feed aktivieren. ABRP ist der de-facto-Standard für Reiseplanung bei Vielladern. Wer ABRP-Nutzer nicht als Roaming-Kunden an den Autobahnstandorten (A2/A7/A27) anzieht, lässt erhebliches Umsatzpotenzial liegen.</td>
       </tr>
     </tbody>
-  </table></div>
+  </table>
   <div class="foerder-box">
     <div class="foerder-box-title">💶 Förderübersicht CPO/eMSP-Betrieb – KW 25</div>
-    <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%;"><div class="tbl"><table class="foerder-table">
+    <table class="foerder-table">
       <thead><tr><th>Instrument</th><th>Relevanz CPO</th><th>Status</th></tr></thead>
       <tbody>
         <tr><td><strong>§14a EnWG Netzentgelt-Rabatt</strong></td><td>Sehr hoch – 15–25 % Kostensenkung HPC</td><td><span class="f-aktiv">✅ bis Aug. 2029</span></td></tr>
         <tr><td><strong>THG-Quote (~0,16 €/kWh)</strong></td><td>Sehr hoch – direkter Erlösstrom CPO</td><td><span class="f-aktiv">✅ 2026 aktiv</span></td></tr>
         <tr><td><strong>AFIR Pflicht-HPC TEN-T</strong></td><td>Sehr hoch – Standortchancen Autobahn</td><td><span class="f-aktiv">✅ Rollout aktiv</span></td></tr>
       </tbody>
-    </table></div>
+    </table>
     <div class="foerder-contact">📞 §14a-Antrag: Beim jeweiligen Netzbetreiber · THG-Quote: LichtBlick, Vattenfall, The Green Horizon</div>
   </div>
   <div class="sources">
@@ -1504,20 +1016,14 @@ table {
   </div>
 </div>
 
-
+<div class="s" id="s2">
+  <div class="s-hd">
+    <div class="s-ic">⚡</div>
+    <div class="s-mt">
+      <span class="s-ey">Sektion 2 · KW 25</span>
+      <h2 class="s-ti">eMSP &amp; CPO – Wettbewerb</h2>
     </div>
-  </div>
-
-    </div>
-
-<div class="sec" id="s2">
-  <div class="sec-head">
-    <div class="sec-icon">⚡</div>
-    <div class="sec-meta">
-      <span class="sec-eye">Sektion 2 · KW 25</span>
-      <h2 class="sec-title">eMSP &amp; CPO – Wettbewerb</h2>
-    </div>
-    <button class="sec-share" onclick="shareSection('s2',this)" aria-label="Sektion teilen">🔗</button>
+    <button class="s-sh" onclick="share('s2',this)">🔗</button>
   </div>
 <div class="kpi-row">
     <div class="kpi"><div class="val">~31 %</div><div class="lbl">EnBW HPC-Marktanteil (Elvah H2/2025) – Marktführer</div></div>
@@ -1526,24 +1032,23 @@ table {
     <div class="kpi up-kpi"><div class="val">NRW #1</div><div class="lbl">Erstmals NRW führt Ladenetz-Bundesland-Ranking 2026</div></div>
   </div>
 </div>
-<div class="sec" id="s3">
-  <div class="sec-head">
-    <div class="sec-icon">🖥</div>
-    <div class="sec-meta">
-      <span class="sec-eye">Sektion 3 · KW 25</span>
-      <h2 class="sec-title">Backend &amp; Plattformen</h2>
+
+<div class="s" id="s3">
+  <div class="s-hd">
+    <div class="s-ic">🖥</div>
+    <div class="s-mt">
+      <span class="s-ey">Sektion 3 · KW 25</span>
+      <h2 class="s-ti">Backend &amp; Plattformen</h2>
     </div>
-    <button class="sec-share" onclick="shareSection('s3',this)" aria-label="Sektion teilen">🔗</button>
+    <button class="s-sh" onclick="share('s3',this)">🔗</button>
   </div>
-<div class="sub-cols">
-    <div class="full-width-block">
-  <h3>🚗 KW 25: Ford × Chargecloud – OEMs setzen auf spezialisierte CPMS</h3>
+<h3>🚗 KW 25: Ford × Chargecloud – OEMs setzen auf spezialisierte CPMS</h3>
   <p>Ford hat sich für sein Ladeinfrastruktur-Management (LIM) für die Backend-Plattform Chargecloud entschieden, statt eine Eigenlösung zu bauen. Das bestätigt einen klaren Trend: Selbst große OEMs mit Entwicklungskapazität entscheiden sich gegen Eigenbau und für spezialisierte CPMS-Anbieter. Für die KMU-CPO-Empfehlung in diesem Briefing (siehe unten) ist das ein zusätzliches Argument: Wenn Ford lieber eine etablierte Plattform lizenziert als selbst zu entwickeln, gilt das für einen 18-Standorte-KMU-CPO umso mehr.</p>
-    </div>
-    <div class="full-width-block">
+    
+    
   <h3>CPMS-Plattformen Vollvergleich – nach DACH-Relevanz (KW 25)</h3>
 
-  <div class="tbl"><table>
+  <table>
     <thead><tr><th>Plattform</th><th>Anbieter</th><th>OCPP</th><th>eMSP</th><th>V2G</th><th>Smart Energy</th><th>DACH-Reife</th><th>Ideal für</th></tr></thead>
     <tbody>
       <tr><td><strong>Virta Platform</strong></td><td>Virta / FI</td><td>2.0.1 ✅</td><td>✅</td><td>✅</td><td>✅ KI</td><td>🟢 Etabliert</td><td>CPO 50–5.000 LP, White-Label, DE/AT/CH</td></tr>
@@ -1557,8 +1062,9 @@ table {
       <tr><td><strong>GreenFlux (VW)</strong></td><td>GreenFlux / NL</td><td>1.6+2.0.1</td><td>Limitiert</td><td>Via Elli</td><td>Teilweise</td><td>🟡 OEM-Lock-in</td><td>VW-Ökosystem, Lock-in prüfen</td></tr>
       <tr><td><strong>Webcharge/Scopviz</strong></td><td>Scopviz / DE</td><td>1.6+2.0.1</td><td>✅</td><td>In Entw.</td><td>Teilweise</td><td>🟡 DE-Nische</td><td>Stadtwerke, regionale Versorger</td></tr>
     </tbody>
-  </table></div>
-    <div class="full-width-block">
+  </table>
+    
+    
   <h3>🎯 Nutzungsempfehlung: Welche Plattform für einen KMU-CPO mit 18 Standorten?</h3>
 
   <div>
@@ -1595,8 +1101,8 @@ table {
         <div>🥇 Empfehlung #1 · Beste Gesamtlösung</div>
         <div>Virta Platform</div>
         <div>Vollständige CPO+eMSP-Lösung aus einer Hand. White-Label-Ladekarte sofort. OCPP 2.0.1 + OCPI 2.2.1 nativ. V2G via ISO 15118-20 unterstützt. KI-Energieoptimierung und dynamische Tarife inkludiert. Beste DACH-Referenzen für 10–200 LP-Netze. Auch bei Legacy-Säulen (OCPP 1.6) kompatibel.</div>
-        <div><strong style="color:rgba(255,255,255,.8);">Kosten (Schätzung):</strong> ~500–1.500 €/Monat für 18 Standorte (je nach Vertrag). Skaliert modular mit LP-Anzahl.</div>
-        <div><strong style="color:rgba(255,255,255,.8);">Ideal weil:</strong> Alles in einem. Kein separater eMSP-Stack. V2G-ready. DACH-Support vorhanden. Gut dokumentierte API für eigene Erweiterungen.</div>
+        <div><strong>Kosten (Schätzung):</strong> ~500–1.500 €/Monat für 18 Standorte (je nach Vertrag). Skaliert modular mit LP-Anzahl.</div>
+        <div><strong>Ideal weil:</strong> Alles in einem. Kein separater eMSP-Stack. V2G-ready. DACH-Support vorhanden. Gut dokumentierte API für eigene Erweiterungen.</div>
         <div><a href="https://virta.global" target="_blank">→ virta.global</a></div>
       </div>
 
@@ -1604,8 +1110,8 @@ table {
         <div>🥈 Empfehlung #2 · DACH-Nativ</div>
         <div>KAWAT (Zunder)</div>
         <div>Neu am Markt (Mai 2026), aber expliziter DACH-Fokus. Kombination CPO-Backend + eMSP in einem System. Direkter Ansprechpartner auf Deutsch. OCPP 2.0.1 nativ. White-Label-eMSP für eigene Ladekarte. Günstigeres Einstiegspreismodell als etablierte Player. V2G in Entwicklung.</div>
-        <div><strong style="color:rgba(255,255,255,.8);">Kosten (Schätzung):</strong> Wahrscheinlich günstiger als Virta – genaue Preise noch im Aufbau, aber KMU-freundliches Modell kommuniziert.</div>
-        <div><strong style="color:rgba(255,255,255,.8);">Risiko:</strong> Neu am Markt – weniger Referenzkunden, noch kein V2G, Support-Strukturen im Aufbau. Als Early Adopter Einfluss auf Produktentwicklung möglich.</div>
+        <div><strong>Kosten (Schätzung):</strong> Wahrscheinlich günstiger als Virta – genaue Preise noch im Aufbau, aber KMU-freundliches Modell kommuniziert.</div>
+        <div><strong>Risiko:</strong> Neu am Markt – weniger Referenzkunden, noch kein V2G, Support-Strukturen im Aufbau. Als Early Adopter Einfluss auf Produktentwicklung möglich.</div>
         <div><a href="https://zunder.com/kawat" target="_blank">→ zunder.com/kawat</a></div>
       </div>
 
@@ -1613,8 +1119,8 @@ table {
         <div>🔀 Alternative · Modular</div>
         <div>Monta (CPMS) + separate eMSP-Lösung</div>
         <div>Monta ist die einfachste, schnellste Onboarding-Lösung für KMU – besonders für Workplace-Charging und gemischte AC/DC-Standorte. Sehr gute UX. Wenn eMSP und White-Label-Karte separat via Maingau oder eigener OCPI-Anbindung realisiert wird, entsteht ein flexibler Stack.</div>
-        <div><strong style="color:rgba(255,255,255,.8);">Kosten:</strong> Monta ab ~150 €/Monat für kleinere Netze. eMSP-Kosten separat kalkulieren.</div>
-        <div><strong style="color:rgba(255,255,255,.8);">Geeignet wenn:</strong> Kein V2G-Plan kurzfristig, primär AC-Standorte, schneller Betriebsstart wichtiger als Vollintegration.</div>
+        <div><strong>Kosten:</strong> Monta ab ~150 €/Monat für kleinere Netze. eMSP-Kosten separat kalkulieren.</div>
+        <div><strong>Geeignet wenn:</strong> Kein V2G-Plan kurzfristig, primär AC-Standorte, schneller Betriebsstart wichtiger als Vollintegration.</div>
         <div><a href="https://monta.com/de" target="_blank">→ monta.com/de</a></div>
       </div>
 
@@ -1623,7 +1129,7 @@ table {
     <!-- ENTSCHEIDUNGSMATRIX -->
     <div>Entscheidungsmatrix für 18-Standorte-KMU-CPO</div>
     <div class="dark-matrix">
-    <div class="tbl"><table>
+    <table>
       <thead><tr>
         <th>Kriterium</th>
         <th>Virta 🥇</th>
@@ -1698,11 +1204,12 @@ table {
           <td>✅ vollständig</td>
         </tr>
       </tbody>
-    </table></div>
+    </table>
+    </div>
 
     
     </div>
-  </div>
+  
 <!-- SCHRITT-FÜR-SCHRITT -->
     <div>
       <div>Empfohlene Vorgehensweise für CutPower (18 Standorte)</div>
@@ -1723,11 +1230,11 @@ table {
     </div>
 
     <div>
-      <strong style="color:#ff6b8a;">⚠ Was nicht zu tun ist:</strong> Driivz oder Ampeco für 18 Standorte evaluieren – beide sind Enterprise-Plattformen mit entsprechenden Mindestverträgen und Onboarding-Aufwand. Sinnvoll erst ab ~500 LP. Auch GreenFlux (VW-Tochter) vermeiden: bedingt OEM-Lock-in und schränkt Flexibilität bei Tarif- und Roaming-Gestaltung ein. <strong style="color:#fff;">KW-24-Ergänzung:</strong> Chargecloud (von Ford fürs LIM gewählt) ist primär auf OEM-Flottenmanagement und größere Unternehmensnetze ausgelegt – für 18 eigene CPO-Standorte mit eMSP-Ambition bleibt Virta/KAWAT die passendere Größenordnung.</div>
-  </div>
+      <strong>⚠ Was nicht zu tun ist:</strong> Driivz oder Ampeco für 18 Standorte evaluieren – beide sind Enterprise-Plattformen mit entsprechenden Mindestverträgen und Onboarding-Aufwand. Sinnvoll erst ab ~500 LP. Auch GreenFlux (VW-Tochter) vermeiden: bedingt OEM-Lock-in und schränkt Flexibilität bei Tarif- und Roaming-Gestaltung ein. <strong>KW-24-Ergänzung:</strong> Chargecloud (von Ford fürs LIM gewählt) ist primär auf OEM-Flottenmanagement und größere Unternehmensnetze ausgelegt – für 18 eigene CPO-Standorte mit eMSP-Ambition bleibt Virta/KAWAT die passendere Größenordnung.</div>
+  
 
   <h3>KW 25 Technologie-Highlights</h3>
-  <div class="tbl"><table>
+  <table>
     <thead><tr><th>Trend</th><th>Status KW 25</th><th>Impact CPO</th></tr></thead>
     <tbody>
       <tr><td><strong>Ford × Chargecloud</strong></td><td>OEM wählt spezialisierten CPMS-Anbieter fürs LIM statt Eigenbau</td><td>Hoch – bestätigt Build-vs-Buy-Trend auch für KMU-CPOs</td></tr>
@@ -1736,17 +1243,18 @@ table {
       <tr><td><strong>OCPP 2.0.1 als Pflicht-Standard</strong></td><td>AFIR-Umsetzung · Driivz einzige OCPP-2.0.1-zertif. Plattform</td><td>Hoch – Legacy-Systeme müssen migrieren</td></tr>
       <tr><td><strong>Dynamische Tarife / KI-Pricing</strong></td><td>EnBW, IONITY, Virta/KAWAT live</td><td>Sehr hoch – Auslastungsoptimierung</td></tr>
     </tbody>
-  </table></div>
+  </table>
   <div class="foerder-box">
     <div class="foerder-box-title">💶 Förderübersicht Backend &amp; Technologie – KW 25</div>
-    <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%;"><div class="tbl"><table class="foerder-table">
+    <table class="foerder-table">
       <thead><tr><th>Programm</th><th>Förderung</th><th>Relevanz</th><th>Status</th></tr></thead>
       <tbody>
         <tr><td><strong>ZIM (Zentrales Innovationsprogramm)</strong></td><td>Bis 55 % auf F&amp;E-Kosten (max. 2,3 Mio. €)</td><td>Hoch – CPMS/V2G-Eigenentwicklung</td><td><span class="f-aktiv">✅ Dauerhaft</span></td></tr>
         <tr><td><strong>KfW Digitalisierungskredit</strong></td><td>Zinsgünstig, 25.000–25 Mio. €</td><td>Mittel – Plattformausbau</td><td><span class="f-aktiv">✅ Aktiv</span></td></tr>
         <tr><td><strong>EU Horizon Europe (V2G/KI)</strong></td><td>Zuschüsse für V2G/Smart Charging Projekte</td><td>Hoch bei V2G-Projekten</td><td><span class="f-aktiv">✅ Calls 2026 offen</span></td></tr>
       </tbody>
-    </table></div>
+    </table>
+  </div>
   <div class="sources">
     <a href="https://electrive.net" class="src" target="_blank" rel="noopener">electrive.net – Ford × Chargecloud (Juni 2026)</a>
     <span class="src">Wikipedia – Hubject × Flipturn (2026)</span>
@@ -1754,14 +1262,15 @@ table {
     <span class="src">Driivz 2026 State of EV Charging Report</span>
   </div>
 </div>
-<div class="sec" id="s4">
-  <div class="sec-head">
-    <div class="sec-icon">🔋</div>
-    <div class="sec-meta">
-      <span class="sec-eye">Sektion 4 · KW 25</span>
-      <h2 class="sec-title">Energiewirtschaft</h2>
+
+<div class="s" id="s4">
+  <div class="s-hd">
+    <div class="s-ic">🔋</div>
+    <div class="s-mt">
+      <span class="s-ey">Sektion 4 · KW 25</span>
+      <h2 class="s-ti">Energiewirtschaft</h2>
     </div>
-    <button class="sec-share" onclick="shareSection('s4',this)" aria-label="Sektion teilen">🔗</button>
+    <button class="s-sh" onclick="share('s4',this)">🔗</button>
   </div>
 <div class="kpi-row">
     <div class="kpi up-kpi"><div class="val">3,4 GWh</div><div class="delta pos">▲ +70 % YoY</div><div class="lbl">BESS-Zubau Jan–Mai 2026 (BSW-Solar, 23.06.2026)</div></div>
@@ -1770,7 +1279,7 @@ table {
     <div class="kpi warn"><div class="val">⚠ Netzentgelt</div><div class="lbl">150+ Unternehmen fordern Planungssicherheit · Eco Stor-CEO warnt vor "Investitionsvakuum"</div></div>
   </div>
 
-  <div class="sub-cols">
+  
     
   <h3>⭐ KW 25: ees Europe München – BESS-Markt zeigt Muskeln, aber auch Nerven</h3>
   <p>Zur Eröffnung der ees Europe 2026 (23.–25. Juni, Messe München) veröffentlichte BSW-Solar neue Marktdaten: In den ersten fünf Monaten 2026 wurden 225.000 neue Batteriespeicher-Anlagen mit einer Gesamtkapazität von rund 3,4 GWh in Betrieb genommen – rund 70 % mehr als im vergleichbaren Vorjahreszeitraum. Großspeicher (Large-Scale BESS) sind der eigentliche Wachstumstreiber. Im EU-Vergleich wurden 2025 insgesamt 27,1 GWh neue BESS-Kapazität installiert, 55 % davon als Großprojekte vollständig ohne öffentliche Subventionen – ein Beleg für die wirtschaftliche Eigenständigkeit des Segments.</p>
@@ -1783,19 +1292,19 @@ table {
   <p>Weitere ees-Europe-Highlights: Trina Storage (Elementa + Electra, 25 MWh, integriert DC+AC), Fluence Smartstack 10 MWh mit 40 % reduzierten Balance-of-Plant-Kosten, Sungrow PowerStack 255CS für C&I-Anwendungen.</p>
 
     
-    <div class="full-width-block">
+    
   <h3>⚠ Kritisches Risiko: Netzentgelt-Debatte gefährdet BESS-Investitionen in Deutschland</h3>
   <p>Georg Gallmetzer, CEO von Eco Stor, warnte auf der Intersolar Europe vor einem "Investitionsvakuum": Die Bundesnetzagentur diskutiert mögliche Änderungen an der Netzentgelt-Befreiung für Batteriespeicher, was die Projektkalkulation für mehr als 150 Unternehmen auf den Kopf stellen würde. Diese Unternehmen haben sich zusammengeschlossen, um stabile, investitionsfreundliche Rahmenbedingungen zu fordern. Im Kern geht es um die Frage, ob Batteriespeicher weiterhin von der doppelten Netzentgeltbelastung (beim Laden UND beim Einspeisen) befreit bleiben. Eine Abkehr von dieser Befreiung würde die Wirtschaftlichkeit von BESS-Projekten substanziell verschlechtern.</p>
   <div class="alert amber"><strong>⚠ Auswirkung auf CutPower-BESS-Planung:</strong> Solange die Netzentgelt-Debatte offen ist, sollten neue BESS-Projekte >100 kW mit einem Worst-Case-Szenario ohne Befreiung kalkuliert werden. Bestehende Speicher-Investments sind durch Vertrauensschutz geschützt. Für neue Projekte: Engere Abstimmung mit Rechts- und Steuerberatern empfohlen.</div>
 
-    </div>
-    <div class="full-width-block">
+    
+    
   <h3>🤖 KW 25: Multi-Use-BESS als neues Standard-Paradigma</h3>
   <p>Das Münchner Startup Otter Energy Trading demonstrierte auf der ees Europe, wie Multi-Use-Speicher gleichzeitig Eigenverbrauchsoptimierung, Peak-Shaving UND automatisierten Börsenstromhandel leisten – auch im Winter, wenn PV keine Rolle spielt. Neue MiSpeL-Regulatorik macht co-located Speicher erstmals vollständig handelsfähig. Das Fazit: "In wenigen Jahren wird niemand mehr reine Grünstromspeicher bauen." Für CutPower: BESS-Planung an neuen Standorten immer als Multi-Use-Asset konzipieren.</p>
 
   <div class="foerder-box">
     <div class="foerder-box-title">💶 Förderübersicht Energiewirtschaft PV &amp; BESS – KW 25</div>
-    <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%;"><div class="tbl"><table class="foerder-table">
+    <table class="foerder-table">
       <thead><tr><th>Programm</th><th>Förderung</th><th>Status KW 25</th><th>Δ vs. KW 24</th></tr></thead>
       <tbody>
         <tr><td><strong>Superabschreibung §7g EStG</strong></td><td>30 % degressive AfA BESS + PV</td><td><span class="f-aktiv">✅ bis 31.12.2027</span></td><td>Keine Änderung</td></tr>
@@ -1804,7 +1313,7 @@ table {
         <tr><td><strong>MiSpeL Regulatorik</strong></td><td>Co-located Speicher vollständig handelsfähig</td><td><span class="f-aktiv">✅ Neu 2026</span></td><td>▲ NEU</td></tr>
         <tr><td><strong>EEG-Einspeisevergütung</strong></td><td>7,71 ct/kWh ab 01.08.2026</td><td><span class="f-warn">⚠ Sinkt weiter</span></td><td>Energy Sharing wird attraktiver</td></tr>
       </tbody>
-    </table></div>
+    </table>
     <div class="foerder-contact">📞 Otter Energy Trading (BESS-Handel): <a href="https://otter-energy-trading.com" target="_blank">otter-energy-trading.com</a> · FCR/aFRR: <a href="https://www.next-kraftwerke.de" target="_blank">next-kraftwerke.de</a></div>
   </div>
   <div class="sources">
@@ -1814,7 +1323,7 @@ table {
     <a href="https://solarserver.de" class="src" target="_blank" rel="noopener">solarserver.de – Intersolar 2026: Großspeicher und PV-Hybridanlagen (Mai 2026)</a>
     <a href="https://sonnenseite.com" class="src" target="_blank" rel="noopener">sonnenseite.com – Solarstrom überholt Braunkohle und Erdgas (23.06.2026)</a>
   </div>
-</div>
+
 
 <div class="section" id="s5">
     <div class="kpi-row">
@@ -1825,12 +1334,12 @@ table {
   </div>
   <p>Nach einem schwachen Jahr 2025 zeichnet sich für 2026 eine Renaissance ab: Goldman Sachs prognostiziert für die USA ein Emissionsvolumen von 160 Milliarden Dollar, in Deutschland werden bis zu zehn bedeutende IPOs erwartet – getrieben von KI, Verteidigung und E-Mobilität. Beim EU Green Bond Standard (EUGB) haben sich bislang 14 Unternehmen für das neue, besonders taxonomiekonforme Format entschieden, darunter mit Euro-grid GmbH auch ein deutscher Netzbetreiber. Green Bonds bleiben mit 17 % ESG-Anteil an Euro-Unternehmensanleihen 2025 ein etabliertes Finanzierungsinstrument, auch wenn der Anteil leicht rückläufig war.</p>
     </div>
-    <div class="full-width-block">
+    
   <h3>💡 Referenzgröße für eigene Finanzierung: Haller Capital</h3>
   <p>Haller Capital, Finanzdienstleister der Haller-Unternehmensgruppe, hat als internationale Plattform für Green-Tech-Finanzierungen einen ersten Green Bond über 2,5 Millionen Euro aufgelegt – speziell für kleine und mittelständische Unternehmen mit Zugang zu modernen Technologien und realen Assets. Diese Größenordnung ist eine realistische Referenz für einen CPO mit 18–50 Standorten: deutlich kleiner als die institutionellen EUGB-Emissionen, aber strukturell vergleichbar.</p>
   <div class="foerder-box">
     <div class="foerder-box-title">💶 Finanzierungsinstrumente Kapitalmarkt – KW 25</div>
-    <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%;"><div class="tbl"><table class="foerder-table">
+    <table class="foerder-table">
       <thead><tr><th>Instrument</th><th>Konditionen</th><th>Relevanz</th><th>Status</th></tr></thead>
       <tbody>
         <tr><td><strong>EU Green Bond Standard (EuGB)</strong></td><td>Freiwillig · EU-Taxonomie-Pflicht</td><td>Sehr hoch – PV+BESS+CPO taxonomiefähig</td><td><span class="f-aktiv">✅ seit Dez. 2024 · 14 Emittenten</span></td></tr>
@@ -1839,7 +1348,7 @@ table {
         <tr><td><strong>KfW Unternehmerkredit</strong></td><td>Ab 2 % p.a. · bis 25 Mio. €</td><td>Hoch – Ladeinfra förderfähig</td><td><span class="f-aktiv">✅ Aktiv</span></td></tr>
         <tr><td><strong>Mini-Bond / Schuldscheindarlehen</strong></td><td>Privat · ab 5 Mio. € sinnvoll</td><td>Hoch – &lt;20 Mio. € effizienter als Anleihe</td><td><span class="f-aktiv">✅ Verfügbar</span></td></tr>
       </tbody>
-    </table></div>
+    </table>
     <div class="foerder-contact">📞 EY Martin Steinbach: <a href="mailto:martin.steinbach@de.ey.com">martin.steinbach@de.ey.com</a> · KfW: <a href="https://www.kfw.de" target="_blank">kfw.de</a> · Haller Capital: über Haller Group</div>
   </div>
   <div class="sources">
@@ -1849,17 +1358,14 @@ table {
   </div>
 </div>
 
-
+<div class="s" id="s5">
+  <div class="s-hd">
+    <div class="s-ic">📈</div>
+    <div class="s-mt">
+      <span class="s-ey">Sektion 5 · KW 25</span>
+      <h2 class="s-ti">Kapitalmarkt</h2>
     </div>
-</div>
-<div class="sec" id="s5">
-  <div class="sec-head">
-    <div class="sec-icon">📈</div>
-    <div class="sec-meta">
-      <span class="sec-eye">Sektion 5 · KW 25</span>
-      <h2 class="sec-title">Kapitalmarkt</h2>
-    </div>
-    <button class="sec-share" onclick="shareSection('s5',this)" aria-label="Sektion teilen">🔗</button>
+    <button class="s-sh" onclick="share('s5',this)">🔗</button>
   </div>
 <div class="kpi-row">
     <div class="kpi"><div class="val">Bis 10 IPOs</div><div class="lbl">Erwartete bedeutende Börsengänge DE 2026 (Branchenprognose, Goldman Sachs Umfeld)</div></div>
@@ -1869,14 +1375,15 @@ table {
   </div>
   <p>Nach einem schwachen Jahr 2025 zeichnet sich für 2026 eine Renaissance ab: Goldman Sachs prognostiziert für die USA ein Emissionsvolumen von 160 Milliarden Dollar, in Deutschland werden bis zu zehn bedeutende IPOs erwartet – getrieben von KI, Verteidigung und E-Mobilität. Beim EU Green Bond Standard (EUGB) haben sich bislang 14 Unternehmen für das neue, besonders taxonomiekonforme Format entschieden, darunter mit Euro-grid GmbH auch ein deutscher Netzbetreiber. Green Bonds bleiben mit 17 % ESG-Anteil an Euro-Unternehmensanleihen 2025 ein etabliertes Finanzierungsinstrument, auch wenn der Anteil leicht rückläufig war.</p>
 </div>
-<div class="sec" id="s6">
-  <div class="sec-head">
-    <div class="sec-icon">🚗</div>
-    <div class="sec-meta">
-      <span class="sec-eye">Sektion 6 · KW 25</span>
-      <h2 class="sec-title">OEM &amp; Handelsgruppen</h2>
+
+<div class="s" id="s6">
+  <div class="s-hd">
+    <div class="s-ic">🚗</div>
+    <div class="s-mt">
+      <span class="s-ey">Sektion 6 · KW 25</span>
+      <h2 class="s-ti">OEM &amp; Handelsgruppen</h2>
     </div>
-    <button class="sec-share" onclick="shareSection('s6',this)" aria-label="Sektion teilen">🔗</button>
+    <button class="s-sh" onclick="share('s6',this)">🔗</button>
   </div>
 <div class="kpi-row">
     <div class="kpi"><div class="val">59.969</div><div class="delta neg">▼ −6,8 % ggü. April</div><div class="lbl">BEV-Neuzulassungen Mai 2026 (KBA/ADAC) · +39,3 % YoY</div></div>
@@ -1884,7 +1391,7 @@ table {
     <div class="kpi up-kpi"><div class="val">67.545</div><div class="lbl">Hybride Mai 2026 – stärkste Antriebsart, erstmals vor BEV</div></div>
     <div class="kpi up-kpi"><div class="val">Emil Frey</div><div class="lbl">übernimmt Mercedes-Transportervertrieb Kassel + Würzburg (Sommer 2026)</div></div>
   </div>
-  <div class="sub-cols">
+  
     
   <h3>📊 Mai 2026: Hybride überholen BEV bei Stückzahlen</h3>
   <p>Jedes vierte im Mai neu zugelassene Auto hat einen reinen Elektroantrieb. Das KBA meldete 59.969 BEV-Neuzulassungen – 39,3 % mehr als ein Jahr zuvor, aber 6,8 % weniger als im April. Am stärksten vertreten waren im Mai die Hybride mit 67.545 Neuzulassungen, vor den Elektroautos mit 59.969. An dritter Position folgten Benziner (51.806), dann Diesel (30.547) und Plug-in-Hybride (27.921) als Schlusslicht. Der leichte BEV-Rückgang gegenüber April ist im Rahmen normaler Monatsschwankungen und ändert nichts am strukturellen Aufwärtstrend.</p>
@@ -1894,9 +1401,9 @@ table {
   <p>Emil Frey Deutschland baut die Zusammenarbeit mit Mercedes-Benz weiter aus: Die Handelsgruppe übernimmt die Transporter- und Van-Vertriebsgebiete der Mercedes-Benz AG in Kassel und Würzburg, der Betriebsübergang ist für Sommer 2026 geplant. Beide Unternehmen arbeiten bereits seit 2016 zusammen, als Emil Frey den Pkw-Vertrieb in den Regionen Kassel/Göttingen und Würzburg/Schweinfurt übernahm. Mit der Erweiterung stärkt Emil Frey seine Präsenz in Hessen und Bayern.</p>
   <div class="alert green"><strong>✅ Direkte Standort-Relevanz:</strong> Emil Frey hat über die Vorgängerübernahme bereits Präsenz in Kassel UND Göttingen – einem CutPower-Standort (Burger King A7 Kauf Park). Die Transporter-Vertriebsübernahme verstärkt die regionale Präsenz weiter. Ideal für eine direkte Standortpartnerschaftsanfrage: Emil Frey Göttingen/Kassel als Kontaktpunkt für Revenue-Share-Modell auf Werkstatt- und Ausstellungsflächen.</div>
     
-    <div class="full-width-block">
+    
   <h3>OEM-Performance Mai 2026 + KW 25 Highlights</h3>
-  <div class="tbl"><table>
+  <table>
     <thead><tr><th>Marke/Konzern</th><th>KW 25 Highlight</th><th>BEV-Trend</th><th>Relevanz für CutPower</th></tr></thead>
     <tbody>
       <tr><td><strong>VW ID.3 / ID.4</strong></td><td>Bestseller-Position aus April bestätigt sich auch im Mai-Trend</td><td>🟢 Stärkstes BEV-Portfolio DE</td><td>Größte EV-Zielgruppe → direkter CutPower-Kunde</td></tr>
@@ -1905,7 +1412,7 @@ table {
       <tr><td><strong>Daimler Trucks (TruckCharge)</strong></td><td>3.000 LP halböffentlich bis 2030 – Rollout läuft weiter</td><td>🚛 eLKW Marktführer EU</td><td>⚠ Wettbewerber + Roaming-Partner NF-Segment</td></tr>
       <tr><td><strong>Ford</strong></td><td>Wählt Chargecloud für Ladeinfrastruktur-Management</td><td>🟢 CPMS-Outsourcing</td><td>Bestätigt Build-vs-Buy-Trend für KMU-CPOs</td></tr>
     </tbody>
-  </table></div>
+  </table>
   <div class="sources">
     <span class="src">ADAC – Neuzulassungen Mai 2026 (KBA-Daten)</span>
     <a href="https://vision-mobility.de" class="src" target="_blank" rel="noopener">vision-mobility.de – Pkw-Zulassungszahlen Mai 2026</a>
@@ -1914,17 +1421,14 @@ table {
   </div>
 </div>
 
-
+<div class="s" id="s8">
+  <div class="s-hd">
+    <div class="s-ic">🚛</div>
+    <div class="s-mt">
+      <span class="s-ey">Wochenschwerpunkt · KW 25</span>
+      <h2 class="s-ti">eLKW &amp; Power2Drive</h2>
     </div>
-</div>
-<div class="sec" id="s8">
-  <div class="sec-head">
-    <div class="sec-icon">🚛</div>
-    <div class="sec-meta">
-      <span class="sec-eye">Wochenschwerpunkt · KW 25</span>
-      <h2 class="sec-title">eLKW &amp; Power2Drive</h2>
-    </div>
-    <button class="sec-share" onclick="shareSection('s8',this)" aria-label="Sektion teilen">🔗</button>
+    <button class="s-sh" onclick="share('s8',this)">🔗</button>
   </div>
 <div class="kpi-row">
     <div class="kpi up-kpi"><div class="val">Power2Drive</div><div class="lbl">23.–25. Juni München · V2G, Megawatt Charging, Fleet Transformation Days</div></div>
@@ -1936,7 +1440,7 @@ table {
   <div class="spotlight">
     <h3>🏆 KW 25: Power2Drive 2026 – Was für CutPower und eLKW-CPOs zählt</h3>
     <p>Die Power2Drive Europe 2026 (23.–25. Juni, Messe München) war dieses Jahr erstmals Dienstag bis Donnerstag. Schwerpunktthemen: Bidirektionales Laden (V2G) vom Testbetrieb zur Flächenimplementierung, Megawatt Charging für schwere NF, Smart Charging / KI-Ladesteuerung und Fleet Transformation Days als neues Format für Fuhrparkmanager. Mehr als 100.000 Fachbesucher wurden erwartet.</p>
-    <div class="tbl"><table>
+    <table>
       <thead><tr><th>Aussteller/Thema</th><th>KW 25 Highlight</th><th>Relevanz für CutPower</th></tr></thead>
       <tbody>
         <tr><td><strong>Sungrow (Power2Drive)</strong></td><td>ChargeStack 1000 Weltpremiere – Megawatt-Ladesystem für schwere NF · 300 bereits in DACH installierte DC-Säulen bei EVN Niederösterreich</td><td>Hoch – Megawatt-Hardware für Depot-Standorte, DACH-Referenz vorhanden</td></tr>
@@ -1945,7 +1449,8 @@ table {
         <tr><td><strong>V2G / Bidirektional Zone</strong></td><td>Studie "Plug, Store, Profit" zur wirtschaftlichen Potenziale bidirektionaler Flotten (23.6., 15 Uhr, Power2Drive Forum)</td><td>Sehr hoch – Zahlengrundlage für CutPower V2G-Depot-Angebot</td></tr>
         <tr><td><strong>Fleet Transformation Days</strong></td><td>Neues Format 23./24. Juni: Fuhrparkmanager als primäre Zielgruppe für Ladeinfrastruktur-Entscheidungen</td><td>Hoch – Direktzielgruppe für CutPower Depot-CPO-Produkt</td></tr>
       </tbody>
-    </table></div>
+    </table>
+  </div>
 
   <h3>⚠ NF-Förderung Aufruf B/C: 12 Tage bis Frist – letzte Chance für öffentliche NF-Infra</h3>
   <p>Aufruf C (öffentliche NF-Ladeinfrastruktur, ≥1.500 kW/Standort, mindestens 350 kW an einem LP) ist für CutPower besonders relevant, da die Autobahnstandorte Hannover-Lahe (A2) und Bremen (A27) als AFIR-Korridore qualifizieren könnten. Aufwand für Antrag C ist höher als A, aber das Fördervolumen bis 5 Mio. € pro Antrag ist entsprechend größer. Jetzt prüfen: Reicht die installierte Ladeleistung für die Mindestanforderung 1.500 kW Gesamtleistung pro Standort?</p>
@@ -1958,14 +1463,15 @@ table {
     <span class="src">PtJ – NF-Förderung Aufruf B Deadline 07.07.2026</span>
   </div>
 </div>
-<div class="sec" id="s9">
-  <div class="sec-head">
-    <div class="sec-icon">🔭</div>
-    <div class="sec-meta">
-      <span class="sec-eye">Sektion 9 · KW 25</span>
-      <h2 class="sec-title">Übergreifende Trends</h2>
+
+<div class="s" id="s9">
+  <div class="s-hd">
+    <div class="s-ic">🔭</div>
+    <div class="s-mt">
+      <span class="s-ey">Sektion 9 · KW 25</span>
+      <h2 class="s-ti">Übergreifende Trends</h2>
     </div>
-    <button class="sec-share" onclick="shareSection('s9',this)" aria-label="Sektion teilen">🔗</button>
+    <button class="s-sh" onclick="share('s9',this)">🔗</button>
   </div>
 <div class="pill-row">
     <span class="pill up">🔋 BESS Jan–Mai +70 % YoY – stärkster Zubau aller Zeiten</span>
@@ -1978,7 +1484,7 @@ table {
     <span class="pill neutral">🔄 EnBW: Kapazität statt Quantität – Paradigmenwechsel Marktführer</span>
     <span class="pill neutral">🚛 Power2Drive: V2G vom Test zur Fläche 2026/27</span>
   </div>
-  <div class="tbl"><table>
+  <table>
     <thead><tr><th>Trend</th><th>KW 25 Status</th><th>Impact</th><th>Zeithorizont</th></tr></thead>
     <tbody>
       <tr><td><strong>BESS Multi-Use als Standard</strong></td><td>ees Europe: MiSpeL macht co-located Speicher vollständig handelsfähig · CATL Non-Lithium als Zukunft</td><td>Sehr hoch – neue Erlösdimension für CPO-BESS</td><td>2026–2028</td></tr>
@@ -1988,15 +1494,17 @@ table {
       <tr><td><strong>Power2Drive: V2G skaliert</strong></td><td>Bidirektional Zone · Studie "Plug, Store, Profit" · Schneider/Sungrow Hardware-Launches</td><td>Hoch – V2G-Depot-CPO-Produkt rückt näher</td><td>2026–2027</td></tr>
       <tr><td><strong>PV überholt fossile Stromerzeugung</strong></td><td>19 % DE 2025 · Freiflächenanlagen +36 % Jan–Mai 2026</td><td>Mittel – Eigenstromerzeugung für CPO günstiger</td><td>dauerhaft</td></tr>
     </tbody>
-  </table></div>
-<div class="sec" id="s10">
-  <div class="sec-head">
-    <div class="sec-icon">🎯</div>
-    <div class="sec-meta">
-      <span class="sec-eye">Sektion 10 · KW 25</span>
-      <h2 class="sec-title">Handlungsempfehlungen</h2>
+  </table>
+</div>
+
+<div class="s" id="s10">
+  <div class="s-hd">
+    <div class="s-ic">🎯</div>
+    <div class="s-mt">
+      <span class="s-ey">Sektion 10 · KW 25</span>
+      <h2 class="s-ti">Handlungsempfehlungen</h2>
     </div>
-    <button class="sec-share" onclick="shareSection('s10',this)" aria-label="Sektion teilen">🔗</button>
+    <button class="s-sh" onclick="share('s10',this)">🔗</button>
   </div>
 <div class="summary-box">
     <p><strong>KW 25 steht im Zeichen der Power2Drive / Intersolar Europe in München (23.–25. Juni)</strong> – der wichtigsten Branchenmesse des Jahres. Die zentralen Botschaften: V2G und bidirektionales Laden rücken vom Testbetrieb zur Flächenimplementierung. Megawatt Charging für schwere Nutzfahrzeuge wird mit Sungrow ChargeStack 1000 und Schneider StarCharge 720 kW Overhead-Lader Hardware-reif. Multi-Use-BESS (Eigenverbrauch + Peak-Shaving + Börsenstromhandel) ist das neue Pflicht-Paradigma für jede Speicherstrategie.</p>
@@ -2020,14 +1528,15 @@ table {
     </ul>
   </div>
 </div>
-<div class="omp-sec" id="omp-ops">
-  <div class="omp-head">
-    <div class="omp-icon ops">⚙️</div>
-    <div>
-      <h2 class="omp-title">Operation – Fahrstromumsatz &amp; Standorte</h2>
-      <p class="omp-goal">🎯 Ziel: +5–10 % Fahrstromumsatz pro Standort / Woche</p>
+
+<div class="os" id="omp-ops">
+  <div class="s-hd">
+    <div class="s-ic" style="background:rgba(0,194,255,.12)">⚙️</div>
+    <div class="s-mt">
+      <h2 class="s-ti">Operation – Fahrstromumsatz &amp; Standorte</h2>
+      <span class="omp-goal">🎯 Ziel: +5–10 % Fahrstromumsatz / Standort / Woche</span>
     </div>
-    <button class="sec-share" onclick="shareSection('omp-ops',this)" aria-label="Sektion teilen">🔗</button>
+    <button class="s-sh" onclick="share('omp-ops',this)">🔗</button>
   </div>
 <div class="omp-intro">Hamburg Alter Wall geschlossen. 12 aktive Flagshipstandorte + B2B-Netz + ~180 im Rollout. KW 25: Standortkarten mit Hardware-Update (Lech → Alpitronic), Community-Insights von GoingElectric sowie lokalen Event- und Verkehrseinflüssen.</div>
   <h3>📍 CutPower-Standorte – Vollständiger Stand Juni 2026</h3>
@@ -2155,7 +1664,7 @@ table {
     </div>
 
     <div class="standort-card plan">
-      <div class="s-type" style="color:var(--muted);">Rollout ~180 weitere</div>
+      <div class="s-type">Rollout ~180 weitere</div>
       <div class="s-name">~180 weitere Standorte DE/AT im Rollout</div>
       <div class="s-meta">Cottbus, Wesel, Chiemsee, Hückelhoven u.a.<br>Ziel Ende 2026: 1.000 Standorte / 5.000 LP</div>
       <span class="s-badge">📍 Rollout läuft</span>
@@ -2197,7 +1706,7 @@ table {
   </div>
   <div class="foerder-box">
     <div class="foerder-box-title">💶 Förderübersicht Operation – KW 25</div>
-    <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%;"><div class="tbl"><table class="foerder-table">
+    <table class="foerder-table">
       <thead><tr><th>Programm</th><th>Standorte</th><th>Betrag</th><th>Frist</th></tr></thead>
       <tbody>
         <tr><td><strong>BMV NF KMU (Aufruf A)</strong></td><td>Hannover-Lahe, Bremen, Göttingen</td><td>500 €/kW · max. 1 Mio. €</td><td><span class="f-stop">❌ Beendet 05.06. · Zusagen folgen</span></td></tr>
@@ -2205,20 +1714,22 @@ table {
         <tr><td><strong>§14a EnWG Netzentgelt</strong></td><td>Alle Ladesäulen</td><td>15–25 % Ersparnis</td><td><span class="f-aktiv">✅ bis Aug. 2029</span></td></tr>
         <tr><td><strong>THG-Quote</strong></td><td>Alle LP mit Ökostrom</td><td>~0,16 €/kWh</td><td><span class="f-aktiv">✅ Jährlich</span></td></tr>
       </tbody>
-    </table></div>
+    </table>
+  </div>
 </div>
-<div class="omp-sec alt" id="omp-mkt">
-  <div class="omp-head">
-    <div class="omp-icon mkt">📣</div>
-    <div>
-      <h2 class="omp-title">Marketing &amp; Kommunikation</h2>
-      <p class="omp-goal">🎯 Ziel: Markenbekanntheit + Lead-Generierung</p>
+
+<div class="os alt" id="omp-mkt">
+  <div class="s-hd">
+    <div class="s-ic" style="background:rgba(0,194,255,.12)">📣</div>
+    <div class="s-mt">
+      <h2 class="s-ti">Marketing &amp; Kommunikation</h2>
+      <span class="omp-goal">🎯 Markenbekanntheit + Lead-Generierung</span>
     </div>
-    <button class="sec-share" onclick="shareSection('omp-mkt',this)" aria-label="Sektion teilen">🔗</button>
+    <button class="s-sh" onclick="share('omp-mkt',this)">🔗</button>
   </div>
 <div class="omp-intro">KW 25 Priorität: Bewertungskrise Berlin lösen BEVOR neue Kampagnen starten. Emil-Frey-Mercedes-Deal als regionalen PR-Anlass für Göttingen nutzen. CEO/CIO als Corporate Influencer auf LinkedIn aktivieren.</div>
   <h3>📊 Marketing-Status CutPower KW 25</h3>
-  <div class="tbl"><table>
+  <table>
     <thead><tr><th>Kanal</th><th>Status</th><th>Bewertung</th><th>Maßnahme KW 25</th></tr></thead>
     <tbody>
       <tr><td><strong>Google My Business Berlin</strong></td><td>1,3 ★ · 62 Bewertungen</td><td>🔴 Kritisch</td><td>Sofort alle Bewertungen beantworten + FAQ</td></tr>
@@ -2228,7 +1739,7 @@ table {
       <tr><td><strong>App-Bewertungen</strong></td><td>Wenige</td><td>🔴 Schwach</td><td>In-App-Prompt nach Ladeabschluss</td></tr>
       <tr><td><strong>DOOH Göttingen + Hannover</strong></td><td>Displays da · kein CMS</td><td>🟡 Ungenutzt</td><td>Goldbach-Gespräch nachfassen</td></tr>
     </tbody>
-  </table></div>
+  </table>
   <h3>🚀 Priorisierte Maßnahmen KW 25</h3>
   <div class="measure-grid">
     <div class="measure-card">
@@ -2254,19 +1765,21 @@ table {
   </div>
   <div class="foerder-box">
     <div class="foerder-box-title">💶 Förderübersicht Marketing – KW 25</div>
-    <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%;"><div class="tbl"><table class="foerder-table">
+    <table class="foerder-table">
       <thead><tr><th>Programm</th><th>Förderung</th><th>Relevanz</th><th>Status</th></tr></thead>
       <tbody>
         <tr><td><strong>go-digital (BMWK)</strong></td><td>50 % auf Beratungskosten, max. 16.500 €</td><td>Hoch – App-Optimierung, CRM, Social</td><td><span class="f-aktiv">✅ KMU bis 100 MA</span></td></tr>
         <tr><td><strong>THG-Quote als Marketing-USP</strong></td><td>~0,16 €/kWh – kommunizierbarer Nachhaltigkeitsnachweis</td><td>Sehr hoch – B2B-Entscheider überzeugen</td><td><span class="f-aktiv">✅ Jährlich</span></td></tr>
         <tr><td><strong>BAFA Messeförderung (IAA Mobility)</strong></td><td>Bis 80 % international</td><td>Mittel – IAA Sept. 2026 München</td><td><span class="f-aktiv">✅ Aktiv</span></td></tr>
       </tbody>
-    </table></div>
+    </table>
     <div class="foerder-contact">📞 go-digital: <a href="https://www.bmwk.de/go-digital" target="_blank">bmwk.de/go-digital</a></div>
   </div>
 </div>
-<div class="omp-sec" id="dooh"><div class="omp-intro"><strong>Faktenlage:</strong> CutPower hat dedizierte Werbedisplays nur an zwei Standorten – Göttingen (BK A7 Kauf Park) und Hannover-Lahe (BK A2). Alle anderen Standorte: GUI der Ladesäule (kein CMS, kein Werbe-Layer). <strong>Numbat-Warnung:</strong> Numbat ist 2024 insolvent gegangen – DOOH-Erlöse im ländlichen Netz unterschritten Erwartungen massiv. DOOH funktioniert nur mit aktiver Vermarktung und Frequenz. Für CutPower: sinnvoller Zusatzerlös, kein eigenständiger Business Case.</div>
-  <div class="tbl"><table>
+
+<div class="os" id="dooh">
+<div class="omp-intro"><strong>Faktenlage:</strong> CutPower hat dedizierte Werbedisplays nur an zwei Standorten – Göttingen (BK A7 Kauf Park) und Hannover-Lahe (BK A2). Alle anderen Standorte: GUI der Ladesäule (kein CMS, kein Werbe-Layer). <strong>Numbat-Warnung:</strong> Numbat ist 2024 insolvent gegangen – DOOH-Erlöse im ländlichen Netz unterschritten Erwartungen massiv. DOOH funktioniert nur mit aktiver Vermarktung und Frequenz. Für CutPower: sinnvoller Zusatzerlös, kein eigenständiger Business Case.</div>
+  <table>
     <thead><tr><th>Kanal</th><th>Göttingen – BK A7</th><th>Hannover-Lahe – BK A2</th></tr></thead>
     <tbody>
       <tr><td><strong>Fremdvermarktung (Goldbach)</strong></td><td>38–125 €/Monat (50 % Rev-Share · TKP 5–12 €)</td><td>38–145 €/Monat</td></tr>
@@ -2274,30 +1787,32 @@ table {
       <tr><td><strong>Jahreserlös Direkt realistisch</strong></td><td><strong>3.600–7.200 €</strong></td><td><strong>3.600–7.200 €</strong></td></tr>
       <tr><td><strong>Gesamt beide Standorte</strong></td><td colspan="2"><strong>7.200–14.400 €/Jahr</strong> bei 1 Direktkunde je Standort</td></tr>
     </tbody>
-  </table></div>
+  </table>
   <h3>🛠 Was noch fehlt – Voraussetzungen</h3>
-  <div class="tbl"><table>
+  <table>
     <thead><tr><th>Voraussetzung</th><th>Status</th><th>Lösung</th><th>Aufwand</th></tr></thead>
     <tbody>
       <tr><td><strong>CMS für Werbeinhalte</strong></td><td>🔴 Fehlt</td><td>Goldbach/Advercharge bringt eigenes CMS mit · oder Broadsign-Lizenz (500–2.000 €/Jahr)</td><td>Verhandlung</td></tr>
       <tr><td><strong>Vermarktungsvertrag</strong></td><td>🔴 Fehlt</td><td>Goldbach kontaktieren: Revenue-Share für Göttingen + Hannover</td><td>4–6 Wochen</td></tr>
       <tr><td><strong>Mediakit</strong></td><td>🔴 Fehlt</td><td>1-seitiges Mediakit: Standort, Zielgruppe, Format, Preise</td><td>1–2 Tage intern</td></tr>
     </tbody>
-  </table></div>
+  </table>
   <div class="alert green"><strong>✅ Sofortmaßnahme diese Woche:</strong> E-Mail an Goldbach Germany (Claudia Zayer, <a href="https://goldbach.com/de/dooh/ev-screens" target="_blank">goldbach.com/de/dooh/ev-screens</a>): „Wir betreiben HPC-Ladeparks in Göttingen (Kauf Park A7) und Hannover-Lahe (BK A2) mit dedizierten Werbedisplays und kaufkräftiger EV-Zielgruppe. Interesse an DOOH-Vermarktungspartnerschaft?" – Kein Investment, nur ein Gespräch.</div>
   <div class="sources">
     <a href="https://dooh-werbung.de" class="src" target="_blank" rel="noopener">dooh-werbung.de – TKP DE (Jan. 2026)</a>
     <a href="https://invidis.com" class="src" target="_blank" rel="noopener">invidis.com – Numbat Insolvenz 2024 (Aug. 2025)</a>
     <span class="src">Ströer Preisliste 2026 (Nov. 2025)</span>
-  </div></div>
-<div class="omp-sec alt" id="omp-prt">
-  <div class="omp-head">
-    <div class="omp-icon prt">🤝</div>
-    <div>
-      <h2 class="omp-title">Partnermanagement &amp; Vertrieb</h2>
-      <p class="omp-goal">🎯 Ziel: 2 neue strategische Partner-MoUs</p>
+  </div>
+</div>
+
+<div class="os alt" id="omp-prt">
+  <div class="s-hd">
+    <div class="s-ic" style="background:rgba(0,194,255,.12)">🤝</div>
+    <div class="s-mt">
+      <h2 class="s-ti">Partnermanagement &amp; Vertrieb</h2>
+      <span class="omp-goal">🎯 2 neue strategische Partner-MoUs KW 25–28</span>
     </div>
-    <button class="sec-share" onclick="shareSection('omp-prt',this)" aria-label="Sektion teilen">🔗</button>
+    <button class="s-sh" onclick="share('omp-prt',this)">🔗</button>
   </div>
 <div class="omp-intro">KW 25 Priorität: Emil Frey ist durch die Mercedes-Transporter-Übernahme jetzt der konkreteste neue Kontakt – direkte Standort-Überschneidung in Göttingen. Daimler Truck (TruckCharge) und Scania (V2G) bleiben als laufende Gespräche relevant.</div>
   <h3>🚗 OEM- &amp; Handelspartner – KW 25 Priorisierung</h3>
@@ -2350,7 +1865,7 @@ table {
   </div>
   <div class="foerder-box">
     <div class="foerder-box-title">💶 Förderübersicht Partnermanagement – KW 25</div>
-    <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%;"><div class="tbl"><table class="foerder-table">
+    <table class="foerder-table">
       <thead><tr><th>Hebel</th><th>Als Partnerargument nutzen</th><th>Status</th></tr></thead>
       <tbody>
         <tr><td><strong>BMV NF alle Unternehmen (Aufruf B/C)</strong></td><td>„Wir übernehmen Ihren Förderantrag und bauen Ihr Depot-Ladenetz"</td><td><span class="f-warn">⚠ bis 07.07.2026</span></td></tr>
@@ -2358,8 +1873,10 @@ table {
         <tr><td><strong>0,25 % E-Dienstwagen Steuer</strong></td><td>Einstieg bei Unternehmensflotten – vs. 1 % Verbrenner</td><td><span class="f-aktiv">✅ bis 2030</span></td></tr>
         <tr><td><strong>AFIR Flottenrichtlinie</strong></td><td>Pflicht-BEV-Quote – strukturelles Argument für Workplace Charging</td><td><span class="f-aktiv">✅ 2026–2030</span></td></tr>
       </tbody>
-    </table></div>
+    </table>
+  </div>
 </div>
+
 <div class="ca" id="ca"><div class="ca-header">
     <div class="ca-avatar">🔍</div>
     <div class="ca-title">
@@ -2401,76 +1918,57 @@ table {
     <p><strong>NF-Förderung Aufruf B/C scheitert an Antragsqualität, nicht am Timing:</strong> Im Gegensatz zu Aufruf A (Windhund) zählt hier Wirtschaftlichkeit. Ein schlecht vorbereiteter Antrag mit zu hoher beantragter Förderintensität verliert gegen einen gut vorbereiteten Mitbewerber – auch wenn beide fristgerecht eingehen.</p>
     <p><strong>Smart Charging als Pflicht, nicht Option:</strong> AFIR zwingt alle CPOs zu digitaler Vernetzung und intelligenter Ladesteuerung. Wer CPMS-seitig nicht in der Lage ist, dynamische Tarife umzusetzen, verliert den Anschluss an den Markt. Das ist kein 2027-Thema mehr.</p>
   </div></div>
-<div class="exec" id="exec-summary">
-<div class="exec-head">
-  <p class="exec-eye">Abschließende Bewertung · KW 25</p>
-  <h2 class="exec-title">Executive Summary – Nach Rubriken</h2>
-  <p class="exec-sub">Power2Drive Messe · BESS +70 % YoY · NF-Förderung B/C 07.07. · Berlin 1,3 ★</p>
+
+<div class="ex" id="exec-summary"><div class="ex-hd">
+  <p class="ex-ey">Abschließende Bewertung · KW 25</p>
+  <h2 class="ex-ti">Executive Summary</h2>
+  <p class="ex-su">Power2Drive · BESS +70 % YoY · NF-Förderung 07.07. · Berlin 1,3 ★</p>
 </div>
-<div class="exec-grid">
-  <div class="exec-card inv">
-    <p class="exec-card-label">💰 Investment</p>
-    <p>BESS Jan–Mai 2026: +70 % YoY, 3,4 GWh neu. Neue BESS-Projekte mit Worst-Case ohne Netzentgelt-Befreiung kalkulieren. CATL Natrium-Ionen langfristiger Horizont, kein Grund LFP-Investments aufzuschieben. Green Bonds 17 % ESG-Anteil Euromarkt. Haller Capital: 2,5 Mio. € Green Bond KMU-Referenz.</p>
-  </div>
-  <div class="exec-card dev">
-    <p class="exec-card-label">🏗 Development / GU</p>
-    <p>NF-Förderung Aufruf B/C: Frist <strong>07.07.</strong> – Hannover A2 + Bremen A27 auf Aufruf C prüfen. Multi-Use-BESS Standard: Eigenverbrauch + Peak-Shaving + Intraday-Handel. Sungrow ChargeStack 1000 + Schneider StarCharge 720 kW für NF-Depot. GEIG-Pflicht seit 29.05. bei Neubauten.</p>
-  </div>
-  <div class="exec-card ops">
-    <p class="exec-card-label">⚙ Operation / CPO</p>
-    <p><strong>Berlin 1,3 ★ – P1, sofort.</strong> FairParken erzeugt 36,90 € Bußgelder. Smart Pricing + dynamisches Laden als nächste Ausbaustufe. EnBW: Auslastung je LP ist neue KPI. Wilhelmshaven + Lech: Hardware-Check + Uptime-SLA setzen.</p>
-  </div>
-  <div class="exec-card prt">
-    <p class="exec-card-label">🤝 Partnermanagement</p>
-    <p>Emil Frey Göttingen: Kontakt <strong>diese Woche</strong>. TruckCharge: Roaming + Depot-Co-Build mit V2G. Sachsen-Liegenschaften-Modell auf Niedersachsen/Hamburg ausweiten. Aufruf B/C als Türöffner für Speditionspartner.</p>
-  </div>
-  <div class="exec-card mkt">
-    <p class="exec-card-label">📣 Marketing</p>
-    <p>Green Champion Narrativ – kein anderer DE-CPO hat dieses Alleinstellungsmerkmal. Corporate Influencer: 1 Post/Woche = 5× Reichweite. Kampen Classics 18.–21.6. als PR nutzen. DOOH Goldbach: 7.200–14.400 €/Jahr.</p>
-  </div>
-  <div class="exec-card tech">
-    <p class="exec-card-label">🖥 Technologie / Backend</p>
-    <p>Ford × Chargecloud: Build-vs-Buy klar für Buy (Virta/KAWAT). MiSpeL BESS-Handelsanbindung aktivieren. OCPP 2.0.1 + OCPI 2.2.1 + Hubject als Standard. Alpitronic HYC 300/400 bestätigt.</p>
-  </div>
+<div class="ex-grid">
+  <div class="ec inv"><p class="ec-l">💰 Investment</p><p>BESS Jan–Mai: +70 % YoY, 3,4 GWh. BESS-Projekte mit Worst-Case ohne Netzentgelt-Befreiung kalkulieren. CATL Natrium-Ionen = langfristiger Horizont, kein Grund LFP aufzuschieben. Green Bonds: 17 % ESG-Anteil Euromarkt. Haller Capital: 2,5 Mio. € Green Bond KMU-Referenz.</p></div>
+  <div class="ec dev"><p class="ec-l">🏗 Development / GU</p><p>NF-Förderung Aufruf B/C: Frist <strong>07.07.</strong> – Hannover A2 + Bremen A27 auf Aufruf C prüfen. Multi-Use-BESS Standard: Eigenverbrauch + Peak-Shaving + Intraday. Sungrow ChargeStack 1000 + Schneider StarCharge 720 kW für NF-Depot. GEIG-Pflicht seit 29.05.</p></div>
+  <div class="ec ops"><p class="ec-l">⚙ Operation / CPO</p><p><strong>Berlin 1,3 ★ – P1, sofort.</strong> FairParken: 36,90 € Bußgelder, QR-Code oft nicht sichtbar. Smart Pricing + dynamisches Laden als nächste Stufe. EnBW: Auslastung je LP = neue KPI. Wilhelmshaven + Lech: Hardware-Check + Uptime-SLA.</p></div>
+  <div class="ec prt"><p class="ec-l">🤝 Partnermanagement</p><p>Emil Frey Göttingen: Kontakt <strong>diese Woche</strong>. TruckCharge: Roaming + Depot-Co-Build mit V2G. Sachsen-Modell auf Niedersachsen/Hamburg ausweiten. Aufruf B/C als Türöffner für Speditionspartner.</p></div>
+  <div class="ec mkt"><p class="ec-l">📣 Marketing</p><p>Green Champion Narrativ schärfen. Corporate Influencer: 1 Post/Woche = 5× Reichweite. Kampen Classics als PR nutzen. DOOH Goldbach: 7.200–14.400 €/Jahr Potenzial.</p></div>
+  <div class="ec tec"><p class="ec-l">🖥 Technologie</p><p>Ford × Chargecloud + Hubject × Flipturn bestätigen: Build-vs-Buy = Buy (Virta/KAWAT). MiSpeL BESS-Handel aktivieren. OCPP 2.0.1 + OCPI 2.2.1 + Hubject Standard. Alpitronic HYC 300/400 bestätigt (inkl. Lech-Upgrade).</p></div>
 </div>
-<div class="exec-next">
-  <p class="exec-next-label">📌 KW 26 im Blick</p>
-  <p>07.07. NF-Förderung B/C Deadline · Sylt Hochsaison (Sommerfest 14./15.8.) · Berlin-Rating tracken · Emil-Frey-Antwort · BESS Netzentgelt BNetzA beobachten · Lech Hardware bestätigen</p>
+<div class="ex-nx">
+  <p class="ex-nx-l">📌 KW 26 im Blick</p>
+  <p>07.07. NF B/C Deadline · Sylt Hochsaison · Berlin-Rating tracken · Emil-Frey-Antwort · BESS Netzentgelt BNetzA · Lech Hardware bestätigen</p>
+</div></div>
+
+<div class="ft">
+  <strong>DACH E-Mobility Intelligence Briefing · KW 25 · 25. Juni 2026</strong><br>
+  Quellen: KBA (15.06.) · BSW-Solar/BNetzA (ees Europe 23.06.) · electrive.net · PtJ (22.06.) · industr.com · Elvah H2/2025 · USCALE 2025<br>
+  <span>Vertraulich – nur zur internen Management-Nutzung. Keine Anlageberatung.</span>
 </div>
+
 </div>
-<div class="footer">
-<strong>DACH E-Mobility Intelligence Briefing · KW 25 · 25. Juni 2026</strong><br>
-Quellen: KBA (15.06.2026) · BSW-Solar/BNetzA (ees Europe 23.06.) · energy-storage.news · electrive.net · PtJ (22.06.2026) · industr.com · sonnenseite.com · Elvah H2/2025 · USCALE 2025<br>
-<span>Vertraulich – nur zur internen Management-Nutzung. Keine Anlageberatung.</span>
-</div>
-</div><!-- /.page -->
+
 <script>
 (function(){
 'use strict';
-// Share
-window.shareSection=function(id,el){
+window.share=function(id,el){
   var url=location.href.split('#')[0]+'#'+id;
-  if(navigator.clipboard){navigator.clipboard.writeText(url).then(function(){var o=el.innerHTML;el.innerHTML='✓';el.classList.add('ok');setTimeout(function(){el.innerHTML=o;el.classList.remove('ok');},2200);})}
-  else{prompt('Link (Strg+C):',url);}
+  if(navigator.clipboard){navigator.clipboard.writeText(url).then(function(){var o=el.innerHTML;el.innerHTML='✓';el.classList.add('ok');setTimeout(function(){el.innerHTML=o;el.classList.remove('ok');},2000);});}
+  else{prompt('Link:',url);}
   return false;
 };
-// TOC
-var tocOpen=true;
+var open_=true;
 window.toggleToc=function(){
   var b=document.getElementById('toc-body');
-  var btn=document.getElementById('toc-toggle');
+  var btn=document.getElementById('tt');
   if(!b)return;
-  tocOpen=!tocOpen;
-  b.classList.toggle('closed',!tocOpen);
-  if(btn)btn.textContent=tocOpen?'▲':'▼';
+  open_=!open_;
+  b.classList.toggle('closed',!open_);
+  if(btn)btn.textContent=open_?'▲':'▼';
 };
-// Scroll
 var nav=document.getElementById('nav');
-var prog=document.getElementById('nav-prog');
-var pctEl=document.getElementById('nav-pct');
-var fill=document.getElementById('toc-fill');
-var pctLbl=document.getElementById('toc-pct-lbl');
-var links=Array.from(document.querySelectorAll('#nav-scroll a'));
+var nb=document.getElementById('nb');
+var np=document.getElementById('np');
+var tf=document.getElementById('tf');
+var tp=document.getElementById('tp');
+var links=Array.from(document.querySelectorAll('#nav-links a'));
 var secs=links.map(function(a){return document.getElementById(a.getAttribute('href').slice(1));}).filter(Boolean);
 var raf=false;
 function onScroll(){
@@ -2480,10 +1978,10 @@ function onScroll(){
     var dh=document.documentElement.scrollHeight-window.innerHeight;
     var pct=dh>0?Math.min(100,Math.round(st/dh*100)):0;
     var ps=pct+'%';
-    if(prog)prog.style.width=ps;
-    if(pctEl)pctEl.textContent=pct+' %';
-    if(fill)fill.style.width=ps;
-    if(pctLbl)pctLbl.textContent=pct+' %';
+    if(nb)nb.style.width=ps;
+    if(np)np.textContent=pct+' %';
+    if(tf)tf.style.width=ps;
+    if(tp)tp.textContent=pct+' %';
     var cur='';
     secs.forEach(function(s){if(s&&s.getBoundingClientRect().top<=80)cur=s.id;});
     links.forEach(function(a){a.classList.toggle('active',a.getAttribute('href')==='#'+cur);});
@@ -2492,45 +1990,26 @@ function onScroll(){
 }
 window.addEventListener('scroll',onScroll,{passive:true});
 onScroll();
-// Smooth scroll
 document.querySelectorAll('a[href^="#"]').forEach(function(a){
   a.addEventListener('click',function(e){
     var id=this.getAttribute('href').slice(1);
     var el=document.getElementById(id);
     if(!el)return;
     e.preventDefault();
-    var offset=nav?nav.offsetHeight+8:56;
-    window.scrollTo({top:el.offsetTop-offset,behavior:'smooth'});
+    var off=nav?nav.offsetHeight+8:56;
+    window.scrollTo({top:el.offsetTop-off,behavior:'smooth'});
   });
 });
-// PWA
-var dP,banner=document.getElementById('pwa-banner');
+var dP,pb=document.getElementById('pb');
 window.addEventListener('beforeinstallprompt',function(e){
   e.preventDefault();dP=e;
-  if(banner&&!localStorage.getItem('pwa-d')){setTimeout(function(){banner.classList.add('show');},4000);}
+  if(pb&&!localStorage.getItem('pwa-d'))setTimeout(function(){pb.classList.add('show');},4000);
 });
-var ib=document.getElementById('pwa-install');
-var db=document.getElementById('pwa-dismiss');
-if(ib)ib.addEventListener('click',function(){if(!dP)return;dP.prompt();dP.userChoice.then(function(){dP=null;});if(banner)banner.classList.remove('show');});
-if(db)db.addEventListener('click',function(){if(banner)banner.classList.remove('show');localStorage.setItem('pwa-d','1');});
+var pi=document.getElementById('pi'),pd=document.getElementById('pd');
+if(pi)pi.addEventListener('click',function(){if(!dP)return;dP.prompt();dP.userChoice.then(function(){dP=null;});pb.classList.remove('show');});
+if(pd)pd.addEventListener('click',function(){pb.classList.remove('show');localStorage.setItem('pwa-d','1');});
 if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(function(){});
 })();
 </script>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 </body>
 </html>
