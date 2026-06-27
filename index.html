@@ -26,7 +26,8 @@ body{
   background:var(--fog);color:var(--ink);line-height:1.7;
   padding-top:var(--nh);
   /* Prevent horizontal overflow at body level only */
-  overflow-x:clip;
+  overflow-x:hidden;
+  position:relative;
 }
 /* Allow scroll inside any child */
 body *{max-width:100%}
@@ -40,9 +41,12 @@ a{color:var(--e)}
 #nav{
   position:fixed;top:0;left:0;right:0;z-index:100;
   height:var(--nh);
+  width:100%;
+  max-width:100%;
   background:rgba(13,27,42,.97);
   backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
   display:flex;flex-direction:column;
+  overflow:hidden;
 }
 #nav-inner{
   display:flex;align-items:center;
@@ -80,7 +84,7 @@ a{color:var(--e)}
 #nb{height:2px;background:linear-gradient(90deg,var(--e),var(--g));width:0%;transition:width .1s linear}
 
 /* ── PAGE ── */
-.pg{width:100%}
+.pg{width:100%;max-width:100%;overflow-x:hidden}
 
 /* ── COVER ── */
 .cover{
@@ -98,13 +102,13 @@ a{color:var(--e)}
 .bdg.hi{border-color:var(--e);color:var(--e);background:rgba(0,194,255,.1)}
 
 /* ── TICKER ── */
-.ticker{background:var(--steel);height:2.125rem;overflow:hidden;display:flex;align-items:center}
-.ti{display:flex;align-items:center;gap:1.75rem;white-space:nowrap;animation:tick 45s linear infinite;padding-left:100%}
+.ticker{background:var(--steel);height:2.125rem;overflow:hidden;display:flex;align-items:center;width:100%;max-width:100%;contain:layout style}
+.ti{display:flex;align-items:center;gap:1.75rem;white-space:nowrap;animation:tick 45s linear infinite;padding-left:0;will-change:transform}
 .ti:hover{animation-play-state:paused}
 .ti-i{display:flex;align-items:center;gap:.5rem;flex-shrink:0;font-size:.6875rem}
 .ti-i b{font-weight:800}
 .ti-i span{color:rgba(255,255,255,.55)}
-@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes tick{from{transform:translateX(100%)}to{transform:translateX(-100%)}}
 
 /* ── TOC ── */
 .toc{background:#fff;margin:.75rem;border-radius:.875rem;border:1px solid var(--cloud);overflow:hidden}
@@ -138,7 +142,7 @@ a{color:var(--e)}
 .wd-sub{font-size:.6875rem;color:var(--mu)}
 .kwb{font-size:.6875rem;font-weight:800;text-transform:uppercase;background:var(--ink);color:var(--e);padding:.1875rem .625rem;border-radius:1rem}
 /* WDC GRID */
-.wg{display:grid;grid-template-columns:1fr;gap:.75rem}
+.wg{display:grid;grid-template-columns:1fr;gap:.75rem;width:100%;max-width:100%}
 .wdc{background:#fff;border-radius:.625rem;border:1px solid var(--cloud);border-left:4px solid var(--cloud);padding:.875rem}
 .wdc.pos{border-left-color:var(--g)}.wdc.warn{border-left-color:var(--a)}.wdc.neg{border-left-color:var(--r)}.wdc.neutral{border-left-color:var(--cloud)}
 .wdc-lbl{font-size:.5625rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--mu);margin-bottom:.5rem}
@@ -195,6 +199,10 @@ a{color:var(--e)}
   border-radius:.625rem;
   box-shadow:0 1px 4px rgba(0,0,0,.08);
   margin:.875rem 0;
+  /* Force own stacking context so scroll works inside overflow:hidden parent */
+  -webkit-transform:translateZ(0);
+  transform:translateZ(0);
+  will-change:transform;
 }
 table{
   border-collapse:collapse;
@@ -352,6 +360,15 @@ a.src:hover{color:var(--e);border-color:var(--e)}
 #pb p strong{color:var(--e)}
 #pi{background:var(--e);color:var(--ink);border:none;border-radius:.375rem;padding:.375rem .875rem;font-size:.8125rem;font-weight:700;cursor:pointer;white-space:nowrap;font-family:inherit}
 #pd{background:none;border:none;color:rgba(255,255,255,.35);font-size:1.125rem;cursor:pointer;flex-shrink:0}
+
+/* ── OVERFLOW PREVENTION ── */
+html, body { overflow-x: hidden; max-width: 100%; }
+.pg, .pg > * { box-sizing: border-box; max-width: 100%; }
+.cover, .ticker { width: 100%; overflow: hidden; }
+.wd, .toc, .s, .os, .ca, .ex, .ft {
+  box-sizing: border-box;
+  max-width: calc(100vw - 1.5rem);
+}
 
 /* ── TABLET 640px+ ── */
 @media(min-width:640px){
