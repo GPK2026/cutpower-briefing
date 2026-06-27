@@ -13,6 +13,54 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <style>
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  height:var(--nh);
+  background:rgba(13,27,42,.97);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  display:flex;flex-direction:column;
+}
+#nav-inner{
+  display:flex;align-items:center;
+  height:100%;padding:0 1rem;
+  gap:.5rem;
+}
+#nav-logo{
+  display:flex;align-items:center;gap:.375rem;
+  color:#fff;text-decoration:none;flex-shrink:0;
+  font-size:.875rem;font-weight:700;
+}
+/* HIDE the scrolling links - use hamburger instead */
+#nav-links{ display:none; }
+#nav-pct-wrap{margin-left:auto;display:flex;align-items:center;gap:.5rem}
+#np{font-size:.6875rem;font-weight:800;color:var(--e)}
+#nb{height:2px;background:linear-gradient(90deg,var(--e),var(--g));width:0%;transition:width .1s linear}
+/* Hamburger */
+#nav-menu-btn{
+  background:none;border:none;color:#fff;cursor:pointer;
+  padding:.25rem .5rem;font-size:1.25rem;flex-shrink:0;
+  margin-left:.25rem;
+}
+/* Menu overlay */
+#nav-overlay{
+  display:none;position:fixed;top:var(--nh);left:0;right:0;bottom:0;
+  background:rgba(13,27,42,.98);z-index:999;
+  overflow-y:auto;padding:1rem;
+}
+#nav-overlay.open{display:block}
+#nav-overlay a{
+  display:block;color:rgba(255,255,255,.75);text-decoration:none;
+  font-size:1rem;font-weight:500;
+  padding:.75rem 1rem;border-radius:.5rem;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  transition:background .12s,color .12s;
+}
+#nav-overlay a:hover,#nav-overlay a.active{
+  background:rgba(0,194,255,.15);color:var(--e);
+}
+#nav-overlay a:last-child{border-bottom:none}
+#nav-links a{display:none}
+
 :root{
   --ink:#0d1b2a;--steel:#1c3144;--e:#00c2ff;--a:#ffb703;--g:#06d6a0;--r:#ef476f;
   --fog:#f0f4f8;--cloud:#e2e8f0;--mu:#64748b;--wh:#fff;
@@ -38,61 +86,21 @@ img{display:block;height:auto}
 a{color:var(--e)}
 
 /* ── NAV ── */
-#nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  height:var(--nh);
-  width:100vw;
-  max-width:100vw;
-  background:rgba(13,27,42,.97);
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  display:flex;flex-direction:column;
-  overflow:hidden;
-  contain:layout style;
-}
-#nav-inner{
-  display:flex;align-items:center;
-  height:100%;padding:0 .875rem;gap:.5rem;
-  overflow:hidden;
-  width:100%;
-  max-width:100%;
-  min-width:0;
-}
-#nav-logo{
-  display:flex;align-items:center;gap:.375rem;
-  color:#fff;text-decoration:none;flex-shrink:0;
-  font-size:.8125rem;font-weight:700;
-  white-space:nowrap;
-}
+
+
+
 .kwp{
   background:var(--e);color:var(--ink);
   font-size:.5625rem;font-weight:800;
   padding:.125rem .4375rem;border-radius:1rem;
   letter-spacing:.05em;text-transform:uppercase;
 }
-#nav-links{
-  display:flex;align-items:center;gap:1px;
-  overflow-x:auto;
-  overflow-y:hidden;
-  flex:1;
-  min-width:0;
-  width:0;
-  scrollbar-width:none;-ms-overflow-style:none;
-  -webkit-overflow-scrolling:touch;
-}
-#nav-links::-webkit-scrollbar{display:none}
-#nav-links a{
-  color:rgba(255,255,255,.5);text-decoration:none;
-  font-size:.6875rem;font-weight:600;white-space:nowrap;
-  padding:.3125rem .5rem;border-radius:.375rem;
-  transition:color .12s,background .12s;
-  flex-shrink:0;
-  display:inline-block;
-}
-#nav-links a.active,#nav-links a:hover{
-  color:var(--e);background:rgba(0,194,255,.15);
-}
-#np{font-size:.6875rem;font-weight:800;color:var(--e);flex-shrink:0;min-width:2rem;text-align:right}
-#nb{height:2px;background:linear-gradient(90deg,var(--e),var(--g));width:0%;transition:width .1s linear}
+
+
+
+
+
+
 
 /* ── PAGE ── */
 .pg{width:100%;max-width:100%;overflow-x:hidden}
@@ -423,18 +431,33 @@ html, body { overflow-x: hidden; max-width: 100%; }
 
 <nav id="nav">
   <div id="nav-inner">
-    <a href="#" id="nav-logo"><span>⚡</span><span>CutPower</span><span class="kwp">KW 25</span></a>
-    <div id="nav-links">
-      <a href="#wdelta">Δ KW</a><a href="#s1">Real Estate</a><a href="#s2">CPO/eMSP</a>
-      <a href="#s3">Backend</a><a href="#s4">Energie</a><a href="#s5">Kapital</a>
-      <a href="#s6">OEM</a><a href="#s8">eLKW</a><a href="#s9">Trends</a>
-      <a href="#omp-ops">Operation</a><a href="#omp-mkt">Marketing</a>
-      <a href="#omp-prt">Partner</a><a href="#ca">Analyse</a><a href="#exec-summary">Summary</a>
+    <a href="#" id="nav-logo" onclick="closeMenu()">
+      <span>⚡</span><span>CutPower</span><span class="kwp">KW 25</span>
+    </a>
+    <div id="nav-pct-wrap">
+      <div id="np">0 %</div>
+      <button id="nav-menu-btn" onclick="toggleMenu()" aria-label="Menü">☰</button>
     </div>
-    <div id="np">0 %</div>
   </div>
   <div id="nb"></div>
 </nav>
+<div id="nav-overlay">
+  <a href="#wdelta"     onclick="navTo(this)">📊 Wochenvergleich KW 24→25</a>
+  <a href="#s1"         onclick="navTo(this)">🏢 Real Estate &amp; Förderung</a>
+  <a href="#s2"         onclick="navTo(this)">⚡ CPO / eMSP</a>
+  <a href="#s3"         onclick="navTo(this)">🖥 Backend &amp; Plattformen</a>
+  <a href="#s4"         onclick="navTo(this)">🔋 Energiewirtschaft</a>
+  <a href="#s5"         onclick="navTo(this)">📈 Kapitalmarkt</a>
+  <a href="#s6"         onclick="navTo(this)">🚗 OEM &amp; Handelsgruppen</a>
+  <a href="#s8"         onclick="navTo(this)">🚛 eLKW &amp; Power2Drive</a>
+  <a href="#s9"         onclick="navTo(this)">🔭 Übergreifende Trends</a>
+  <a href="#s10"        onclick="navTo(this)">🎯 Handlungsempfehlungen</a>
+  <a href="#omp-ops"    onclick="navTo(this)">⚙️ Operation</a>
+  <a href="#omp-mkt"    onclick="navTo(this)">📣 Marketing</a>
+  <a href="#omp-prt"    onclick="navTo(this)">🤝 Partnermanagement</a>
+  <a href="#ca"         onclick="navTo(this)">🔍 Unabhängige Analyse</a>
+  <a href="#exec-summary" onclick="navTo(this)">📋 Executive Summary</a>
+</div>
 
 <div class="pg">
 
@@ -1980,6 +2003,33 @@ window.share=function(id,el){
   else{prompt('Link:',url);}
   return false;
 };
+
+window.toggleMenu = function() {
+  var o = document.getElementById('nav-overlay');
+  var btn = document.getElementById('nav-menu-btn');
+  if (!o) return;
+  o.classList.toggle('open');
+  btn.textContent = o.classList.contains('open') ? '✕' : '☰';
+};
+window.closeMenu = function() {
+  var o = document.getElementById('nav-overlay');
+  var btn = document.getElementById('nav-menu-btn');
+  if (o) o.classList.remove('open');
+  if (btn) btn.textContent = '☰';
+};
+window.navTo = function(el) {
+  closeMenu();
+  var id = el.getAttribute('href').slice(1);
+  var target = document.getElementById(id);
+  if (!target) return;
+  var nav = document.getElementById('nav');
+  var offset = nav ? nav.offsetHeight + 8 : 56;
+  setTimeout(function() {
+    window.scrollTo({top: target.offsetTop - offset, behavior: 'smooth'});
+  }, 100);
+  return false;
+};
+
 var open_=true;
 window.toggleToc=function(){
   var b=document.getElementById('toc-body');
