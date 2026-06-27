@@ -26,7 +26,7 @@ body{
   background:var(--fog);color:var(--ink);line-height:1.7;
   padding-top:var(--nh);
   /* Prevent horizontal overflow at body level only */
-  overflow-x:hidden;
+  overflow-x:clip;
 }
 /* Allow scroll inside any child */
 body *{max-width:100%}
@@ -157,7 +157,7 @@ a{color:var(--e)}
 .wd-note{font-size:.6875rem;color:var(--mu);font-style:italic;margin-top:.75rem}
 
 /* ── SECTION CARD ── */
-.s{background:#fff;margin:.75rem;border-radius:.875rem;border:1px solid var(--cloud);padding:1.25rem 1rem;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.s{background:#fff;margin:.75rem .75rem 0;border-radius:.875rem;border:1px solid var(--cloud);padding:1.25rem 1rem;box-shadow:0 1px 4px rgba(0,0,0,.05)}
 .s-hd{display:flex;align-items:flex-start;gap:.75rem;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:2px solid var(--cloud)}
 .s-ic{width:2.25rem;height:2.25rem;border-radius:.625rem;background:var(--steel);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
 .s-mt{display:flex;flex-direction:column;gap:.125rem;flex:1;min-width:0}
@@ -177,37 +177,33 @@ a{color:var(--e)}
 .os p{font-size:.9375rem;line-height:1.75;margin-bottom:.75rem;color:var(--ink)}
 
 /* ── KPI ROW ── */
-.kr{display:grid;grid-template-columns:1fr 1fr;gap:.625rem;margin-bottom:1.25rem}
-.kpi{background:var(--fog);border-radius:.625rem;border-left:4px solid var(--steel);padding:.625rem .75rem}
+.kr{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:1rem}
+.kpi{background:var(--fog);border-radius:.625rem;border-left:4px solid var(--steel);padding:.5rem .625rem}
 .kpi.up{border-left-color:var(--g)}.kpi.warn{border-left-color:var(--a)}.kpi.neg{border-left-color:var(--r)}
-.kpi .val{font-family:'DM Serif Display',serif;font-size:1.25rem;line-height:1.1}
+.kpi .val{font-family:'DM Serif Display',serif;font-size:1.125rem;line-height:1.1}
 .kpi .delta{font-size:.625rem;font-weight:700;margin:.125rem 0}
 .kpi.up .delta{color:#047857}.kpi.warn .delta{color:#b45309}
-.kpi .lbl{font-size:.625rem;color:var(--mu);line-height:1.4;margin-top:.25rem}
+.kpi .lbl{font-size:.5625rem;color:var(--mu);line-height:1.3;margin-top:.125rem}
 
 /* ── TABLES – always scrollable ── */
 .tbl{
-  /* scroll container – MUST NOT have overflow:hidden ancestors */
   display:block;
   overflow-x:auto;
   -webkit-overflow-scrolling:touch;
   width:100%;
+  max-width:100%;
   border-radius:.625rem;
   box-shadow:0 1px 4px rgba(0,0,0,.08);
   margin:.875rem 0;
-  /* Negative margin trick to escape padding of parent */
-  margin-left:0;
-  margin-right:0;
 }
 table{
   border-collapse:collapse;
-  /* Fixed minimum – allows scroll on narrow screens */
   width:100%;
-  min-width:480px;
+  min-width:0;
   font-size:.8125rem;
 }
-th{background:var(--ink);color:#fff;padding:.5rem .75rem;text-align:left;font-size:.5625rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
-td{padding:.5rem .75rem;border-bottom:1px solid var(--cloud);vertical-align:top;line-height:1.5;font-size:.8125rem}
+th{background:var(--ink);color:#fff;padding:.5rem .625rem;text-align:left;font-size:.6875rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;white-space:normal;line-height:1.3;word-break:break-word}
+td{padding:.4375rem .625rem;border-bottom:1px solid var(--cloud);vertical-align:top;line-height:1.5;font-size:.8125rem}
 tr:nth-child(even) td{background:var(--fog)}
 tr:last-child td{border-bottom:none}
 
@@ -227,16 +223,16 @@ a.src:hover{color:var(--e);border-color:var(--e)}
 .fb{background:linear-gradient(135deg,rgba(13,27,42,.98),rgba(28,49,68,.98));border-radius:.875rem;padding:1.25rem 1rem;margin:.875rem 0;color:#fff}
 .fb-t{font-size:.9375rem;font-weight:700;color:var(--a);margin-bottom:.75rem}
 .fb .tbl{box-shadow:none}
-.fb table{min-width:380px}
-.fb th{background:rgba(255,255,255,.08);color:rgba(255,255,255,.7)}
-.fb td{color:rgba(255,255,255,.85);border-bottom-color:rgba(255,255,255,.08)}
+.fb table{min-width:0}
+.fb th{background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);padding:.375rem .5rem;font-size:.5625rem;white-space:normal;word-break:break-word}
+.fb td{color:rgba(255,255,255,.85);border-bottom-color:rgba(255,255,255,.08);padding:.375rem .5rem;font-size:.75rem;line-height:1.4}
 .fb tr:nth-child(even) td{background:rgba(255,255,255,.03)}
 .fb-c{margin-top:.75rem;font-size:.6875rem;color:rgba(255,255,255,.5)}
 .fb-c a{color:var(--e)}
 .f-ok{color:#4ade80;font-weight:700}.f-w{color:var(--a);font-weight:700}.f-s{color:var(--r);font-weight:700}
 
 /* ── PILLS ── */
-.pill-row{display:flex;flex-wrap:wrap;gap:.375rem;margin:.875rem 0}
+.pill-row{display:flex;flex-wrap:wrap;gap:.3125rem;margin:.625rem 0}
 .pill{font-size:.625rem;font-weight:700;padding:.25rem .625rem;border-radius:1rem;border:1px solid}
 .pill.up{background:rgba(6,214,160,.1);border-color:rgba(6,214,160,.3);color:#065f46}
 .pill.down{background:rgba(239,71,111,.08);border-color:rgba(239,71,111,.25);color:#9f1239}
@@ -247,11 +243,13 @@ a.src:hover{color:var(--e);border-color:var(--e)}
 .spotlight{background:linear-gradient(135deg,var(--ink),var(--steel));border-radius:.875rem;padding:1.25rem 1rem;margin:.875rem 0;color:#fff}
 .spotlight h3{color:var(--e)!important;border-left-color:var(--e)!important;margin-top:0}
 .spotlight p{color:rgba(255,255,255,.85)}
-.spotlight th{background:rgba(255,255,255,.1)}
-.spotlight td{color:rgba(255,255,255,.85)!important;border-bottom-color:rgba(255,255,255,.1);background:transparent!important}
+.spotlight th{background:rgba(255,255,255,.1);padding:.4375rem .625rem;font-size:.625rem;white-space:normal;word-break:break-word}
+.spotlight td{color:rgba(255,255,255,.85)!important;border-bottom-color:rgba(255,255,255,.1);background:transparent!important;padding:.4375rem .625rem;font-size:.75rem}
 .spotlight tr:nth-child(even) td{background:rgba(255,255,255,.04)!important}
-.dark-matrix th{background:rgba(255,255,255,.1);color:rgba(255,255,255,.8)}
-.dark-matrix td{color:rgba(255,255,255,.85)!important;background:transparent!important}
+.dark-matrix{border-radius:.625rem;overflow:hidden}
+.dark-matrix table{min-width:0}
+.dark-matrix th{background:rgba(255,255,255,.1);color:rgba(255,255,255,.8);padding:.4375rem .625rem;font-size:.625rem;white-space:normal;word-break:break-word}
+.dark-matrix td{color:rgba(255,255,255,.85)!important;background:transparent!important;border-bottom-color:rgba(255,255,255,.08);padding:.4375rem .625rem;font-size:.75rem}
 .dark-matrix tr:nth-child(even) td{background:rgba(255,255,255,.04)!important}
 
 /* ── STANDORT ── */
@@ -284,7 +282,7 @@ a.src:hover{color:var(--e);border-color:var(--e)}
 .rb{background:var(--ink);border-radius:.875rem;padding:1.25rem 1rem;margin:.875rem 0}
 .rb h3{color:var(--a)!important;border-left-color:var(--a)!important;margin-top:0}
 .rb ul{list-style:none}
-.rb li{display:flex;align-items:flex-start;gap:.625rem;padding:.625rem 0;border-bottom:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.85);font-size:.8125rem;line-height:1.6}
+.rb li{display:flex;align-items:flex-start;gap:.625rem;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.85);font-size:.8125rem;line-height:1.55}
 .rb li:last-child{border:none}
 .rn{background:var(--a);color:var(--ink);min-width:1.625rem;height:1.625rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;flex-shrink:0}
 .rn.red{background:var(--r);color:#fff}
@@ -749,18 +747,18 @@ a.src:hover{color:var(--e);border-color:var(--e)}
     
     
   <h3>KW 25 – Wichtige Präzisierung: Aufruf A ist WEITERHIN OFFEN</h3>
-  <table>
+  <div class="tbl"><table>
     <thead><tr><th>Aufruf</th><th>Zielgruppe</th><th>Verfahren</th><th>Frist</th><th>Status KW 25</th></tr></thead>
     <tbody>
       <tr><td><strong>Aufruf A (KMU)</strong></td><td>KMU · nicht-öffentlich</td><td>Windhundprinzip · 50 Mio. €</td><td>05.06.–30.09.2026</td><td><span class="f-aktiv">✅ WEITERHIN OFFEN · Mittel aufgestockt nach 5.6.</span></td></tr>
       <tr><td><strong>Aufruf B (alle)</strong></td><td>Alle Unternehmen · nicht-öffentlich</td><td>Wettbewerb: €/kW · 150 Mio. €</td><td>26.05.–07.07.2026</td><td><span class="f-warn">⚠ ENDET IN 12 TAGEN</span></td></tr>
       <tr><td><strong>Aufruf C (öffentlich)</strong></td><td>Privatrecht · AFIR-Standorte · ≥100 kW/LP · ≥1.500 kW/Standort</td><td>Wettbewerb: €/kW · Teil 150 Mio. €</td><td>26.05.–07.07.2026</td><td><span class="f-warn">⚠ ENDET IN 12 TAGEN</span></td></tr>
     </tbody>
-  </table>
+  </table></div>
 
   <div class="foerder-box" id="foerder">
     <div class="foerder-box-title">💶 Förderübersicht Real Estate &amp; Ladeinfrastruktur – KW 25</div>
-    <table class="foerder-table">
+    <div class="tbl"><table class="foerder-table">
       <thead><tr><th>Programm</th><th>Förderung</th><th>Zielgruppe</th><th>Status KW 25</th><th>Portal</th></tr></thead>
       <tbody>
         <tr><td><strong>BMV NF KMU (Aufruf A)</strong></td><td>500 €/kW · max. 1 Mio. €</td><td>KMU · nicht-öffentliche Depot-Infra</td><td><span class="f-aktiv">✅ OFFEN bis 30.09.2026</span></td><td>easy-online.de</td></tr>
@@ -770,7 +768,7 @@ a.src:hover{color:var(--e);border-color:var(--e)}
         <tr><td><strong>Superabschreibung §7g EStG</strong></td><td>30 % degressive AfA</td><td>Gewerbliche Investoren</td><td><span class="f-aktiv">✅ bis 31.12.2027</span></td><td>Steuerberater</td></tr>
         <tr><td><strong>GEIG (EPBD)</strong></td><td>Gesetzespflicht</td><td>Alle Neubauten</td><td><span class="f-aktiv">✅ wirksam seit 29.05.2026</span></td><td>Bauantrag</td></tr>
       </tbody>
-    </table>
+    </table></div>
     <div class="foerder-contact">📞 Aufruf B/C (JETZT!): <a href="https://easy-online.de" target="_blank">easy-online.de</a> &nbsp;·&nbsp; Aufruf A: <a href="https://ptj.de" target="_blank">ptj.de</a> &nbsp;·&nbsp; WEG: <a href="https://laden-im-mehrparteienhaus.de" target="_blank">laden-im-mehrparteienhaus.de</a></div>
   </div>
   <div class="sources">
@@ -809,7 +807,7 @@ a.src:hover{color:var(--e);border-color:var(--e)}
     
   <h3>CPO-Marktranking HPC DE – nach Marktanteil · mit Relevanz für CutPower (Elvah H2/2025)</h3>
   <p>Alle Zeilen durchnummeriert (1–14) · Spalte „Was das für CutPower bedeutet" zeigt konkrete Handlungsoptionen, keine abstrakten Kategorien</p>
-  <table>
+  <div class="tbl"><table>
     <thead>
       <tr>
         <th>Nr.</th>
@@ -935,14 +933,14 @@ a.src:hover{color:var(--e);border-color:var(--e)}
         <td><strong>⚠ Doppelrolle – jetzt entscheiden:</strong> TruckCharge ist Konkurrent UND potenzieller Roaming-Partner. Konkurrent: besetzt Depot-Standorte bei Speditionen, die CutPower anvisiert. Roaming-Partner: 3.000 LP geben CutPower-Kunden mehr Reichweite. Empfehlung: Roaming-Partnerschaftsanfrage stellen UND gleichzeitig Depot-Akquise beschleunigen – bevor TruckCharge die besten Standorte hat.</td>
       </tr>
     </tbody>
-  </table>
+  </table></div>
 
     
     
     
     
   <h3>Roaming-Pflichtliste – Vollständig nummeriert (Stand KW 25)</h3>
-  <table>
+  <div class="tbl"><table>
     <thead>
       <tr>
         <th>Nr.</th>
@@ -996,17 +994,17 @@ a.src:hover{color:var(--e);border-color:var(--e)}
         <td>OCPI-Echtzeit-Feed aktivieren. ABRP ist der de-facto-Standard für Reiseplanung bei Vielladern. Wer ABRP-Nutzer nicht als Roaming-Kunden an den Autobahnstandorten (A2/A7/A27) anzieht, lässt erhebliches Umsatzpotenzial liegen.</td>
       </tr>
     </tbody>
-  </table>
+  </table></div>
   <div class="foerder-box">
     <div class="foerder-box-title">💶 Förderübersicht CPO/eMSP-Betrieb – KW 25</div>
-    <table class="foerder-table">
+    <div class="tbl"><table class="foerder-table">
       <thead><tr><th>Instrument</th><th>Relevanz CPO</th><th>Status</th></tr></thead>
       <tbody>
         <tr><td><strong>§14a EnWG Netzentgelt-Rabatt</strong></td><td>Sehr hoch – 15–25 % Kostensenkung HPC</td><td><span class="f-aktiv">✅ bis Aug. 2029</span></td></tr>
         <tr><td><strong>THG-Quote (~0,16 €/kWh)</strong></td><td>Sehr hoch – direkter Erlösstrom CPO</td><td><span class="f-aktiv">✅ 2026 aktiv</span></td></tr>
         <tr><td><strong>AFIR Pflicht-HPC TEN-T</strong></td><td>Sehr hoch – Standortchancen Autobahn</td><td><span class="f-aktiv">✅ Rollout aktiv</span></td></tr>
       </tbody>
-    </table>
+    </table></div>
     <div class="foerder-contact">📞 §14a-Antrag: Beim jeweiligen Netzbetreiber · THG-Quote: LichtBlick, Vattenfall, The Green Horizon</div>
   </div>
   <div class="sources">
@@ -1048,7 +1046,7 @@ a.src:hover{color:var(--e);border-color:var(--e)}
     
   <h3>CPMS-Plattformen Vollvergleich – nach DACH-Relevanz (KW 25)</h3>
 
-  <table>
+  <div class="tbl"><table>
     <thead><tr><th>Plattform</th><th>Anbieter</th><th>OCPP</th><th>eMSP</th><th>V2G</th><th>Smart Energy</th><th>DACH-Reife</th><th>Ideal für</th></tr></thead>
     <tbody>
       <tr><td><strong>Virta Platform</strong></td><td>Virta / FI</td><td>2.0.1 ✅</td><td>✅</td><td>✅</td><td>✅ KI</td><td>🟢 Etabliert</td><td>CPO 50–5.000 LP, White-Label, DE/AT/CH</td></tr>
@@ -1062,7 +1060,7 @@ a.src:hover{color:var(--e);border-color:var(--e)}
       <tr><td><strong>GreenFlux (VW)</strong></td><td>GreenFlux / NL</td><td>1.6+2.0.1</td><td>Limitiert</td><td>Via Elli</td><td>Teilweise</td><td>🟡 OEM-Lock-in</td><td>VW-Ökosystem, Lock-in prüfen</td></tr>
       <tr><td><strong>Webcharge/Scopviz</strong></td><td>Scopviz / DE</td><td>1.6+2.0.1</td><td>✅</td><td>In Entw.</td><td>Teilweise</td><td>🟡 DE-Nische</td><td>Stadtwerke, regionale Versorger</td></tr>
     </tbody>
-  </table>
+  </table></div>
     
     
   <h3>🎯 Nutzungsempfehlung: Welche Plattform für einen KMU-CPO mit 18 Standorten?</h3>
@@ -1129,7 +1127,7 @@ a.src:hover{color:var(--e);border-color:var(--e)}
     <!-- ENTSCHEIDUNGSMATRIX -->
     <div>Entscheidungsmatrix für 18-Standorte-KMU-CPO</div>
     <div class="dark-matrix">
-    <table>
+    <div class="tbl"><table>
       <thead><tr>
         <th>Kriterium</th>
         <th>Virta 🥇</th>
@@ -1204,7 +1202,7 @@ a.src:hover{color:var(--e);border-color:var(--e)}
           <td>✅ vollständig</td>
         </tr>
       </tbody>
-    </table>
+    </table></div>
     </div>
 
     
@@ -1234,7 +1232,7 @@ a.src:hover{color:var(--e);border-color:var(--e)}
   
 
   <h3>KW 25 Technologie-Highlights</h3>
-  <table>
+  <div class="tbl"><table>
     <thead><tr><th>Trend</th><th>Status KW 25</th><th>Impact CPO</th></tr></thead>
     <tbody>
       <tr><td><strong>Ford × Chargecloud</strong></td><td>OEM wählt spezialisierten CPMS-Anbieter fürs LIM statt Eigenbau</td><td>Hoch – bestätigt Build-vs-Buy-Trend auch für KMU-CPOs</td></tr>
@@ -1243,17 +1241,17 @@ a.src:hover{color:var(--e);border-color:var(--e)}
       <tr><td><strong>OCPP 2.0.1 als Pflicht-Standard</strong></td><td>AFIR-Umsetzung · Driivz einzige OCPP-2.0.1-zertif. Plattform</td><td>Hoch – Legacy-Systeme müssen migrieren</td></tr>
       <tr><td><strong>Dynamische Tarife / KI-Pricing</strong></td><td>EnBW, IONITY, Virta/KAWAT live</td><td>Sehr hoch – Auslastungsoptimierung</td></tr>
     </tbody>
-  </table>
+  </table></div>
   <div class="foerder-box">
     <div class="foerder-box-title">💶 Förderübersicht Backend &amp; Technologie – KW 25</div>
-    <table class="foerder-table">
+    <div class="tbl"><table class="foerder-table">
       <thead><tr><th>Programm</th><th>Förderung</th><th>Relevanz</th><th>Status</th></tr></thead>
       <tbody>
         <tr><td><strong>ZIM (Zentrales Innovationsprogramm)</strong></td><td>Bis 55 % auf F&amp;E-Kosten (max. 2,3 Mio. €)</td><td>Hoch – CPMS/V2G-Eigenentwicklung</td><td><span class="f-aktiv">✅ Dauerhaft</span></td></tr>
         <tr><td><strong>KfW Digitalisierungskredit</strong></td><td>Zinsgünstig, 25.000–25 Mio. €</td><td>Mittel – Plattformausbau</td><td><span class="f-aktiv">✅ Aktiv</span></td></tr>
         <tr><td><strong>EU Horizon Europe (V2G/KI)</strong></td><td>Zuschüsse für V2G/Smart Charging Projekte</td><td>Hoch bei V2G-Projekten</td><td><span class="f-aktiv">✅ Calls 2026 offen</span></td></tr>
       </tbody>
-    </table>
+    </table></div>
   </div>
   <div class="sources">
     <a href="https://electrive.net" class="src" target="_blank" rel="noopener">electrive.net – Ford × Chargecloud (Juni 2026)</a>
@@ -1304,7 +1302,7 @@ a.src:hover{color:var(--e);border-color:var(--e)}
 
   <div class="foerder-box">
     <div class="foerder-box-title">💶 Förderübersicht Energiewirtschaft PV &amp; BESS – KW 25</div>
-    <table class="foerder-table">
+    <div class="tbl"><table class="foerder-table">
       <thead><tr><th>Programm</th><th>Förderung</th><th>Status KW 25</th><th>Δ vs. KW 24</th></tr></thead>
       <tbody>
         <tr><td><strong>Superabschreibung §7g EStG</strong></td><td>30 % degressive AfA BESS + PV</td><td><span class="f-aktiv">✅ bis 31.12.2027</span></td><td>Keine Änderung</td></tr>
@@ -1313,7 +1311,7 @@ a.src:hover{color:var(--e);border-color:var(--e)}
         <tr><td><strong>MiSpeL Regulatorik</strong></td><td>Co-located Speicher vollständig handelsfähig</td><td><span class="f-aktiv">✅ Neu 2026</span></td><td>▲ NEU</td></tr>
         <tr><td><strong>EEG-Einspeisevergütung</strong></td><td>7,71 ct/kWh ab 01.08.2026</td><td><span class="f-warn">⚠ Sinkt weiter</span></td><td>Energy Sharing wird attraktiver</td></tr>
       </tbody>
-    </table>
+    </table></div>
     <div class="foerder-contact">📞 Otter Energy Trading (BESS-Handel): <a href="https://otter-energy-trading.com" target="_blank">otter-energy-trading.com</a> · FCR/aFRR: <a href="https://www.next-kraftwerke.de" target="_blank">next-kraftwerke.de</a></div>
   </div>
   <div class="sources">
@@ -1339,7 +1337,7 @@ a.src:hover{color:var(--e);border-color:var(--e)}
   <p>Haller Capital, Finanzdienstleister der Haller-Unternehmensgruppe, hat als internationale Plattform für Green-Tech-Finanzierungen einen ersten Green Bond über 2,5 Millionen Euro aufgelegt – speziell für kleine und mittelständische Unternehmen mit Zugang zu modernen Technologien und realen Assets. Diese Größenordnung ist eine realistische Referenz für einen CPO mit 18–50 Standorten: deutlich kleiner als die institutionellen EUGB-Emissionen, aber strukturell vergleichbar.</p>
   <div class="foerder-box">
     <div class="foerder-box-title">💶 Finanzierungsinstrumente Kapitalmarkt – KW 25</div>
-    <table class="foerder-table">
+    <div class="tbl"><table class="foerder-table">
       <thead><tr><th>Instrument</th><th>Konditionen</th><th>Relevanz</th><th>Status</th></tr></thead>
       <tbody>
         <tr><td><strong>EU Green Bond Standard (EuGB)</strong></td><td>Freiwillig · EU-Taxonomie-Pflicht</td><td>Sehr hoch – PV+BESS+CPO taxonomiefähig</td><td><span class="f-aktiv">✅ seit Dez. 2024 · 14 Emittenten</span></td></tr>
@@ -1348,7 +1346,7 @@ a.src:hover{color:var(--e);border-color:var(--e)}
         <tr><td><strong>KfW Unternehmerkredit</strong></td><td>Ab 2 % p.a. · bis 25 Mio. €</td><td>Hoch – Ladeinfra förderfähig</td><td><span class="f-aktiv">✅ Aktiv</span></td></tr>
         <tr><td><strong>Mini-Bond / Schuldscheindarlehen</strong></td><td>Privat · ab 5 Mio. € sinnvoll</td><td>Hoch – &lt;20 Mio. € effizienter als Anleihe</td><td><span class="f-aktiv">✅ Verfügbar</span></td></tr>
       </tbody>
-    </table>
+    </table></div>
     <div class="foerder-contact">📞 EY Martin Steinbach: <a href="mailto:martin.steinbach@de.ey.com">martin.steinbach@de.ey.com</a> · KfW: <a href="https://www.kfw.de" target="_blank">kfw.de</a> · Haller Capital: über Haller Group</div>
   </div>
   <div class="sources">
@@ -1403,7 +1401,7 @@ a.src:hover{color:var(--e);border-color:var(--e)}
     
     
   <h3>OEM-Performance Mai 2026 + KW 25 Highlights</h3>
-  <table>
+  <div class="tbl"><table>
     <thead><tr><th>Marke/Konzern</th><th>KW 25 Highlight</th><th>BEV-Trend</th><th>Relevanz für CutPower</th></tr></thead>
     <tbody>
       <tr><td><strong>VW ID.3 / ID.4</strong></td><td>Bestseller-Position aus April bestätigt sich auch im Mai-Trend</td><td>🟢 Stärkstes BEV-Portfolio DE</td><td>Größte EV-Zielgruppe → direkter CutPower-Kunde</td></tr>
@@ -1412,7 +1410,7 @@ a.src:hover{color:var(--e);border-color:var(--e)}
       <tr><td><strong>Daimler Trucks (TruckCharge)</strong></td><td>3.000 LP halböffentlich bis 2030 – Rollout läuft weiter</td><td>🚛 eLKW Marktführer EU</td><td>⚠ Wettbewerber + Roaming-Partner NF-Segment</td></tr>
       <tr><td><strong>Ford</strong></td><td>Wählt Chargecloud für Ladeinfrastruktur-Management</td><td>🟢 CPMS-Outsourcing</td><td>Bestätigt Build-vs-Buy-Trend für KMU-CPOs</td></tr>
     </tbody>
-  </table>
+  </table></div>
   <div class="sources">
     <span class="src">ADAC – Neuzulassungen Mai 2026 (KBA-Daten)</span>
     <a href="https://vision-mobility.de" class="src" target="_blank" rel="noopener">vision-mobility.de – Pkw-Zulassungszahlen Mai 2026</a>
@@ -1440,7 +1438,7 @@ a.src:hover{color:var(--e);border-color:var(--e)}
   <div class="spotlight">
     <h3>🏆 KW 25: Power2Drive 2026 – Was für CutPower und eLKW-CPOs zählt</h3>
     <p>Die Power2Drive Europe 2026 (23.–25. Juni, Messe München) war dieses Jahr erstmals Dienstag bis Donnerstag. Schwerpunktthemen: Bidirektionales Laden (V2G) vom Testbetrieb zur Flächenimplementierung, Megawatt Charging für schwere NF, Smart Charging / KI-Ladesteuerung und Fleet Transformation Days als neues Format für Fuhrparkmanager. Mehr als 100.000 Fachbesucher wurden erwartet.</p>
-    <table>
+    <div class="tbl"><table>
       <thead><tr><th>Aussteller/Thema</th><th>KW 25 Highlight</th><th>Relevanz für CutPower</th></tr></thead>
       <tbody>
         <tr><td><strong>Sungrow (Power2Drive)</strong></td><td>ChargeStack 1000 Weltpremiere – Megawatt-Ladesystem für schwere NF · 300 bereits in DACH installierte DC-Säulen bei EVN Niederösterreich</td><td>Hoch – Megawatt-Hardware für Depot-Standorte, DACH-Referenz vorhanden</td></tr>
@@ -1449,7 +1447,7 @@ a.src:hover{color:var(--e);border-color:var(--e)}
         <tr><td><strong>V2G / Bidirektional Zone</strong></td><td>Studie "Plug, Store, Profit" zur wirtschaftlichen Potenziale bidirektionaler Flotten (23.6., 15 Uhr, Power2Drive Forum)</td><td>Sehr hoch – Zahlengrundlage für CutPower V2G-Depot-Angebot</td></tr>
         <tr><td><strong>Fleet Transformation Days</strong></td><td>Neues Format 23./24. Juni: Fuhrparkmanager als primäre Zielgruppe für Ladeinfrastruktur-Entscheidungen</td><td>Hoch – Direktzielgruppe für CutPower Depot-CPO-Produkt</td></tr>
       </tbody>
-    </table>
+    </table></div>
   </div>
 
   <h3>⚠ NF-Förderung Aufruf B/C: 12 Tage bis Frist – letzte Chance für öffentliche NF-Infra</h3>
@@ -1484,7 +1482,7 @@ a.src:hover{color:var(--e);border-color:var(--e)}
     <span class="pill neutral">🔄 EnBW: Kapazität statt Quantität – Paradigmenwechsel Marktführer</span>
     <span class="pill neutral">🚛 Power2Drive: V2G vom Test zur Fläche 2026/27</span>
   </div>
-  <table>
+  <div class="tbl"><table>
     <thead><tr><th>Trend</th><th>KW 25 Status</th><th>Impact</th><th>Zeithorizont</th></tr></thead>
     <tbody>
       <tr><td><strong>BESS Multi-Use als Standard</strong></td><td>ees Europe: MiSpeL macht co-located Speicher vollständig handelsfähig · CATL Non-Lithium als Zukunft</td><td>Sehr hoch – neue Erlösdimension für CPO-BESS</td><td>2026–2028</td></tr>
@@ -1494,7 +1492,7 @@ a.src:hover{color:var(--e);border-color:var(--e)}
       <tr><td><strong>Power2Drive: V2G skaliert</strong></td><td>Bidirektional Zone · Studie "Plug, Store, Profit" · Schneider/Sungrow Hardware-Launches</td><td>Hoch – V2G-Depot-CPO-Produkt rückt näher</td><td>2026–2027</td></tr>
       <tr><td><strong>PV überholt fossile Stromerzeugung</strong></td><td>19 % DE 2025 · Freiflächenanlagen +36 % Jan–Mai 2026</td><td>Mittel – Eigenstromerzeugung für CPO günstiger</td><td>dauerhaft</td></tr>
     </tbody>
-  </table>
+  </table></div>
 </div>
 
 <div class="s" id="s10">
@@ -1706,7 +1704,7 @@ a.src:hover{color:var(--e);border-color:var(--e)}
   </div>
   <div class="foerder-box">
     <div class="foerder-box-title">💶 Förderübersicht Operation – KW 25</div>
-    <table class="foerder-table">
+    <div class="tbl"><table class="foerder-table">
       <thead><tr><th>Programm</th><th>Standorte</th><th>Betrag</th><th>Frist</th></tr></thead>
       <tbody>
         <tr><td><strong>BMV NF KMU (Aufruf A)</strong></td><td>Hannover-Lahe, Bremen, Göttingen</td><td>500 €/kW · max. 1 Mio. €</td><td><span class="f-stop">❌ Beendet 05.06. · Zusagen folgen</span></td></tr>
@@ -1714,7 +1712,7 @@ a.src:hover{color:var(--e);border-color:var(--e)}
         <tr><td><strong>§14a EnWG Netzentgelt</strong></td><td>Alle Ladesäulen</td><td>15–25 % Ersparnis</td><td><span class="f-aktiv">✅ bis Aug. 2029</span></td></tr>
         <tr><td><strong>THG-Quote</strong></td><td>Alle LP mit Ökostrom</td><td>~0,16 €/kWh</td><td><span class="f-aktiv">✅ Jährlich</span></td></tr>
       </tbody>
-    </table>
+    </table></div>
   </div>
 </div>
 
@@ -1729,7 +1727,7 @@ a.src:hover{color:var(--e);border-color:var(--e)}
   </div>
 <div class="omp-intro">KW 25 Priorität: Bewertungskrise Berlin lösen BEVOR neue Kampagnen starten. Emil-Frey-Mercedes-Deal als regionalen PR-Anlass für Göttingen nutzen. CEO/CIO als Corporate Influencer auf LinkedIn aktivieren.</div>
   <h3>📊 Marketing-Status CutPower KW 25</h3>
-  <table>
+  <div class="tbl"><table>
     <thead><tr><th>Kanal</th><th>Status</th><th>Bewertung</th><th>Maßnahme KW 25</th></tr></thead>
     <tbody>
       <tr><td><strong>Google My Business Berlin</strong></td><td>1,3 ★ · 62 Bewertungen</td><td>🔴 Kritisch</td><td>Sofort alle Bewertungen beantworten + FAQ</td></tr>
@@ -1739,7 +1737,7 @@ a.src:hover{color:var(--e);border-color:var(--e)}
       <tr><td><strong>App-Bewertungen</strong></td><td>Wenige</td><td>🔴 Schwach</td><td>In-App-Prompt nach Ladeabschluss</td></tr>
       <tr><td><strong>DOOH Göttingen + Hannover</strong></td><td>Displays da · kein CMS</td><td>🟡 Ungenutzt</td><td>Goldbach-Gespräch nachfassen</td></tr>
     </tbody>
-  </table>
+  </table></div>
   <h3>🚀 Priorisierte Maßnahmen KW 25</h3>
   <div class="measure-grid">
     <div class="measure-card">
@@ -1765,21 +1763,21 @@ a.src:hover{color:var(--e);border-color:var(--e)}
   </div>
   <div class="foerder-box">
     <div class="foerder-box-title">💶 Förderübersicht Marketing – KW 25</div>
-    <table class="foerder-table">
+    <div class="tbl"><table class="foerder-table">
       <thead><tr><th>Programm</th><th>Förderung</th><th>Relevanz</th><th>Status</th></tr></thead>
       <tbody>
         <tr><td><strong>go-digital (BMWK)</strong></td><td>50 % auf Beratungskosten, max. 16.500 €</td><td>Hoch – App-Optimierung, CRM, Social</td><td><span class="f-aktiv">✅ KMU bis 100 MA</span></td></tr>
         <tr><td><strong>THG-Quote als Marketing-USP</strong></td><td>~0,16 €/kWh – kommunizierbarer Nachhaltigkeitsnachweis</td><td>Sehr hoch – B2B-Entscheider überzeugen</td><td><span class="f-aktiv">✅ Jährlich</span></td></tr>
         <tr><td><strong>BAFA Messeförderung (IAA Mobility)</strong></td><td>Bis 80 % international</td><td>Mittel – IAA Sept. 2026 München</td><td><span class="f-aktiv">✅ Aktiv</span></td></tr>
       </tbody>
-    </table>
+    </table></div>
     <div class="foerder-contact">📞 go-digital: <a href="https://www.bmwk.de/go-digital" target="_blank">bmwk.de/go-digital</a></div>
   </div>
 </div>
 
 <div class="os" id="dooh">
 <div class="omp-intro"><strong>Faktenlage:</strong> CutPower hat dedizierte Werbedisplays nur an zwei Standorten – Göttingen (BK A7 Kauf Park) und Hannover-Lahe (BK A2). Alle anderen Standorte: GUI der Ladesäule (kein CMS, kein Werbe-Layer). <strong>Numbat-Warnung:</strong> Numbat ist 2024 insolvent gegangen – DOOH-Erlöse im ländlichen Netz unterschritten Erwartungen massiv. DOOH funktioniert nur mit aktiver Vermarktung und Frequenz. Für CutPower: sinnvoller Zusatzerlös, kein eigenständiger Business Case.</div>
-  <table>
+  <div class="tbl"><table>
     <thead><tr><th>Kanal</th><th>Göttingen – BK A7</th><th>Hannover-Lahe – BK A2</th></tr></thead>
     <tbody>
       <tr><td><strong>Fremdvermarktung (Goldbach)</strong></td><td>38–125 €/Monat (50 % Rev-Share · TKP 5–12 €)</td><td>38–145 €/Monat</td></tr>
@@ -1787,16 +1785,16 @@ a.src:hover{color:var(--e);border-color:var(--e)}
       <tr><td><strong>Jahreserlös Direkt realistisch</strong></td><td><strong>3.600–7.200 €</strong></td><td><strong>3.600–7.200 €</strong></td></tr>
       <tr><td><strong>Gesamt beide Standorte</strong></td><td colspan="2"><strong>7.200–14.400 €/Jahr</strong> bei 1 Direktkunde je Standort</td></tr>
     </tbody>
-  </table>
+  </table></div>
   <h3>🛠 Was noch fehlt – Voraussetzungen</h3>
-  <table>
+  <div class="tbl"><table>
     <thead><tr><th>Voraussetzung</th><th>Status</th><th>Lösung</th><th>Aufwand</th></tr></thead>
     <tbody>
       <tr><td><strong>CMS für Werbeinhalte</strong></td><td>🔴 Fehlt</td><td>Goldbach/Advercharge bringt eigenes CMS mit · oder Broadsign-Lizenz (500–2.000 €/Jahr)</td><td>Verhandlung</td></tr>
       <tr><td><strong>Vermarktungsvertrag</strong></td><td>🔴 Fehlt</td><td>Goldbach kontaktieren: Revenue-Share für Göttingen + Hannover</td><td>4–6 Wochen</td></tr>
       <tr><td><strong>Mediakit</strong></td><td>🔴 Fehlt</td><td>1-seitiges Mediakit: Standort, Zielgruppe, Format, Preise</td><td>1–2 Tage intern</td></tr>
     </tbody>
-  </table>
+  </table></div>
   <div class="alert green"><strong>✅ Sofortmaßnahme diese Woche:</strong> E-Mail an Goldbach Germany (Claudia Zayer, <a href="https://goldbach.com/de/dooh/ev-screens" target="_blank">goldbach.com/de/dooh/ev-screens</a>): „Wir betreiben HPC-Ladeparks in Göttingen (Kauf Park A7) und Hannover-Lahe (BK A2) mit dedizierten Werbedisplays und kaufkräftiger EV-Zielgruppe. Interesse an DOOH-Vermarktungspartnerschaft?" – Kein Investment, nur ein Gespräch.</div>
   <div class="sources">
     <a href="https://dooh-werbung.de" class="src" target="_blank" rel="noopener">dooh-werbung.de – TKP DE (Jan. 2026)</a>
@@ -1865,7 +1863,7 @@ a.src:hover{color:var(--e);border-color:var(--e)}
   </div>
   <div class="foerder-box">
     <div class="foerder-box-title">💶 Förderübersicht Partnermanagement – KW 25</div>
-    <table class="foerder-table">
+    <div class="tbl"><table class="foerder-table">
       <thead><tr><th>Hebel</th><th>Als Partnerargument nutzen</th><th>Status</th></tr></thead>
       <tbody>
         <tr><td><strong>BMV NF alle Unternehmen (Aufruf B/C)</strong></td><td>„Wir übernehmen Ihren Förderantrag und bauen Ihr Depot-Ladenetz"</td><td><span class="f-warn">⚠ bis 07.07.2026</span></td></tr>
@@ -1873,7 +1871,7 @@ a.src:hover{color:var(--e);border-color:var(--e)}
         <tr><td><strong>0,25 % E-Dienstwagen Steuer</strong></td><td>Einstieg bei Unternehmensflotten – vs. 1 % Verbrenner</td><td><span class="f-aktiv">✅ bis 2030</span></td></tr>
         <tr><td><strong>AFIR Flottenrichtlinie</strong></td><td>Pflicht-BEV-Quote – strukturelles Argument für Workplace Charging</td><td><span class="f-aktiv">✅ 2026–2030</span></td></tr>
       </tbody>
-    </table>
+    </table></div>
   </div>
 </div>
 
